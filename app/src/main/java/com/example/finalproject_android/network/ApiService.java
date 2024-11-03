@@ -1,6 +1,8 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.GoogleLoginRequest;
+import com.example.finalproject_android.models.GoogleLoginResponse;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
 import com.example.finalproject_android.models.UserRequest;
@@ -36,6 +38,9 @@ public interface ApiService {
 
     @GET("/api/auth/verify-email")
     Call<EmailResponse> verifyEmail(@Query("token") String token);
+
+    @POST("api/auth/google-login")
+    Call<GoogleLoginResponse> logingg(@Body GoogleLoginRequest googleLoginRequest);
 
 
 }
