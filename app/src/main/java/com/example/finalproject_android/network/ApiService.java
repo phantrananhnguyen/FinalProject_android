@@ -1,6 +1,8 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.GoogleLoginRequest;
+import com.example.finalproject_android.models.GoogleLoginResponse;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
@@ -8,6 +10,7 @@ import com.example.finalproject_android.models.UserRequest;
 import com.example.finalproject_android.models.UserResponse;
 import com.example.finalproject_android.models.ForgotPassRequest;
 import com.example.finalproject_android.models.ForgotPassResponse;
+import com.example.finalproject_android.models.VerificationStatusResponse;
 import com.example.finalproject_android.models.VerifyRequest;
 import com.example.finalproject_android.models.VerifyResponse;
 import com.example.finalproject_android.models.ResetRequest;
@@ -18,6 +21,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -44,5 +48,9 @@ public interface ApiService {
     Call<Void> sendBumpData(@Body Potholemodel potholemodel);
     @GET("/api/bump")
     Call<List<Potholemodel>> getPotholeData();
+    @GET("/api/auth/check-verification-status")
+    Call<VerificationStatusResponse> checkVerificationStatus(@Query("email")String email);
 
+    @POST("/api/auth/google-login")
+    Call<GoogleLoginResponse> logingg(@Body GoogleLoginRequest googleLoginRequest);
 }

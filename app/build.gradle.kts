@@ -45,8 +45,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation ("com.google.android.gms:play-services-auth:20.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 }
