@@ -4,24 +4,34 @@ public class UserResponse {
 
     private String message;
 
-    private boolean isVerify = false;
+    private String email;
+
     private String token;
 
-    public boolean isVerify() {
-        return isVerify;
+    private boolean isVerified;
+
+
+    public String getEmail() {
+        return email;
     }
 
-    public UserResponse(String message, String token, boolean isVerify) {
+    public UserResponse(String message, String email, String token, boolean isVerified) {
         this.message = message;
+        this.email = email;
         this.token = token;
-        this.isVerify = isVerify;
+        this.isVerified =isVerified;
     }
 
     public String getMessage() {
         return message;
     }
 
+    public boolean getStatus(){
+        return isVerified;
+    }
+
     public String getToken() {
         return token; // Trả về token
     }
 }
+

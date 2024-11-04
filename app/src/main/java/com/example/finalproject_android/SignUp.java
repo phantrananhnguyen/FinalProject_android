@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalproject_android.models.UserRequest;
 import com.example.finalproject_android.models.UserResponse;
+import com.example.finalproject_android.models.VerificationStatusResponse;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 import com.example.finalproject_android.models.EmailResponse;
@@ -35,9 +36,7 @@ public class SignUp extends AppCompatActivity {
 
     private Handler handler = new Handler();
     private Runnable checkVerificationStatusRunnable;
-    private static final int POLLING_INTERVAL = 5000;
-    private int verificationAttemptCount = 0;
-    private static final int MAX_ATTEMPTS = 6;
+    private static final int POLLING_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +78,7 @@ public class SignUp extends AppCompatActivity {
         editText.setSelection(editText.length());
     }
 
+
     private void performSignUp() {
         String user = username.getText().toString().trim();
         String mail = email.getText().toString().trim();
@@ -91,30 +91,22 @@ public class SignUp extends AppCompatActivity {
         }
 
         UserRequest userRequest = new UserRequest(user, mail, pass);
-
         Call<UserResponse> call = apiService.signup(userRequest);
-        progressDialog = new ProgressDialog(SignUp.this);
-        progressDialog.setMessage("Vui lòng kiểm tra email của bạn để xác nhận...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
         call.enqueue(new Callback<UserResponse>() {
+
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserResponse userResponse = response.body();
-                    if (!userResponse.isVerify()) {
-                        waitForEmailVerification(userResponse.getToken());
-                    } else {
-                        Toast.makeText(SignUp.this, "Đăng ký thất bại. Thử lại sau!", Toast.LENGTH_LONG).show();
-                        progressDialog.dismiss();
-                    }
+                    showWaitingDialog();
+
+                    checkStatusVerify(response.body().getEmail());
                 } else {
                     Toast.makeText(SignUp.this, "Đăng ký thất bại. Thử lại sau!", Toast.LENGTH_LONG).show();
-                    progressDialog.dismiss();
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
                 }
             }
-
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Toast.makeText(SignUp.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -123,47 +115,52 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void waitForEmailVerification(String token) {
+    private void showWaitingDialog() {
+
+        progressDialog = new ProgressDialog(SignUp.this);
+        progressDialog.setMessage("Vui lòng kiểm tra email của bạn để xác nhận...");
+
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void checkStatusVerify(String email) {
         checkVerificationStatusRunnable = new Runnable() {
             @Override
             public void run() {
-                Call<EmailResponse> verifyEmailCall = apiService.verifyEmail(token);
-                verifyEmailCall.enqueue(new Callback<EmailResponse>() {
+                Call<VerificationStatusResponse> call = apiService.checkVerificationStatus(email);
+                call.enqueue(new Callback<VerificationStatusResponse>() {
+
                     @Override
-                    public void onResponse(Call<EmailResponse> call, Response<EmailResponse> response) {
-                        if (response.isSuccessful() && response.body() != null && response.body().isVerified()) {
-                            Log.e("Email","aaaaa" );
-                            progressDialog.dismiss();
-                            handler.removeCallbacks(checkVerificationStatusRunnable);
-                            showSuccessDialog();
+                    public void onResponse(Call<VerificationStatusResponse> call, Response<VerificationStatusResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            Log.d("Email",""+ response.body().getIsVerified());// Kiểm tra nếu đã xác thực
+
+                            if (response.body().getIsVerified()) {
+                                showSuccessDialog();
+                                if (progressDialog != null && progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                                handler.removeCallbacks(checkVerificationStatusRunnable); // Dừng kiểm tra định kỳ
+                            } else {
+                                handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Lặp lại sau 2 giây
+                            }
                         } else {
-                            handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
+                            Toast.makeText(SignUp.this, "Lỗi khi kiểm tra trạng thái xác thực", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<EmailResponse> call, Throwable t) {
-                        Log.e("EmailVerification", "Error verifying email: " + t.getMessage());
-                        Toast.makeText(SignUp.this, "Lỗi kết nối, thử lại sau...", Toast.LENGTH_SHORT).show();
-                        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
+                    public void onFailure(Call<VerificationStatusResponse> call, Throwable t) {
+                        Toast.makeText(SignUp.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Lặp lại sau 2 giây nếu có lỗi
                     }
                 });
             }
         };
-        handler.post(checkVerificationStatusRunnable);
+
+        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Bắt đầu kiểm tra
     }
-
-
-    private void handleVerificationError(int errorCode) {
-        progressDialog.dismiss();
-        handler.removeCallbacks(checkVerificationStatusRunnable);
-        if (errorCode == 400) {
-            Toast.makeText(this, "Token không hợp lệ hoặc đã hết hạn.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Có lỗi xảy ra. Thử lại sau!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     private void showSuccessDialog() {
         Log.d("SignUp", "Showing success dialog");
@@ -179,11 +176,7 @@ public class SignUp extends AppCompatActivity {
                 })
                 .show();
     }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(checkVerificationStatusRunnable);
-    }
 }
+
+
+
