@@ -1,6 +1,7 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
 import com.example.finalproject_android.models.UserRequest;
@@ -11,6 +12,8 @@ import com.example.finalproject_android.models.VerifyRequest;
 import com.example.finalproject_android.models.VerifyResponse;
 import com.example.finalproject_android.models.ResetRequest;
 import com.example.finalproject_android.models.ResetResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,5 +40,9 @@ public interface ApiService {
     @GET("/api/auth/verify-email")
     Call<EmailResponse> verifyEmail(@Query("token") String token);
 
+    @POST("/api/bump")
+    Call<Void> sendBumpData(@Body Potholemodel potholemodel);
+    @GET("/api/bump")
+    Call<List<Potholemodel>> getPotholeData();
 
 }

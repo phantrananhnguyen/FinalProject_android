@@ -9,7 +9,7 @@ public class ApiClient {
     public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:3000") // Địa chỉ localhost hoặc IP của server Node.js
+                    .baseUrl(" https://552b-14-242-181-53.ngrok-free.app") // Địa chỉ localhost hoặc IP của server Node.js
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
