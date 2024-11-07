@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,6 +25,7 @@ public class ForgotPassword extends AppCompatActivity {
     EditText email;
     ApiService apiService;
     Button button;
+    ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         email = findViewById(R.id.email_forgot);
         button = findViewById(R.id.forgotButton);
+        back = findViewById(R.id.back_fp);
         apiService = ApiClient.getClient().create(ApiService.class);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +45,12 @@ public class ForgotPassword extends AppCompatActivity {
                 intent.putExtra("data_key",data);
                 startActivity(intent);
 
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

@@ -83,6 +83,7 @@ public class Map extends Fragment implements GoogleMap.OnMapClickListener, OnMap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiService = ApiClient.getClient().create(ApiService.class);
+        Log.e("API Error", "aaaaa");
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
         sensorManager = (SensorManager) requireActivity().getSystemService(getContext().SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -94,7 +95,7 @@ public class Map extends Fragment implements GoogleMap.OnMapClickListener, OnMap
             getCurrentLocation();
         }
 
-        fetchDataFromServer();
+        //fetchDataFromServer();
     }
     private void fetchDataFromServer() {
         apiService.getPotholeData().enqueue(new Callback<List<Potholemodel>>() {

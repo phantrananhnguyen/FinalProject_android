@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
-    ImageButton back, showpass;
+    ImageButton back,home, showpass;
     EditText username, password;
     Button signin;
     ApiService apiService;
@@ -89,7 +89,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Intent intent = new Intent(SignIn.this, MainActivity.class);
+                    Intent intent = new Intent(SignIn.this, BottomNavigation.class);
                     Toast.makeText(SignIn.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 } else {

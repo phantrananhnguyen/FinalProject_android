@@ -84,8 +84,7 @@ public class Verify extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Countdown.setText("Mã đã hết hạn");
-                Toast.makeText(Verify.this, "Mã xác nhận đã hết hạn, vui lòng nhấn Resend để lấy mã mới", Toast.LENGTH_LONG).show();
+                Countdown.setText("Expired");
                 button.setEnabled(false); // Vô hiệu nút xác nhận
                 button.setVisibility(View.GONE); // Ẩn nút Verify
                 findViewById(R.id.resendButton).setVisibility(View.VISIBLE); // Hiển thị nút Resend

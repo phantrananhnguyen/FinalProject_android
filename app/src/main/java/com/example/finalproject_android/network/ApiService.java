@@ -44,9 +44,9 @@ public interface ApiService {
     @GET("/api/auth/verify-email")
     Call<EmailResponse> verifyEmail(@Query("token") String token);
 
-    @POST("/api/bump")
+    @POST("/api/hole/add")
     Call<Void> sendBumpData(@Body Potholemodel potholemodel);
-    @GET("/api/bump")
+    @GET("/api/hole/add")
     Call<List<Potholemodel>> getPotholeData();
     @GET("/api/auth/check-verification-status")
     Call<VerificationStatusResponse> checkVerificationStatus(@Query("email")String email);
