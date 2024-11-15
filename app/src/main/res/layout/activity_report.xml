@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/report"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_corners_background">
+
+
+    <TextView
+        android:id="@+id/report_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+        android:text="Report"
+        android:textColor="@color/white"
+        android:fontFamily="@font/mont_semibold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        />
+
+    <ImageButton
+        android:id="@+id/more_information_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="350dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="133dp"
+        android:elevation="2dp"
+        android:src="@drawable/report_more_information_btn" /> <!-- Đảm bảo sử dụng một biểu tượng phù hợp -->
+
+    />
+
+    <View
+        android:id="@+id/rectangle_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="127dp"
+        android:background="@drawable/rectangle_background" />
+    <TextView
+        android:id="@+id/image_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="137dp"
+        android:text="Image"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/mont_regu" />
+
+    <TextView
+        android:id="@+id/type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="211dp"
+        android:layout_marginTop="137dp"
+        android:text="Type"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/mont_regu" />
+
+    <Spinner
+        android:id="@+id/type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_text"
+        android:layout_marginStart="211dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="332dp"
+        android:text="Address"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/mont_regu" />
+    <EditText
+        android:id="@+id/pothole_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address_text"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/mont_regu"
+        android:hint="ĐỊA CHỈ Mapping với Coordinate"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/coordinates_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="425dp"
+        android:text="Coordinates"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/mont_regu" />
+    <EditText
+        android:id="@+id/coordinates_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coordinates_text"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/mont_regu"
+        android:hint="Long và Lat từ Database"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:drawableEnd="@drawable/ic_coordinates"
+        android:drawablePadding="8dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/location_on_map_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="495dp">
+
+        <!-- SupportMapFragment của Google Maps để hiển thị bản đồ -->
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="335dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="62dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:tag="map" />
+
+        <TextView
+            android:id="@+id/location_on_map_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="22dp"
+            android:text="Location on Map"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/mont_regu" />
+    </FrameLayout>
+
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="166dp">
+
+        <View
+            android:id="@+id/rectangle_2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/rounded_gray_square" />
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/add_pothole_image"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/add_image_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="108dp"
+            android:text="Add Image"
+                android:fontFamily="@font/mont_regu"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:padding="10dp"
+                android:background="@drawable/rounded_textview_background"
+
+            android:alpha="0.6"
+            android:gravity="center"/>
+        </FrameLayout>
+
+
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/modified_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_text"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="211dp"
+        android:layout_marginTop="70dp"
+        android:text="Modified Date"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:fontFamily="@font/mont_regu" />
+
+    <EditText
+        android:id="@+id/modified_date_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/modified_date_text"
+        android:layout_marginStart="211dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/mont_regu"
+        android:hint="Ngày sửa đổi"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+
+    <ImageButton
+        android:id="@+id/report_back_btn"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="52dp"
+        android:elevation="100dp"
+        android:src="@drawable/report_back_btn" /> <!-- Đảm bảo sử dụng một biểu tượng phù hợp -->
+    />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/report_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/cancel_btn" />
+
+        <Button
+            android:id="@+id/report_submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_btn" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

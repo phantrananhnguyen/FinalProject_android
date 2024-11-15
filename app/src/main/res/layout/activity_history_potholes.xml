@@ -1,0 +1,144 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context=".BottomNavigation">
+
+    <!-- Search and filter layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:id="@+id/search"
+            android:layout_width="298dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="61dp"
+            android:elevation="2dp"
+            android:background="@drawable/rounded_search_bar">
+
+            <RelativeLayout
+                android:id="@+id/magnifying"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_search" />
+
+            <TextView
+                android:id="@+id/placeholder"
+                android:layout_width="214dp"
+                android:layout_height="22dp"
+                android:layout_toEndOf="@id/magnifying"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/mont_regu"
+                android:text="Find in history"
+                android:gravity="center"
+                android:textSize="15sp"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ic_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/search"
+            android:layout_alignBottom="@id/search"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_filter"
+            android:padding="8dp"/>
+    </RelativeLayout>
+
+    <!-- Tabs for Potholes and Point Plus -->
+    <LinearLayout
+        android:id="@+id/rectangle_1"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginTop="131dp"
+        android:gravity="center"
+        android:background="#FFFFFF">
+
+        <!-- Potholes Tab with underline effect -->
+        <LinearLayout
+            android:id="@+id/potholesTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/potholes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Potholes"
+                android:fontFamily="@font/mont_semibold"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <!-- Underline for the selected tab -->
+            <View
+                android:id="@+id/potholesUnderline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/black"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <!-- Point Plus Tab -->
+        <LinearLayout
+            android:id="@+id/pointPlusTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/point_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Point Plus"
+                android:fontFamily="@font/mont_regu"
+                android:textColor="@color/black"/>
+
+            <!-- Underline for Point Plus (hidden when not selected) -->
+            <View
+                android:id="@+id/pointPlusUnderline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/black"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Container for content below rectangle_1 with a light blue background -->
+    <RelativeLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rectangle_1"
+        android:background="#C7E6F3">
+
+        <!-- RecyclerView for month list -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMonths"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"/>
+    </RelativeLayout>
+</RelativeLayout>

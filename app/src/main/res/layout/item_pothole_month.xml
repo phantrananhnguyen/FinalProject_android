@@ -1,0 +1,26 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#FFFFFF"
+    android:layout_marginBottom="8dp">
+
+    <!-- TextView to display the month -->
+    <TextView
+        android:id="@+id/textViewMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Oct/2024"
+        android:fontFamily="@font/mont_semibold"
+        android:textSize="18sp"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- Inner RecyclerView to display potholes for the month -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPotholes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"/>
+</LinearLayout>

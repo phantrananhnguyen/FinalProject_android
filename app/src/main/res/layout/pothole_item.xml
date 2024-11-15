@@ -1,0 +1,177 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/pothole_item_background"
+    android:padding="8dp"
+    android:marginBottom="8dp">
+
+    <ImageView
+        android:id="@+id/potholeImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/pothole_image_placeholder"
+        android:background="@drawable/rounded_pothole_image"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/potholeLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:fontFamily="@font/mont_semibold"
+            />
+
+        <TextView
+            android:id="@+id/potholeCoordinates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coordinates"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:fontFamily="@font/mont_regu"
+            />
+
+        <TextView
+            android:id="@+id/potholeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:fontFamily="@font/mont_regu"
+            />
+
+        <TextView
+            android:id="@+id/potholeDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:fontFamily="@font/mont_regu"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/potholeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:textSize="14sp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/mont_regu"
+                android:textColor="#757575" />
+
+            <!-- Caution: Vàng -->
+            <View
+                android:id="@+id/cautionCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_yellow"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Warning: Cam -->
+            <View
+                android:id="@+id/warningCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_orange"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Danger: Đỏ -->
+            <View
+                android:id="@+id/dangerCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_red"
+                android:layout_marginEnd="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- Đường kẻ dọc phân cách -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#BDBDBD" /> <!-- Màu xám nhẹ cho đường kẻ -->
+
+    <TextView
+        android:id="@+id/potholeState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="State"
+        android:background="@drawable/state_background"
+        android:padding="8dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="@font/mont_regu"
+        android:layout_gravity="center_vertical"
+        />
+    <!-- Component hiển thị trạng thái màu sắc -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:padding="4dp"
+            android:text="Accept"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"
+            android:layout_margin="2dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FF9800"
+            android:padding="4dp"
+            android:text="Pending"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"
+            android:layout_margin="2dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#F44336"
+            android:padding="4dp"
+            android:text="Reject"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_margin="2dp"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
