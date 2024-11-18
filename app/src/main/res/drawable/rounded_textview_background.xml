@@ -7,5 +7,5 @@
 
         />
 
-    <alpha android:opacity="80" />
+    <alpha android:opacity="transparent" />
 </shape>

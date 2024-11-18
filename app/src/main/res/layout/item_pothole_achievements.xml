@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/achievement_rounded_background"
+    android:padding="16dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <!-- View làm bóng -->
+    <View
+        android:id="@+id/shadowView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shadow_background"
+        android:layout_margin="2dp"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/achievementsImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/road_warrior"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        android:scaleType="centerCrop" />
+
+    <!-- Các TextView khác -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Pothole Picasso"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/mont_regu"
+        android:textColor="#1A237E"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/achievementsImage"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:layout_below="@id/titleText"
+        android:text="Upload 5 creatively angled photos of potholes."
+        android:textColor="#000000"
+        android:fontFamily="@font/mont_regu"
+        />
+
+    <TextView
+        android:id="@+id/quoteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subtitleText"
+        android:layout_toEndOf="@id/achievementsImage"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="You don’t just see potholes, you see art in them."
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:fontFamily="@font/mont_regu" />
+</RelativeLayout>

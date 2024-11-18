@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:orientation="vertical"
+    tools:context=".FAQActivity">
+
+    <!-- Header Text -->
+    <TextView
+        android:id="@+id/headerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/mont_semibold"
+        android:text="Questions &amp; Answers"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Scrollable Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+    <!-- Questions and Answers Container -->
+    <LinearLayout
+        android:id="@+id/questionsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/rounded_top_frame"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <!-- Description -->
+        <TextView
+            android:id="@+id/we_re_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="We’re here to help you with\nanything and everything on\nour app."
+            android:textSize="22sp"
+            android:fontFamily="@font/mont_semibold"
+            android:textColor="#534E4E"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"/>
+        <LinearLayout
+            android:id="@+id/question1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:id="@+id/question1_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What is the purpose of this app?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer1_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This app helps users report issues directly to the municipal authorities."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 2 -->
+        <LinearLayout
+            android:id="@+id/question2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question2_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How do I create an account?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer2_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You can create an account by clicking on the 'Sign Up' button and filling out the required information."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 3 -->
+        <LinearLayout
+            android:id="@+id/question3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question3_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What should I do if I encounter a bug?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer3_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="If you encounter a bug, please report it through the app's feedback section."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 4 -->
+        <LinearLayout
+            android:id="@+id/question4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question4_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Can I change my account details?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer4_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yes, you can change your account details in the settings section of the app."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+
+        <!-- Question Item 5 -->
+        <LinearLayout
+            android:id="@+id/question5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question5_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is my data secure on this app?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer5_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yes, we use encryption to ensure your data is secure."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 6 -->
+        <LinearLayout
+            android:id="@+id/question6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question6_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How can I reset my password?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer6_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You can reset your password by clicking 'Forgot Password' on the login screen."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 7 -->
+        <LinearLayout
+            android:id="@+id/question7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question7_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Can I use this app offline?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer7_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Some features are available offline, but full functionality requires internet access."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 8 -->
+        <LinearLayout
+            android:id="@+id/question8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question8_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What kind of issues can I report?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer8_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You can report issues such as potholes, streetlight outages, and more."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 9 -->
+        <LinearLayout
+            android:id="@+id/question9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question9_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How can I contact support?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer9_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You can contact support through the app's 'Help &amp; Support' section."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+        <!-- Question Item 10 -->
+        <LinearLayout
+            android:id="@+id/question10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#D3D3D3"
+            android:padding="15dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/question10_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Can I delete my account?"
+                android:fontFamily="@font/mont_regu"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/answer10_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yes, you can delete your account in the app settings."
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:paddingTop="10dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

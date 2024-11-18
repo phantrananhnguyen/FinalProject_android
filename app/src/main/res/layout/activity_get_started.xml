@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Background Image -->
+    <ImageView
+        android:id="@+id/getStartedBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/get_started_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <!-- Rectangle Overlay -->
+    <View
+        android:id="@+id/rectangleOverlay"
+        android:layout_width="360dp"
+        android:layout_height="106dp"
+        android:background="#33000000"
+        app:layout_constraintTop_toBottomOf="@id/busGif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Bus GIF -->
+    <ImageView
+        android:id="@+id/busGif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bus_gif"
+        android:layout_marginTop="220dp"
+        app:layout_constraintBottom_toTopOf="@id/rectangleOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        tools:ignore="MissingConstraints" />
+
+
+    <!-- Trips Without Troubles Text -->
+    <TextView
+        android:id="@+id/tripsWithoutTroubles"
+        android:layout_width="291dp"
+        android:layout_height="30dp"
+        android:text="Trips Without Troubles"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/mont_semibold"
+        app:layout_constraintTop_toTopOf="@id/rectangleOverlay"
+        app:layout_constraintBottom_toTopOf="@id/here"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal|top" />
+
+    <!-- Here Text -->
+    <TextView
+        android:id="@+id/here"
+        android:layout_width="44dp"
+        android:layout_height="22dp"
+        android:text="Here"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/mont_regu"
+        app:layout_constraintBottom_toBottomOf="@id/rectangleOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal|top" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

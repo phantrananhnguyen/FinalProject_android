@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue"
-    tools:context=".BottomNavigation">
+    tools:context=".HistoryPotholeActivity">
 
     <!-- Search and filter layout -->
     <RelativeLayout
@@ -56,89 +56,47 @@
             android:padding="8dp"/>
     </RelativeLayout>
 
-    <!-- Tabs for Potholes and Point Plus -->
-    <LinearLayout
-        android:id="@+id/rectangle_1"
+    <!-- TabLayout for selecting history categories -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="37dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="131dp"
-        android:gravity="center"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:contentDescription="Tab layout for selecting history categories">
 
-        <!-- Potholes Tab with underline effect -->
-        <LinearLayout
-            android:id="@+id/potholesTab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@android:color/transparent"
-            android:clickable="true">
+        <!-- Tab for Potholes -->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabPotholes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Potholes"
+            android:fontFamily="@font/mont_regu"
+            android:contentDescription="Potholes tab for viewing pothole history"/>
 
-            <TextView
-                android:id="@+id/potholes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Potholes"
-                android:fontFamily="@font/mont_semibold"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
+        <!-- Tab for Point Plus -->
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabPointPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Point Plus"
+            android:fontFamily="@font/mont_regu"
+            android:contentDescription="Point Plus tab for viewing additional points"/>
+    </com.google.android.material.tabs.TabLayout>
 
-            <!-- Underline for the selected tab -->
-            <View
-                android:id="@+id/potholesUnderline"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/black"
-                android:visibility="visible"/>
-        </LinearLayout>
-
-        <!-- Point Plus Tab -->
-        <LinearLayout
-            android:id="@+id/pointPlusTab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@android:color/transparent"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/point_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Point Plus"
-                android:fontFamily="@font/mont_regu"
-                android:textColor="@color/black"/>
-
-            <!-- Underline for Point Plus (hidden when not selected) -->
-            <View
-                android:id="@+id/pointPlusUnderline"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/black"
-                android:visibility="gone"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Container for content below rectangle_1 with a light blue background -->
+    <!-- Container for content below TabLayout -->
     <RelativeLayout
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rectangle_1"
+        android:layout_below="@id/tabLayout"
         android:background="#C7E6F3">
 
-        <!-- RecyclerView for month list -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewMonths"
+        <!-- ViewPager2 for dynamically loading the content -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"/>
+            android:layout_height="match_parent" />
     </RelativeLayout>
+
 </RelativeLayout>

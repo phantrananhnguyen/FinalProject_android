@@ -6,14 +6,14 @@
 
     <TextView
         android:id="@+id/setup_information_text"
-        android:layout_width="189dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/mont_regu"
         android:text="Setup Information"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <ImageView
@@ -24,13 +24,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/new_user_profile_image"
-        android:background="@drawable/new_user_profile_image" />
+        android:src="@drawable/new_user_profile_image" />
 
     <TextView
         android:id="@+id/nickname_text"
-        android:layout_width="107dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/profile_image"
         android:layout_marginTop="50dp"
         android:layout_marginStart="40dp"
@@ -38,7 +37,7 @@
         android:text="Nickname"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="normal" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/nickname_input"
@@ -55,11 +54,10 @@
         android:textColor="@color/black"
         android:textSize="20sp" />
 
-
     <TextView
         android:id="@+id/address_text"
-        android:layout_width="100dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/nickname_input"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
@@ -67,7 +65,7 @@
         android:text="Address"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="normal" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/address_input"
@@ -86,8 +84,8 @@
 
     <TextView
         android:id="@+id/phone_number_text"
-        android:layout_width="156dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/address_input"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
@@ -95,7 +93,7 @@
         android:text="Phone Number"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="normal" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/phone_number_input"
@@ -132,22 +130,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mont_regu"
-                android:text="Date of birth:"
+                android:text="Date of birth"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="normal" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/sex_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="110dp"
-                android:fontFamily="@font/mont_regu"
-                android:text="Sex:"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-
+                android:layout_marginStart="112dp"
+            android:fontFamily="@font/mont_regu"
+            android:text="Sex"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,6 +158,7 @@
                 android:layout_height="140dp"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
+                android:fontFamily="@font/mont_regu"
                 android:layout_marginStart="-30dp"
                 android:scaleX="0.8"
                 android:scaleY="0.8" />
@@ -168,12 +166,15 @@
             <Spinner
                 android:id="@+id/sex_spinner"
                 android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:entries="@array/sex_options"
                 android:fontFamily="@font/mont_regu"
+                android:background="@drawable/spinner_background"
+                android:spinnerMode="dropdown"
+                android:textColor="@color/black"
+                android:padding="10dp"
                 android:layout_marginStart="20dp" />
-
         </LinearLayout>
 
     </LinearLayout>
@@ -183,12 +184,19 @@
         android:layout_width="280dp"
         android:layout_height="55dp"
         android:layout_below="@id/dob_sex_layout"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="20dp"
-    android:background="@drawable/btn_submit_information"
-    android:fontFamily="@font/mont_regu"
-    android:textColor="@color/white"
-    android:textSize="20sp"
-    android:textStyle="bold" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_submit_information"
+        android:fontFamily="@font/mont_regu"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
 </RelativeLayout>

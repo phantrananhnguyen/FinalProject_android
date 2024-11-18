@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:right="2dp" android:top="2dp" android:left="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#66000000" /> <!-- Màu bóng đậm hơn -->
+            <corners android:radius="25dp" /> <!-- Bóng tròn đều -->
+        </shape>
+    </item>
+</layer-list>

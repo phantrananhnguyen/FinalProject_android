@@ -1,0 +1,174 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/pothole_item_background"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="-35dp"
+        android:layout_marginLeft="-40dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical" >
+
+    <ImageView
+        android:id="@+id/starImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/three_stars"
+        android:background="@drawable/rounded_pothole_image"
+        android:layout_gravity="center"
+        />
+
+        <TextView
+            android:id="@+id/pointText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Very good!"
+            android:textSize="17sp"
+            android:textColor="@color/warning_orange"
+            android:fontFamily="@font/mont_semibold"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/congratulation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thanks for your contribution"
+            android:textSize="14sp"
+            android:textColor="#000"
+            android:fontFamily="@font/mont_semibold"
+            />
+
+        <TextView
+            android:id="@+id/acceptedAnnouncement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your report was accepted"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:fontFamily="@font/mont_semibold"
+            />
+
+        <TextView
+            android:id="@+id/potholeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID:"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:fontFamily="@font/mont_semibold"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/potholeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Type:"
+                android:textSize="14sp"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/mont_semibold"
+                android:textColor="#757575" />
+
+            <View
+                android:id="@+id/cautionCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_yellow"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                 />
+
+            <View
+                android:id="@+id/warningCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_orange"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/dangerCircle"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/circle_red"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/potholeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="26/09/2024"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:fontFamily="@font/mont_regu"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#BDBDBD"
+        android:layout_marginHorizontal="12dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/potholePoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/mont_semibold"
+            />
+
+        <TextView
+            android:id="@+id/pointValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="66"
+            android:textColor="#4CAF50"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/mont_semibold"
+            />
+    </LinearLayout>
+
+</LinearLayout>
