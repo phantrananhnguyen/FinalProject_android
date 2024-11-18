@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/rounded_corners_background">
 
-
     <TextView
         android:id="@+id/report_text"
         android:layout_width="wrap_content"

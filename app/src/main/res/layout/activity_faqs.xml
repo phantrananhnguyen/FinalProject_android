@@ -8,20 +8,38 @@
     android:orientation="vertical"
     tools:context=".FAQActivity">
 
-    <!-- Header Text -->
-    <TextView
-        android:id="@+id/headerTitle"
-        android:layout_width="wrap_content"
+    <!-- Header Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/mont_semibold"
-        android:text="Questions &amp; Answers"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp">
 
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/report_back_btn"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/report_back_btn" />
+
+        <!-- Header Text -->
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/mont_semibold"
+            android:text="Questions &amp; Answers"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </LinearLayout>
     <!-- Scrollable Container -->
     <ScrollView
         android:layout_width="match_parent"
