@@ -5,20 +5,23 @@ import android.net.Uri;
 public class UserUpdateRequest {
 
     private String name;
-    private String profilePicture;
+    private Uri profilePicture;
     private String sex;
     private String bio;
     private String birthday;
     private String phoneNumber;
     private String address;
 
-    public UserUpdateRequest(String name, String address, String sex, String bio, String birthday, String phoneNumber) {
+    public UserUpdateRequest(String name, String address, Uri profilePicturePath, String sex, String bio, String birthday, String phoneNumber) {
         this.name = name;
+        this.address = address;
+        this.profilePicture = profilePicturePath; // Gán đúng tham số
         this.sex = sex;
         this.bio = bio;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
     }
+
 
     public String getAddress() {
         return address;
@@ -28,7 +31,7 @@ public class UserUpdateRequest {
         return name;
     }
 
-    public String getProfilePicture() {
+    public Uri getProfilePicture() {
         return profilePicture;
     }
 

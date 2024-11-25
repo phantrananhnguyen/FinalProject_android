@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/bus_gif"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="250dp"
         app:layout_constraintBottom_toTopOf="@id/rectangleOverlay"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,8 +47,8 @@
     <!-- Trips Without Troubles Text -->
     <TextView
         android:id="@+id/tripsWithoutTroubles"
-        android:layout_width="291dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Trips Without Troubles"
         android:textSize="30sp"
         android:textColor="#FFFFFF"
@@ -62,8 +62,8 @@
     <!-- Here Text -->
     <TextView
         android:id="@+id/here"
-        android:layout_width="44dp"
-        android:layout_height="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Here"
         android:textSize="20sp"
         android:textColor="#FFFFFF"

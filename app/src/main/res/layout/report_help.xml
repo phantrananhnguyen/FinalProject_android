@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/rounded_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type Of Potholes"
+        android:textColor="#87CEEB"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/mont_semibold"
+        android:paddingBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="•"
+            android:textColor="#FF0000"
+            android:textSize="18sp"
+            android:paddingEnd="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danger (D): diameter greater than 60 cm, depth greater than 10 cm"
+            android:textColor="#333333"
+            android:fontFamily="@font/mont_regu"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="•"
+            android:textColor="#FFA500"
+            android:textSize="18sp"
+            android:paddingEnd="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Warning (W): diameter between 30 cm and 60 cm, depth between 5 cm and 10 cm"
+            android:textColor="#333333"
+            android:fontFamily="@font/mont_regu"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="•"
+            android:textColor="#FFD700"
+            android:textSize="18sp"
+            android:paddingEnd="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Caution (C): diameter less than 30 cm, depth less than 5 cm"
+            android:textColor="#333333"
+            android:fontFamily="@font/mont_regu"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

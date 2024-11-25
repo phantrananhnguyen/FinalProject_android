@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="This app helps users report issues directly to the municipal authorities."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -120,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:text="You can create an account by clicking on the 'Sign Up' button and filling out the required information."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -148,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="If you encounter a bug, please report it through the app's feedback section."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -176,6 +179,7 @@
                 android:layout_height="wrap_content"
                 android:text="Yes, you can change your account details in the settings section of the app."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -205,6 +209,7 @@
                 android:layout_height="wrap_content"
                 android:text="Yes, we use encryption to ensure your data is secure."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -233,6 +238,7 @@
                 android:layout_height="wrap_content"
                 android:text="You can reset your password by clicking 'Forgot Password' on the login screen."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -261,6 +267,7 @@
                 android:layout_height="wrap_content"
                 android:text="Some features are available offline, but full functionality requires internet access."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -289,6 +296,7 @@
                 android:layout_height="wrap_content"
                 android:text="You can report issues such as potholes, streetlight outages, and more."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -317,6 +325,7 @@
                 android:layout_height="wrap_content"
                 android:text="You can contact support through the app's 'Help &amp; Support' section."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>
@@ -345,6 +354,7 @@
                 android:layout_height="wrap_content"
                 android:text="Yes, you can delete your account in the app settings."
                 android:textSize="16sp"
+                android:fontFamily="@font/mont_regu"
                 android:visibility="gone"
                 android:paddingTop="10dp"/>
         </LinearLayout>

@@ -66,15 +66,17 @@ public interface ApiService {
     Call<UserResponse> getUserData(@Header("Authorization") String token);
 
     @Multipart
-    @POST("api/user/update")
+    @POST("/api/user/new_user/update")
     Call<UserUpdateResponse> updateUser(
             @Part("nickname") RequestBody nickname,
+            @Part("bio") RequestBody bio,
             @Part("address") RequestBody address,
             @Part("phoneNumber") RequestBody phoneNumber,
             @Part("birthday") RequestBody birthday,
             @Part("sex") RequestBody sex,
             @Part MultipartBody.Part profilePicture
     );
+
 
 
 }

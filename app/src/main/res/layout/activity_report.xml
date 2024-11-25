@@ -72,6 +72,7 @@
         android:background="@drawable/rounded_edit_text"
         android:padding="12dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/mont_regu"
         android:textSize="18sp" />
 
 
@@ -262,17 +263,19 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/report_cancel_btn"
+            android:id="@+id/report_delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/cancel_btn" />
+            android:background="@drawable/report_delete_btn" />
 
         <Button
             android:id="@+id/report_submit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/submit_btn" />
+
+
     </LinearLayout>
 
 
