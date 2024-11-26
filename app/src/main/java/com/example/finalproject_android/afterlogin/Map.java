@@ -42,6 +42,7 @@ import com.example.finalproject_android.R;
 import com.example.finalproject_android.models.Feature;
 import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.Potholemodel;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -73,11 +74,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -102,6 +105,7 @@ public class Map extends Fragment {
     private EditText search_input;
     private BottomSheetDialog bottomSheetDialog;
     private LatLong lastPotholeLocation = null;
+    UserSession userSession;
     public void setFeature(Feature feature) {
         this.feature = feature;
     }
@@ -130,6 +134,7 @@ public class Map extends Fragment {
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
+        userSession = new UserSession(getContext());
 
     }
 
@@ -263,30 +268,87 @@ public class Map extends Fragment {
     private void setupMap() {
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        File mapFile = copyMapFileToReadableLocation(getContext(), "langdaihoc.map");
-        if (mapFile != null && mapFile.exists()) {
-            TileCache tileCache = AndroidUtil.createTileCache(getActivity(), "mapcache",
-                    mapView.getModel().displayModel.getTileSize(), 1f,
-                    mapView.getModel().frameBufferModel.getOverdrawFactor());
-            TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, new MapFile(mapFile),
-                    mapView.getModel().mapViewPosition, AndroidGraphicFactory.INSTANCE);
-            tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.DEFAULT);
-            mapView.getLayerManager().getLayers().add(tileRendererLayer);
-            LatLong center = (feature != null) ? new LatLong(feature.getLat(), feature.getLon()) : new LatLong(10.882, 106.794);
-            Log.e("map", center.toString());
-            mapView.post(() -> {
-                mapView.setCenter(center);
-                mapView.setZoomLevel((byte) 16); // Ensure the zoom level is set
-            });
-            LatLong topLeft = new LatLong(10.903 - 0.02, 106.743 + 0.008);
-            LatLong bottomRight = new LatLong(10.845 + 0.02, 106.834 - 0.008);
-            boundingBox = new BoundingBox(bottomRight.latitude, topLeft.longitude, topLeft.latitude, bottomRight.longitude);
-            mapView.getModel().mapViewPosition.addObserver(this::limitMapPanning);
+
+        // Kiểm tra xem bản đồ đã có chưa
+        File mapFile = new File(getContext().getFilesDir(), "langdaihoc.map");
+
+        if (mapFile.exists()) {
+            // Nếu bản đồ đã có, tiếp tục thiết lập bản đồ
+            setupMapWithFile(mapFile);
         } else {
-            Log.e("Map", "Map file could not be copied or does not exist.");
-            Toast.makeText(getContext(), "Map file not found.", Toast.LENGTH_LONG).show();
+            // Nếu bản đồ chưa có, tải nó về và sau đó thiết lập
+            downloadMapAndSetup();
         }
     }
+
+    private void setupMapWithFile(File mapFile) {
+        TileCache tileCache = AndroidUtil.createTileCache(getActivity(), "mapcache",
+                mapView.getModel().displayModel.getTileSize(), 1f,
+                mapView.getModel().frameBufferModel.getOverdrawFactor());
+        TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, new MapFile(mapFile),
+                mapView.getModel().mapViewPosition, AndroidGraphicFactory.INSTANCE);
+        tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.DEFAULT);
+        mapView.getLayerManager().getLayers().add(tileRendererLayer);
+
+        // Đặt vị trí trung tâm và zoom
+        LatLong center = (feature != null) ? new LatLong(feature.getLat(), feature.getLon()) : new LatLong(10.882, 106.794);
+        Log.e("map", center.toString());
+        mapView.post(() -> {
+            mapView.setCenter(center);
+            mapView.setZoomLevel((byte) 16); // Đảm bảo mức zoom được đặt
+        });
+
+        // Đặt vùng giới hạn bản đồ
+        LatLong topLeft = new LatLong(10.903 - 0.02, 106.743 + 0.008);
+        LatLong bottomRight = new LatLong(10.845 + 0.02, 106.834 - 0.008);
+        boundingBox = new BoundingBox(bottomRight.latitude, topLeft.longitude, topLeft.latitude, bottomRight.longitude);
+        mapView.getModel().mapViewPosition.addObserver(this::limitMapPanning);
+    }
+
+    private void downloadMapAndSetup() {
+        String userEmail = userSession.getUserEmail(); // Lấy email người dùng từ session hoặc input
+        apiService.downloadMap(userEmail).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Lưu bản đồ vào thư mục ứng dụng
+                    boolean isSaved = saveMapFile(response.body());
+                    if (isSaved) {
+                        // Sau khi lưu thành công, thiết lập bản đồ
+                        File downloadedMapFile = new File(getContext().getFilesDir(), "langdaihoc.map");
+                        setupMapWithFile(downloadedMapFile);
+                        Toast.makeText(getContext(), "Map downloaded and set up successfully.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to save map.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Error downloading map.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Connection error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean saveMapFile(ResponseBody responseBody) {
+        try (InputStream inputStream = responseBody.byteStream();
+             OutputStream outputStream = new FileOutputStream(new File(getContext().getFilesDir(), "langdaihoc.map"))) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private void toggleBottomSheetDialog() {
         if (bottomSheetDialog == null) {

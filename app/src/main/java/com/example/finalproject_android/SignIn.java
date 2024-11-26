@@ -18,9 +18,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,6 +97,10 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    String token = response.body().getToken();
+                    String email = response.body().getEmail();
+                    UserSession userSession = new UserSession(SignIn.this);
+                    userSession.createUserSession(email, token);
                     Intent intent = new Intent(SignIn.this, BottomNavigation.class);
                     Toast.makeText(SignIn.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
                     startActivity(intent);
@@ -103,4 +115,5 @@ public class SignIn extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -23,6 +23,13 @@ import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 import com.example.finalproject_android.models.EmailResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -98,7 +105,6 @@ public class SignUp extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     showWaitingDialog();
-
                     checkStatusVerify(response.body().getEmail());
                 } else {
                     Toast.makeText(SignUp.this, "Đăng ký thất bại. Thử lại sau!", Toast.LENGTH_LONG).show();
@@ -137,6 +143,7 @@ public class SignUp extends AppCompatActivity {
                             Log.d("Email",""+ response.body().getIsVerified());// Kiểm tra nếu đã xác thực
 
                             if (response.body().getIsVerified()) {
+                                checkAndDownloadMap(email);
                                 showSuccessDialog();
                                 if (progressDialog != null && progressDialog.isShowing()) {
                                     progressDialog.dismiss();
@@ -163,7 +170,6 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-        Log.d("SignUp", "Showing success dialog");
         new AlertDialog.Builder(SignUp.this)
                 .setTitle("Đăng ký thành công")
                 .setMessage("Tài khoản của bạn đã được xác nhận thành công!!!")
@@ -175,6 +181,52 @@ public class SignUp extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+    private void checkAndDownloadMap(String email) {
+        File mapFile = new File(getFilesDir(), "langdaihoc.map");
+
+        if (mapFile.exists()) {
+            Toast.makeText(this, "Map already exists.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(this, "Downloading map...", Toast.LENGTH_SHORT).show();
+
+        apiService.downloadMap(email).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    boolean isSaved = saveMapFile(response.body());
+                    if (isSaved) {
+                        Toast.makeText(SignUp.this, "Map downloaded successfully.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUp.this, "Failed to save map.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(SignUp.this, "Error downloading map.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(SignUp.this, "Connection error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean saveMapFile(ResponseBody responseBody) {
+        try (InputStream inputStream = responseBody.byteStream();
+             OutputStream outputStream = new FileOutputStream(new File(getFilesDir(), "langdaihoc.map"))) {
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 

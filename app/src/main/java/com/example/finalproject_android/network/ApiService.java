@@ -17,9 +17,11 @@ import com.example.finalproject_android.models.ResetResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -55,5 +57,9 @@ public interface ApiService {
 
     @GET("/api/navigation")
     Call<Places> route(@Query("start") String start, @Query("destination") String destination);
+
+
+    @GET("/api/download-map")
+    Call<ResponseBody> downloadMap(@Body String email);
 }
 
