@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".afterlogin.Dashboard">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_blue"
+        >
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Home"
+            android:fontFamily="@font/mont_semibold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Profile image in top-left corner -->
+
+        <!-- Name and points -->
+
+        <!-- Metrics layout with rounded corners -->
+
+        <!-- Container for metrics and charts with rounded corners -->
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circular_image"
+            android:scaleType="fitCenter"
+            android:clipToOutline="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/profileImage"
+            app:layout_constraintTop_toTopOf="@+id/profileImage"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background"
+            android:padding="8dp"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage"/>
+
+        <View
+            android:id="@+id/whiteFrame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_top_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/metricsLayout" />
+
+        <LinearLayout
+            android:id="@+id/metricsLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background"
+            android:elevation="4dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="180"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kilometres"
+                    android:fontFamily="@font/mont_semibold"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="86"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Potholes"
+                    android:fontFamily="@font/mont_semibold"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="48"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Days"
+                    android:fontFamily="@font/mont_semibold"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- Center guideline for chart alignment -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <!-- PieChart on the left with padding and shadow -->
+
+        <!-- LineChart on the right with padding and shadow -->
+        <TextView
+            android:id="@+id/potholeTypesText"
+            android:layout_width="132dp"
+            android:layout_height="28dp"
+            android:textColor="@color/gray"
+            android:text="Pothole Types"
+            android:fontFamily="@font/mont_semibold"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:elevation="6dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/potholesChart"
+            app:layout_constraintStart_toStartOf="@id/potholesChart"
+            app:layout_constraintEnd_toEndOf="@id/potholesChart"
+            />
+
+        <TextView
+            android:id="@+id/potholeStateText"
+            android:layout_width="145dp"
+            android:layout_height="28dp"
+            android:text="Pothole State this month"
+            android:fontFamily="@font/mont_semibold"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:elevation="6dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/potholeStateChart"
+            app:layout_constraintStart_toStartOf="@id/potholeStateChart"
+            app:layout_constraintEnd_toEndOf="@id/potholeStateChart"
+            />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/potholesChart"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/rounded_background"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/metricsLayout" />
+
+        <!-- BarChart below the PieChart and LineChart with padding and shadow -->
+
+
+        <!-- Navigation Menu -->
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/potholeStateChart"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="264dp"
+            android:background="@drawable/rounded_background"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guidelineVertical"
+            app:layout_constraintTop_toBottomOf="@+id/metricsLayout" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/weeklyChart"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_margin="8dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rounded_background"
+            android:elevation="4dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.562"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/potholesChart" />
+
+
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="29dp"
+            android:background="@drawable/rounded_frame_background"
+            android:elevation="3dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:paddingTop="7dp"
+            app:layout_constraintEnd_toEndOf="@id/weeklyChart"
+            app:layout_constraintStart_toStartOf="@id/weeklyChart"
+            app:layout_constraintTop_toBottomOf="@id/weeklyChart">
+
+            <ImageButton
+                android:id="@+id/previousButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_previous"
+                android:contentDescription="@string/previous_button_description" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/mont_semibold"
+                android:text="This Week"
+                android:textSize="11sp" />
+
+            <ImageButton
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_next"
+                android:contentDescription="@string/next_button_description" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>
