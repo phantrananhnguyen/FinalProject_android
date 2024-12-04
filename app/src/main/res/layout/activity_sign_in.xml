@@ -160,7 +160,7 @@
                     android:background="@android:color/transparent" />
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Remember Me"
                     android:textAppearance="@style/normal_word"
                     android:layout_marginStart="5dp"/>

@@ -100,7 +100,7 @@ public class SignIn extends AppCompatActivity {
                     String token = response.body().getToken();
                     String email = response.body().getEmail();
                     UserSession userSession = new UserSession(SignIn.this);
-                    userSession.createUserSession(email, token);
+                    userSession.createUserSession(email, token, user);
                     Intent intent = new Intent(SignIn.this, BottomNavigation.class);
                     Toast.makeText(SignIn.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
                     startActivity(intent);

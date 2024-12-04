@@ -41,7 +41,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        Log.e("SearchAdapter", "getItemCount: " + features.size());
         return features.size();
     }
 

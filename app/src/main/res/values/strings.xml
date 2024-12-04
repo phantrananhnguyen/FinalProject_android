@@ -4,5 +4,9 @@
     <string name="next_button_description">Next</string>
     <string name="previous_button_description">Previous</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string-array name="pothole_types">
+        <item>Caution</item>
+        <item>Warning</item>
+        <item>Danger</item>
+    </string-array>
 </resources>

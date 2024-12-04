@@ -136,7 +136,6 @@ public class SignUp extends AppCompatActivity {
             public void run() {
                 Call<VerificationStatusResponse> call = apiService.checkVerificationStatus(email);
                 call.enqueue(new Callback<VerificationStatusResponse>() {
-
                     @Override
                     public void onResponse(Call<VerificationStatusResponse> call, Response<VerificationStatusResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
@@ -184,13 +183,11 @@ public class SignUp extends AppCompatActivity {
     }
     private void checkAndDownloadMap(String email) {
         File mapFile = new File(getFilesDir(), "langdaihoc.map");
-
         if (mapFile.exists()) {
             Toast.makeText(this, "Map already exists.", Toast.LENGTH_SHORT).show();
             return;
         }
         Toast.makeText(this, "Downloading map...", Toast.LENGTH_SHORT).show();
-
         apiService.downloadMap(email).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -205,14 +202,12 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Error downloading map.", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(SignUp.this, "Connection error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     private boolean saveMapFile(ResponseBody responseBody) {
         try (InputStream inputStream = responseBody.byteStream();
              OutputStream outputStream = new FileOutputStream(new File(getFilesDir(), "langdaihoc.map"))) {
