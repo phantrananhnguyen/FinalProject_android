@@ -52,7 +52,7 @@ public class SignIn extends AppCompatActivity {
         signin = findViewById(R.id.signInButton);
         forgot = findViewById(R.id.forgot_txt);
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(SignIn.this).create(ApiService.class);
 
         forgot.setOnClickListener(view -> {
             Intent intent = new Intent(SignIn.this, ForgotPassword.class);
@@ -108,12 +108,10 @@ public class SignIn extends AppCompatActivity {
                     Toast.makeText(SignIn.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<UserLoginResponse> call, Throwable t) {
                 Toast.makeText(SignIn.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
 }

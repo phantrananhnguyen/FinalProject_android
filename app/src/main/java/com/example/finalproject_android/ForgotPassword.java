@@ -31,7 +31,7 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         email = findViewById(R.id.email_forgot);
         button = findViewById(R.id.forgotButton);
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(ForgotPassword.this).create(ApiService.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +48,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
     private void performForgotPass() {
         String mail = email.getText().toString().trim();
-
-
         ForgotPassRequest forgotPassRequest = new ForgotPassRequest(mail);
-
         Call<ForgotPassResponse> call = apiService.forgot(forgotPassRequest);
         call.enqueue(new Callback<ForgotPassResponse>() {
             @Override
@@ -61,7 +58,6 @@ public class ForgotPassword extends AppCompatActivity {
                     Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ForgotPassResponse> call, Throwable t) {
                 Toast.makeText(ForgotPassword.this, "Lỗi kết nối, vui lòng thử lại", Toast.LENGTH_SHORT).show();

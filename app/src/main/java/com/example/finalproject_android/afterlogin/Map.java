@@ -132,7 +132,7 @@ public class Map extends Fragment {
             feature = (Feature) getArguments().getSerializable("feature");
         }
         // Khởi tạo ApiService và Sensor
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(getContext()).create(ApiService.class);
         sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -166,7 +166,7 @@ public class Map extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupMap();
         current_back.setOnClickListener(view1 -> {
             if (currentLatLng == null) {
                 Toast.makeText(requireContext(), "Current location not available", Toast.LENGTH_SHORT).show();
@@ -174,12 +174,12 @@ public class Map extends Fragment {
             }
             mapView.setCenter(currentLatLng);
         });
-
         if (feature != null) {
             Potholemodel potholemodel = new Potholemodel(feature.getLat(), feature.getLon(), "search", "");
             showSearchDestination(feature);
-
             addBumpMarker(potholemodel);
+            LatLong latLong = new LatLong(feature.getLat(), feature.getLon());
+            mapView.setCenter(latLong);
         }
         route.setOnClickListener(view1 -> {
             if (currentLatLng == null) {
@@ -195,11 +195,10 @@ public class Map extends Fragment {
             }
         });
 
-
         alert.setOnClickListener(view1 -> toggleBottomSheetDialog());
-        setupMap();
         fetchDataFromServer();
         startLocationUpdates();
+
     }
     public void updateFeature(Feature newFeature) {
         if (newFeature != null) {
@@ -211,14 +210,12 @@ public class Map extends Fragment {
             }
         }
     }
-
     public void showSearchDestination(Feature feature) {
         if (feature == null) return; // Ensure the feature is not null before proceeding
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.search_infor, null);
         TextView tvName = dialogView.findViewById(R.id.name);
         TextView tvAmenity = dialogView.findViewById(R.id.amenity);
-        ImageButton btnRoute = dialogView.findViewById(R.id.route);
         TextView tvCoordinates = dialogView.findViewById(R.id.coordinates);
         BottomSheetDialog newbottomSheetDialog = new BottomSheetDialog(getContext());
         newbottomSheetDialog.setContentView(dialogView);
@@ -227,47 +224,30 @@ public class Map extends Fragment {
         tvName.setText(feature.getName());
         tvAmenity.setText(feature.getAmenity());
         tvCoordinates.setText(String.format("%s, %s", feature.getLon(), feature.getLat()));
-
-        btnRoute.setOnClickListener(view1 -> {
-            LatLong des = new LatLong(feature.getLon(), feature.getLat());
-            performRoute(des);
-            if (feature == null) {
-                return;
-            }
-        });
-
-
-        newbottomSheetDialog.show();
+                newbottomSheetDialog.show();
     }
 
     private void performRoute(LatLong latLong) {
         String start = currentLatLng.longitude + "," + currentLatLng.latitude;
         String end = latLong.longitude + "," + latLong.latitude;
-
         apiService.route(start, end).enqueue(new Callback<Places>() {
             @Override
             public void onResponse(Call<Places> call, Response<Places> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Places places = response.body();
-
                     // Tạo danh sách GeoPoint từ danh sách LatLong
                     List<LatLong> routePoints = new ArrayList<>();
                     for (LatLong latlon : places.getCoordinates()) {
                         routePoints.add(new LatLong(latlon.getLatitude(), latlon.getLongitude()));
                         Log.e("mapsearch", latlon.toString());
                     }
-
-                    // Lọc potholes nằm trên tuyến đường
                     filterPotholesOnRoute(routePoints);
 
-                    // Bắt đầu theo dõi vị trí và cảnh báo potholes
                     startNavigation(routePoints);
 
-                    // Vẽ Polyline trên bản đồ
                     drawRouteOnMap(routePoints);
                 }
             }
-
             @Override
             public void onFailure(Call<Places> call, Throwable t) {
                 Log.e("map", "Failed to fetch route");
@@ -276,28 +256,23 @@ public class Map extends Fragment {
     }
 
     private Polyline currentRoutePolyline;
-
     private void drawRouteOnMap(List<LatLong> latLongList) {
         if (mapView == null) return;
-
-        // Xóa tuyến đường trước đó
         if (currentRoutePolyline != null) {
             mapView.getLayerManager().getLayers().remove(currentRoutePolyline);
         }
-
         Paint paint = AndroidGraphicFactory.INSTANCE.createPaint();
         paint.setColor(Color.parseColor("#87CEEB"));
         paint.setStrokeWidth(15f);
         paint.setStyle(Style.STROKE);
-
         currentRoutePolyline = new Polyline(paint, AndroidGraphicFactory.INSTANCE);
         currentRoutePolyline.getLatLongs().addAll(latLongList);
         mapView.getLayerManager().getLayers().add(currentRoutePolyline);
     }
 
     private void startNavigation(List<LatLong> routePoints) {
-        filterPotholesOnRoute(routePoints);  // Lọc potholes trên tuyến
-        startLocationUpdates();             // Bắt đầu theo dõi vị trí
+        filterPotholesOnRoute(routePoints);
+        startLocationUpdates();
     }
 
     private void setupMap() {
@@ -310,7 +285,6 @@ public class Map extends Fragment {
             downloadMapAndSetup();
         }
     }
-
     private void setupMapWithFile(File mapFile) {
         TileCache tileCache = AndroidUtil.createTileCache(getActivity(), "mapcache",
                 mapView.getModel().displayModel.getTileSize(), 1f,
@@ -321,10 +295,9 @@ public class Map extends Fragment {
         mapView.getLayerManager().getLayers().add(tileRendererLayer);
 
         LatLong center = (feature != null) ? new LatLong(feature.getLat(), feature.getLon()) : new LatLong(10.882, 106.794);
-        Log.e("map", center.toString());
         mapView.post(() -> {
             mapView.setCenter(center);
-            mapView.setZoomLevel((byte) 16); // Đảm bảo mức zoom được đặt
+            mapView.setZoomLevel((byte) 17);
         });
         LatLong topLeft = new LatLong(10.903 - 0.02, 106.743 + 0.008);
         LatLong bottomRight = new LatLong(10.845 + 0.02, 106.834 - 0.008);
@@ -333,7 +306,7 @@ public class Map extends Fragment {
     }
 
     private void downloadMapAndSetup() {
-        String userEmail = userSession.getUserEmail(); // Lấy email người dùng từ session hoặc input
+        String userEmail = userSession.getUserEmail();
         apiService.downloadMap(userEmail).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -352,7 +325,6 @@ public class Map extends Fragment {
                     Toast.makeText(getContext(), "Error downloading map.", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Connection error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -415,7 +387,6 @@ public class Map extends Fragment {
     private void filterPotholesOnRoute(List<LatLong> routePoints) {
         final double ROUTE_THRESHOLD = 20.0;
         potholesOnRoute.clear();
-
         for (Potholemodel pothole : potholesList) {
             LatLong potholeLocation = new LatLong(pothole.getLatitude(), pothole.getLongitude());
             for (LatLong routePoint : routePoints) {
@@ -478,18 +449,15 @@ public class Map extends Fragment {
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-            // Nút đóng để tắt dialog
             btnClose.setOnClickListener(view -> bottomSheetDialog.dismiss());
         }
 
-        // Cập nhật nội dung dialog
         TextView tvDistance = bottomSheetDialog.findViewById(R.id.alert_distance);
         TextView tvLocation = bottomSheetDialog.findViewById(R.id.alert_location);
         TextView tvType = bottomSheetDialog.findViewById(R.id.alert_type);
         ImageView imageView = bottomSheetDialog.findViewById(R.id.image_type);
-
         if (tvDistance != null) {
-            int roundedDistance = (int) Math.round(distance); // Làm tròn khoảng cách
+            int roundedDistance = (int) Math.round(distance);
             tvDistance.setText(String.format("%d meters", roundedDistance));
         }
         if (tvLocation != null) {
@@ -508,10 +476,8 @@ public class Map extends Fragment {
         }
     }
 
-
     private double calculateDistance(LatLong point1, LatLong point2) {
         if (point1 == null || point2 == null) return 0; // Bảo vệ khi tọa độ bị null
-
         final double R = 6371.0088; // Bán kính Trái Đất (km)
         double lat1 = point1.latitude;
         double lon1 = point1.longitude;
@@ -552,7 +518,6 @@ public class Map extends Fragment {
                     Log.e("API Error", "Code: " + response.code());
                 }
             }
-
             @Override
             public void onFailure(Call<List<Potholemodel>> call, Throwable t) {
                 Log.e("Network Error", t.getMessage());
@@ -568,34 +533,19 @@ public class Map extends Fragment {
         Drawable resizedMarkerDrawable = getResizedDrawable(getImagefromType(potholemodel.getType()), 40, 40);
         Bitmap markerBitmap = AndroidGraphicFactory.convertToBitmap(resizedMarkerDrawable);
 
-        // Kiểm tra bitmap có hợp lệ không
-        if (markerBitmap == null || markerBitmap.getHeight() == 0) {
-            Log.e("map", "Failed to load marker image");
-            return;
-        }
-
         Marker marker = new Marker(location, markerBitmap, 0, -markerBitmap.getHeight() / 2);
-        String positionKey = location.latitude + "," + location.longitude;
 
-        // Kiểm tra marker có tồn tại không
-        if (!markerPositions.contains(positionKey)) {
-            markerPositions.add(positionKey);
-            Log.e("map", potholemodel.getType());
+        if (!isMarkerExist(marker)) {
             mapView.getLayerManager().getLayers().add(marker);
         }
 
-        // Thiết lập sự kiện chạm vào marker
         mapView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 int touchRadius = 50; // Bán kính chạm (pixel)
-
-                // Lấy vị trí chạm và chuyển đổi sang tọa độ màn hình
                 float x = event.getX();
                 float y = event.getY();
                 MapViewProjection projection = mapView.getMapViewProjection();
                 Point markerScreenPoint = projection.toPixels(location);
-
-                // Tính khoảng cách giữa điểm chạm và marker
                 float distance = (float) Math.sqrt(Math.pow(x - markerScreenPoint.x, 2) + Math.pow(y - markerScreenPoint.y, 2));
                 if (distance <= touchRadius) {
                     showInfoPopup(potholemodel); // Hiển thị thông tin popup
@@ -645,23 +595,7 @@ public class Map extends Fragment {
         dialog.show();
     }
 
-    private File copyMapFileToReadableLocation(Context context, String assetFileName) {
-        File outputFile = new File(context.getFilesDir(), assetFileName);
-        try (InputStream inputStream = context.getAssets().open(assetFileName);
-             FileOutputStream outputStream = new FileOutputStream(outputFile)) {
 
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-            return outputFile;
-
-        } catch (IOException e) {
-            Log.e("Map", "Error copying map file from assets", e);
-            return null;
-        }
-    }
 
     @Override
     public void onResume() {
@@ -687,7 +621,6 @@ public class Map extends Fragment {
                 detectBump(event.values);
             }
         }
-
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
@@ -699,18 +632,15 @@ public class Map extends Fragment {
         float thresholdLight = 18.5f;
         float thresholdMedium = 22.0f;
         float thresholdHeavy = 28.5f;
-
         String type;
         long currentTime = System.currentTimeMillis();
         long timeDifference = currentTime - lastAlertTime;  // Tính thời gian chênh lệch từ lần thông báo cuối
 
-        // Tính toán độ lớn gia tốc (magnitude)
         float magnitude = (float) Math.sqrt(accelerationValues[0] * accelerationValues[0] +
                 accelerationValues[1] * accelerationValues[1] +
                 accelerationValues[2] * accelerationValues[2]);
 
         if (currentLatLng != null) {
-            // Kiểm tra nếu thời gian chênh lệch đủ lâu (ví dụ: 3 giây)
             if (timeDifference > 1000) {
                 if (magnitude >= thresholdHeavy) {
                     type = "Danger";
@@ -733,48 +663,37 @@ public class Map extends Fragment {
     private void showConfirmationDialog(String type, LatLong location) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.pothole_confirm, null);
-
         Spinner spinner = dialogView.findViewById(R.id.type_spin);
         ImageView imageView = dialogView.findViewById(R.id.image_confirm_type);
         Button btnConfirm_no = dialogView.findViewById(R.id.confirm_no);
         Button btnConfirm_yes = dialogView.findViewById(R.id.confirm_yes);
-
         String[] potholeTypes = getResources().getStringArray(R.array.pothole_types);
-
         int defaultPosition = java.util.Arrays.asList(potholeTypes).indexOf(type);
         if (defaultPosition != -1) {
             spinner.setSelection(defaultPosition);
         }
-
         imageView.setImageDrawable(getResizedDrawable(getImagefromType(type), 40, 40));
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedType = potholeTypes[position];
                 imageView.setImageDrawable(getResizedDrawable(getImagefromType(selectedType), 40, 40));
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Không cần xử lý
             }
         });
-
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(dialogView);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
         btnConfirm_yes.setOnClickListener(v -> {
             String selectedType = spinner.getSelectedItem().toString();
             Potholemodel pothole = new Potholemodel(location.latitude, location.longitude, selectedType, NAME);
             sendBumpDataToServer(pothole);
             dialog.dismiss();
         });
-
         btnConfirm_no.setOnClickListener(view -> dialog.dismiss());
-
         dialog.show();
     }
 
@@ -791,7 +710,6 @@ public class Map extends Fragment {
                     Toast.makeText(getContext(), "Failed to send bump data.", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Log.e("Network Error", t.getMessage(), t);

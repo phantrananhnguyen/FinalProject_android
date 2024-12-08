@@ -41,17 +41,15 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface {
     ArrayList<Feature> features = new ArrayList<>();
     SearchAdapter adapter;
     RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_search);
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(Search.this).create(ApiService.class);
         search_input = findViewById(R.id.search_input);
 
-        // Initialize RecyclerView and Adapter
         recyclerView = findViewById(R.id.recyclerview);
         adapter = new SearchAdapter(this, features, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,14 +59,11 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface {
             private final long DELAY = 300;
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 timer.cancel();
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 timer = new Timer();
@@ -84,7 +79,6 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface {
             }
         });
     }
-
     private void setupSearchModel(Feature feature) {
         String name = feature.getName();
         String amenity = feature.getAmenity();
@@ -108,22 +102,18 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface {
                         }
                         adapter.notifyDataSetChanged();  // Notify adapter to update the RecyclerView
                     } else {
-                        // Show "No results found" message or placeholder
                         Log.e("Search", "No results found.");
-                        // Optionally, you can show a "No results" TextView in the UI
                     }
                 } else {
                     Log.e("Search", "No places or features available.");
                 }
             }
-
             @Override
             public void onFailure(Call<Places> call, Throwable t) {
                 Log.e("Search", "Failed to fetch data: " + t.getMessage());
             }
         });
     }
-
     @Override
     public void onItemClick(Feature feature) {
         Intent intent = new Intent(Search.this, BottomNavigation.class);

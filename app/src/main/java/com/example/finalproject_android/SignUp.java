@@ -2,10 +2,12 @@ package com.example.finalproject_android;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +62,7 @@ public class SignUp extends AppCompatActivity {
         confirmpass = findViewById(R.id.confirm_pass);
         signup = findViewById(R.id.signUpButton1);
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(SignUp.this).create(ApiService.class);
 
         back.setOnClickListener(view -> finish());
 
@@ -91,16 +93,13 @@ public class SignUp extends AppCompatActivity {
         String mail = email.getText().toString().trim();
         String pass = password.getText().toString().trim();
         String confirmPass = confirmpass.getText().toString().trim();
-
         if (!pass.equals(confirmPass)) {
             Toast.makeText(this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
             return;
         }
-
         UserRequest userRequest = new UserRequest(user, mail, pass);
         Call<UserResponse> call = apiService.signup(userRequest);
         call.enqueue(new Callback<UserResponse>() {
-
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -120,12 +119,9 @@ public class SignUp extends AppCompatActivity {
             }
         });
     }
-
     private void showWaitingDialog() {
-
         progressDialog = new ProgressDialog(SignUp.this);
         progressDialog.setMessage("Vui lòng kiểm tra email của bạn để xác nhận...");
-
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
@@ -139,47 +135,44 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<VerificationStatusResponse> call, Response<VerificationStatusResponse> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            Log.d("Email",""+ response.body().getIsVerified());// Kiểm tra nếu đã xác thực
-
                             if (response.body().getIsVerified()) {
                                 checkAndDownloadMap(email);
                                 showSuccessDialog();
                                 if (progressDialog != null && progressDialog.isShowing()) {
                                     progressDialog.dismiss();
                                 }
-                                handler.removeCallbacks(checkVerificationStatusRunnable); // Dừng kiểm tra định kỳ
+                                handler.removeCallbacks(checkVerificationStatusRunnable);
                             } else {
-                                handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Lặp lại sau 2 giây
+                                handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
                             }
                         } else {
                             Toast.makeText(SignUp.this, "Lỗi khi kiểm tra trạng thái xác thực", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<VerificationStatusResponse> call, Throwable t) {
                         Toast.makeText(SignUp.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Lặp lại sau 2 giây nếu có lỗi
+                        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
                     }
                 });
             }
         };
-
-        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL); // Bắt đầu kiểm tra
+        handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
     }
 
     private void showSuccessDialog() {
-        new AlertDialog.Builder(SignUp.this)
-                .setTitle("Đăng ký thành công")
-                .setMessage("Tài khoản của bạn đã được xác nhận thành công!!!")
-                .setPositiveButton("LOGIN NOW", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish(); // Kết thúc Activity hoặc chuyển hướng về màn hình đăng nhập
-                    }
-                })
-                .show();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.signup_congra, null);
+        Button loginnow = dialogView.findViewById(R.id.si_congra);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        loginnow.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent intent = new Intent(SignUp.this, SignIn.class);
+            startActivity(intent);
+        });
     }
     private void checkAndDownloadMap(String email) {
         File mapFile = new File(getFilesDir(), "langdaihoc.map");
