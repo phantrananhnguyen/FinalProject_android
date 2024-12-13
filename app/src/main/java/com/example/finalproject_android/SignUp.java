@@ -137,7 +137,7 @@ public class SignUp extends AppCompatActivity {
                         if (response.isSuccessful() && response.body() != null) {
                             if (response.body().getIsVerified()) {
                                 checkAndDownloadMap(email);
-                                showSuccessDialog();
+                                showSuccessDialog(email);
                                 if (progressDialog != null && progressDialog.isShowing()) {
                                     progressDialog.dismiss();
                                 }
@@ -160,19 +160,19 @@ public class SignUp extends AppCompatActivity {
         handler.postDelayed(checkVerificationStatusRunnable, POLLING_INTERVAL);
     }
 
-    private void showSuccessDialog() {
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.signup_congra, null);
-        Button loginnow = dialogView.findViewById(R.id.si_congra);
+    private void showSuccessDialog(String email) {
         AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        loginnow.setOnClickListener(view -> {
-            dialog.dismiss();
-            Intent intent = new Intent(SignUp.this, SignIn.class);
-            startActivity(intent);
+        builder.setTitle("Verify email successfully");
+        builder.setMessage("Please provide us your information to continue");
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(SignUp.this, SetupInfor.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+            }
         });
+        builder.show();
     }
     private void checkAndDownloadMap(String email) {
         File mapFile = new File(getFilesDir(), "langdaihoc.map");

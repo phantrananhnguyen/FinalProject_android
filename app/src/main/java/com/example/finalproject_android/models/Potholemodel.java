@@ -5,11 +5,18 @@ public class Potholemodel {
     private double longitude;
     private String type;
     private String author;
-    public  Potholemodel(double lat, double lon, String type, String author){
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public  Potholemodel(double lat, double lon, String type, String author, String date){
         this.author = author;
         this.latitude = lat;
         this.longitude = lon;
         this.type = type;
+        this.date = date;
     }
     public double getLatitude() {
         return latitude;

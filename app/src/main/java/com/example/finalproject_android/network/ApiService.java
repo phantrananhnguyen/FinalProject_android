@@ -9,6 +9,8 @@ import com.example.finalproject_android.models.UserRequest;
 import com.example.finalproject_android.models.UserResponse;
 import com.example.finalproject_android.models.ForgotPassRequest;
 import com.example.finalproject_android.models.ForgotPassResponse;
+import com.example.finalproject_android.models.UserUpdateRequest;
+import com.example.finalproject_android.models.UserUpdateResponse;
 import com.example.finalproject_android.models.VerificationStatusResponse;
 import com.example.finalproject_android.models.VerifyRequest;
 import com.example.finalproject_android.models.VerifyResponse;
@@ -17,12 +19,17 @@ import com.example.finalproject_android.models.ResetResponse;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -61,5 +68,18 @@ public interface ApiService {
 
     @GET("/api/download-map")
     Call<ResponseBody> downloadMap(@Body String email);
+
+    @Multipart
+    @PUT("/api/auth/updateUser")
+    Call<ResponseBody> updateUser(
+            @Part MultipartBody.Part image,
+            @Part("name") RequestBody name,
+            @Part("address") RequestBody address,
+            @Part("sex") RequestBody sex,
+            @Part("bio") RequestBody bio,
+            @Part("birthday") RequestBody birthday,
+            @Part("phone") RequestBody phone,
+            @Query("email") String email
+            );
 }
 

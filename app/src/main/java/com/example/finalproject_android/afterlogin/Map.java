@@ -32,7 +32,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -79,7 +80,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -175,7 +180,7 @@ public class Map extends Fragment {
             mapView.setCenter(currentLatLng);
         });
         if (feature != null) {
-            Potholemodel potholemodel = new Potholemodel(feature.getLat(), feature.getLon(), "search", "");
+            Potholemodel potholemodel = new Potholemodel(feature.getLat(), feature.getLon(), "search", "", "");
             showSearchDestination(feature);
             addBumpMarker(potholemodel);
             LatLong latLong = new LatLong(feature.getLat(), feature.getLon());
@@ -458,7 +463,7 @@ public class Map extends Fragment {
         ImageView imageView = bottomSheetDialog.findViewById(R.id.image_type);
         if (tvDistance != null) {
             int roundedDistance = (int) Math.round(distance);
-            tvDistance.setText(String.format("%d meters", roundedDistance));
+            tvDistance.setText(String.format("%d", roundedDistance));
         }
         if (tvLocation != null) {
             tvLocation.setText(String.format("%s, %s", pothole.getLatitude(), pothole.getLongitude()));
@@ -689,7 +694,9 @@ public class Map extends Fragment {
         dialog.getWindow().setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         btnConfirm_yes.setOnClickListener(v -> {
             String selectedType = spinner.getSelectedItem().toString();
-            Potholemodel pothole = new Potholemodel(location.latitude, location.longitude, selectedType, NAME);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = sdf.format(new Date());
+            Potholemodel pothole = new Potholemodel(location.latitude, location.longitude, selectedType, NAME, currentDate);
             sendBumpDataToServer(pothole);
             dialog.dismiss();
         });
@@ -703,6 +710,7 @@ public class Map extends Fragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    Log.e("map", potholemodel.toString());
                     Toast.makeText(getContext(), "Bump data sent to server!", Toast.LENGTH_SHORT).show();
                     addBumpMarker(potholemodel);
                 } else {
