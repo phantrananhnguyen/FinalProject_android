@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalproject_android.afterlogin.Dashboard;
 import com.example.finalproject_android.afterlogin.Map;
+import com.example.finalproject_android.afterlogin.Profile;
 import com.example.finalproject_android.models.Feature;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,7 @@ public class BottomNavigation extends AppCompatActivity {
 
     private Fragment dashboardFragment;
     private Fragment mapFragment;
+    private Fragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class BottomNavigation extends AppCompatActivity {
         // Initialize fragments
         dashboardFragment = new Dashboard();
         mapFragment = new Map();
-
+        profileFragment = new Profile();
         // Set the default fragment to Dashboard
         setFragment(dashboardFragment);
 
@@ -49,6 +51,9 @@ public class BottomNavigation extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.map) {
                 setFragment(mapFragment);
+                return true;
+            } else if (item.getItemId() == R.id.profile) {
+                setFragment(profileFragment);
                 return true;
             }
             return false;

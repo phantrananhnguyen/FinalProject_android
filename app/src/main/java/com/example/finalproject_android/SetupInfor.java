@@ -21,12 +21,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.finalproject_android.models.UserInfo;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,16 +48,21 @@ public class SetupInfor extends AppCompatActivity {
     private Button submitButton;
     private ApiService apiService;
     private String email;
+    private UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_infor);
+
         email = getIntent().getStringExtra("email");
         apiService = ApiClient.getClient(this).create(ApiService.class);
         initUI();
         checkPermissions();
         setupEventListeners();
+
+        // Initialize the UserInfo object
+        userInfo = new UserInfo("", "", "","", "bio", "", "", "", "");
     }
 
     private void initUI() {
@@ -121,9 +129,10 @@ public class SetupInfor extends AppCompatActivity {
         int day = dateOfBirthPicker.getDayOfMonth();
         int month = dateOfBirthPicker.getMonth();
         int year = dateOfBirthPicker.getYear();
+        String birthday = String.format("%d-%02d-%02d", day, month + 1, year);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = sdf.format(new Date());
         String sex = sexSpinner.getSelectedItem().toString();
-        String birthday = String.format("%d-%02d-%02d", year, month + 1, day);
-
         if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
@@ -134,15 +143,21 @@ public class SetupInfor extends AppCompatActivity {
             return;
         }
 
-        RequestBody namePart = RequestBody.create(MultipartBody.FORM, name);
-        RequestBody addressPart = RequestBody.create(MultipartBody.FORM, address);
-        RequestBody sexPart = RequestBody.create(MultipartBody.FORM, sex);
-        RequestBody bioPart = RequestBody.create(MultipartBody.FORM, "bio");
-        RequestBody birthdayPart = RequestBody.create(MultipartBody.FORM, birthday);
-        RequestBody phonePart = RequestBody.create(MultipartBody.FORM, phoneNumber);
+        // Update user information
+        userInfo.updateUserInfo(name,birthday, address, "bio", profilePictureUri != null ? profilePictureUri.toString() : null,phoneNumber,currentDate, sex);
+        sendUserInfoToServer();
+    }
 
+    private void sendUserInfoToServer() {
+        RequestBody namePart = RequestBody.create(MultipartBody.FORM, userInfo.getName());
+        RequestBody addressPart = RequestBody.create(MultipartBody.FORM, userInfo.getAddress());
+        RequestBody sexPart = RequestBody.create(MultipartBody.FORM, userInfo.getSex());
+        RequestBody bioPart = RequestBody.create(MultipartBody.FORM, userInfo.getBio());
+        RequestBody birthdayPart = RequestBody.create(MultipartBody.FORM, userInfo.getBirthday());
+        RequestBody phonePart = RequestBody.create(MultipartBody.FORM, userInfo.getPhone());
+        RequestBody sincePart = RequestBody.create(MultipartBody.FORM, userInfo.getSince());
         MultipartBody.Part imagePart = null;
-
+        Log.e("setup", userInfo.getName()+ userInfo.getPhone());
         if (profilePictureUri != null) {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(profilePictureUri);
@@ -163,17 +178,10 @@ public class SetupInfor extends AppCompatActivity {
             }
         }
 
-        updateUserInfo(namePart, addressPart, sexPart, bioPart, birthdayPart, phonePart, imagePart);
-    }
-
-    private void updateUserInfo(RequestBody name, RequestBody address, RequestBody sex,
-                                RequestBody bio, RequestBody birthday, RequestBody phone,
-                                MultipartBody.Part image) {
-        apiService.updateUser(image, name, address, sex, bio, birthday, phone, email).enqueue(new Callback<ResponseBody>() {
+        apiService.updateUser(imagePart, namePart, addressPart, sexPart, bioPart, birthdayPart, phonePart,sincePart, email).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Log.e("map", email);
                     showDialog();
                 } else {
                     Toast.makeText(SetupInfor.this, "Failed to update user information", Toast.LENGTH_SHORT).show();
@@ -181,12 +189,12 @@ public class SetupInfor extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                Toast.makeText(SetupInfor.this, "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(SetupInfor.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
 
 
     private void showDialog() {
@@ -202,7 +210,7 @@ public class SetupInfor extends AppCompatActivity {
             Intent intent = new Intent(SetupInfor.this, SignIn.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            finish(); // Đóng màn hình hiện tại
+            finish();
         });
     }
 }

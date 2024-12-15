@@ -3,6 +3,7 @@ package com.example.finalproject_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -99,6 +100,8 @@ public class SignIn extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String token = response.body().getToken();
                     String email = response.body().getEmail();
+                    Log.e("profile",email);
+
                     UserSession userSession = new UserSession(SignIn.this);
                     userSession.createUserSession(email, token, user);
                     Intent intent = new Intent(SignIn.this, BottomNavigation.class);

@@ -3,13 +3,13 @@ package com.example.finalproject_android.network;
 import com.example.finalproject_android.models.EmailResponse;
 import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.Potholemodel;
+import com.example.finalproject_android.models.UserInfo;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
 import com.example.finalproject_android.models.UserRequest;
 import com.example.finalproject_android.models.UserResponse;
 import com.example.finalproject_android.models.ForgotPassRequest;
 import com.example.finalproject_android.models.ForgotPassResponse;
-import com.example.finalproject_android.models.UserUpdateRequest;
 import com.example.finalproject_android.models.UserUpdateResponse;
 import com.example.finalproject_android.models.VerificationStatusResponse;
 import com.example.finalproject_android.models.VerifyRequest;
@@ -68,9 +68,10 @@ public interface ApiService {
 
     @GET("/api/download-map")
     Call<ResponseBody> downloadMap(@Body String email);
-
+    @GET("/api/profile/get")
+    Call<UserInfo> getUser(@Query("email") String email);
     @Multipart
-    @PUT("/api/auth/updateUser")
+    @PUT("/api/profile/update")
     Call<ResponseBody> updateUser(
             @Part MultipartBody.Part image,
             @Part("name") RequestBody name,
@@ -79,6 +80,7 @@ public interface ApiService {
             @Part("bio") RequestBody bio,
             @Part("birthday") RequestBody birthday,
             @Part("phone") RequestBody phone,
+            @Part("since") RequestBody since,
             @Query("email") String email
             );
 }
