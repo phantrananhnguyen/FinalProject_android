@@ -17,9 +17,9 @@ public class ApiClient {
             httpClientBuilder.addInterceptor(new AuthInterceptor(context));
             client = httpClientBuilder.build();
             retrofit = new Retrofit.Builder()
-                    //.baseUrl("https://663c-125-235-239-171.ngrok-free.app") // Địa chỉ localhost hoặc IP của server Node.js
+                    .baseUrl("https://a7c8-171-247-164-15.ngrok-free.app") // Địa chỉ localhost hoặc IP của server Node.js
                    // .baseUrl("https://server-pothole-androi-app.onrender.com")
-                    .baseUrl("http://10.0.2.2:3000")
+                    //.baseUrl("http://10.0.2.2:3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();

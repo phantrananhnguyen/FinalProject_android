@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -181,7 +182,6 @@ public class Map extends Fragment {
         });
         if (feature != null) {
             Potholemodel potholemodel = new Potholemodel(feature.getLat(), feature.getLon(), "search", "", "");
-            showSearchDestination(feature);
             addBumpMarker(potholemodel);
             LatLong latLong = new LatLong(feature.getLat(), feature.getLon());
             mapView.setCenter(latLong);
@@ -215,24 +215,56 @@ public class Map extends Fragment {
             }
         }
     }
-    public void showSearchDestination(Feature feature) {
-        if (feature == null) return; // Ensure the feature is not null before proceeding
+    private double remain = 0;
+    public void showSearchDestination(double distance, double duration) {
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.search_infor, null);
-        TextView tvName = dialogView.findViewById(R.id.name);
-        TextView tvAmenity = dialogView.findViewById(R.id.amenity);
-        TextView tvCoordinates = dialogView.findViewById(R.id.coordinates);
+        View dialogView = inflater.inflate(R.layout.navigation_dialog, null);
+        ImageButton close = dialogView.findViewById(R.id.navigation_close);
+        TextView tvDistance = dialogView.findViewById(R.id.distance);
+        TextView tvDuration = dialogView.findViewById(R.id.duration);
+        TextView tvCau_num = dialogView.findViewById(R.id.caution_num);
+        TextView tvWarn_num = dialogView.findViewById(R.id.warning_num);
+        TextView tvDan_num = dialogView.findViewById(R.id.danger_num);
+        LinearLayout startNavigation = dialogView.findViewById(R.id.start_navigation);
         BottomSheetDialog newbottomSheetDialog = new BottomSheetDialog(getContext());
         newbottomSheetDialog.setContentView(dialogView);
         newbottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        String distanceString = String.format("%.2f km", distance / 1000);
+        String durationString = String.format("%.2f min", duration / 60);
+        tvDistance.setText(distanceString);
+        tvDuration.setText(durationString);
+        int cau = 0, warn = 0, dan = 0;
+        if (potholesOnRoute != null) {
+            for (Potholemodel pothole : potholesOnRoute) {
+                if (pothole.getType().equals("caution")) cau++;
+                else if (pothole.getType().equals("warning")) warn++;
+                else if (pothole.getType().equals("danger")) dan++;
+            }
+        }
+        remain = distance;
+        tvCau_num.setText(String.valueOf(cau));
+        tvWarn_num.setText(String.valueOf(warn));
+        tvDan_num.setText(String.valueOf(dan));
+        close.setOnClickListener(view -> {
+            fusedLocationClient.removeLocationUpdates(locationCallback);  // Dừng nhận cập nhật vị trí
+            if (currentRoutePolyline != null) {
+                currentRoutePolyline.clear();
+            }
 
-        tvName.setText(feature.getName());
-        tvAmenity.setText(feature.getAmenity());
-        tvCoordinates.setText(String.format("%s, %s", feature.getLon(), feature.getLat()));
-                newbottomSheetDialog.show();
+            newbottomSheetDialog.dismiss();        });
+        startNavigation.setOnClickListener(view -> {
+            if (currentLatLng != null && destinationLatLng != null) {
+                updateRoute(destinationLatLng);
+                showProximityNotification(null,0);// Gọi API để cập nhật tuyến đường mới
+            }
+            newbottomSheetDialog.dismiss(); // Đóng bảng thông báo
+        });
+
+        if (!newbottomSheetDialog.isShowing()) newbottomSheetDialog.show();
     }
-
+    private LatLong destinationLatLng;
     private void performRoute(LatLong latLong) {
+        destinationLatLng = latLong;
         String start = currentLatLng.longitude + "," + currentLatLng.latitude;
         String end = latLong.longitude + "," + latLong.latitude;
         apiService.route(start, end).enqueue(new Callback<Places>() {
@@ -240,22 +272,51 @@ public class Map extends Fragment {
             public void onResponse(Call<Places> call, Response<Places> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Places places = response.body();
-                    // Tạo danh sách GeoPoint từ danh sách LatLong
+                    double distance = places.getDistance();
+                    double duration = places.getDuration();
                     List<LatLong> routePoints = new ArrayList<>();
                     for (LatLong latlon : places.getCoordinates()) {
                         routePoints.add(new LatLong(latlon.getLatitude(), latlon.getLongitude()));
-                        Log.e("mapsearch", latlon.toString());
                     }
                     filterPotholesOnRoute(routePoints);
 
                     startNavigation(routePoints);
-
                     drawRouteOnMap(routePoints);
+                    showSearchDestination(distance, duration);
+
                 }
             }
             @Override
             public void onFailure(Call<Places> call, Throwable t) {
                 Log.e("map", "Failed to fetch route");
+            }
+        });
+    }
+    private void updateRoute(LatLong destinationLatLong) {
+        String start = currentLatLng.longitude + "," + currentLatLng.latitude;
+        String end = destinationLatLong.longitude + "," + destinationLatLong.latitude;
+
+        apiService.route(start, end).enqueue(new Callback<Places>() {
+            @Override
+            public void onResponse(Call<Places> call, Response<Places> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Places places = response.body();
+                    double distance = places.getDistance();
+                    remain = distance;
+                    List<LatLong> routePoints = new ArrayList<>();
+
+                    for (LatLong latlon : places.getCoordinates()) {
+                        routePoints.add(new LatLong(latlon.getLatitude(), latlon.getLongitude()));
+                    }
+
+                    drawRouteOnMap(routePoints);
+                    startNavigation(routePoints);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Places> call, Throwable t) {
+                Log.e("map", "Failed to update route");
             }
         });
     }
@@ -423,7 +484,6 @@ public class Map extends Fragment {
                 double distance = calculateDistance(currentLocation, potholeLocation);
 
                 if (distance <= 50) {
-                    // Check if this pothole's location is different from the last shown one
                     if (lastPotholeLocation == null ||
                             lastPotholeLocation.getLatitude() != pothole.getLatitude() ||
                             lastPotholeLocation.getLongitude() != pothole.getLongitude()) {
@@ -438,35 +498,28 @@ public class Map extends Fragment {
         }
     }
     private void showProximityNotification(Potholemodel pothole, double distance) {
-        if (pothole == null) return; // Bảo vệ khi pothole bị null
-
+        if (pothole == null) return;
+         TextView tvDistance = null, tvType = null, tvRemain = null;
+         ImageView imageView = null;
         if (bottomSheetDialog == null) {
             LayoutInflater inflater = getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.pothole_alert, null);
-
-            TextView tvDistance = dialogView.findViewById(R.id.alert_distance);
-            TextView tvLocation = dialogView.findViewById(R.id.alert_location);
-            TextView tvType = dialogView.findViewById(R.id.alert_type);
+            tvDistance = dialogView.findViewById(R.id.alert_distance);
+            tvType = dialogView.findViewById(R.id.alert_type);
+            tvRemain = dialogView.findViewById(R.id.remain);
+            imageView = dialogView.findViewById(R.id.image_type);
             ImageButton btnClose = dialogView.findViewById(R.id.alert_close);
-            ImageView imageView = dialogView.findViewById(R.id.image_type);
 
             bottomSheetDialog = new BottomSheetDialog(requireContext());
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
             btnClose.setOnClickListener(view -> bottomSheetDialog.dismiss());
         }
 
-        TextView tvDistance = bottomSheetDialog.findViewById(R.id.alert_distance);
-        TextView tvLocation = bottomSheetDialog.findViewById(R.id.alert_location);
-        TextView tvType = bottomSheetDialog.findViewById(R.id.alert_type);
-        ImageView imageView = bottomSheetDialog.findViewById(R.id.image_type);
+
         if (tvDistance != null) {
             int roundedDistance = (int) Math.round(distance);
             tvDistance.setText(String.format("%d", roundedDistance));
-        }
-        if (tvLocation != null) {
-            tvLocation.setText(String.format("%s, %s", pothole.getLatitude(), pothole.getLongitude()));
         }
         if (tvType != null) {
             tvType.setText(pothole.getType());
@@ -475,7 +528,9 @@ public class Map extends Fragment {
             Drawable resizedMarkerDrawable = getResizedDrawable(getImagefromType(pothole.getType()), 30, 30);
             imageView.setImageDrawable(resizedMarkerDrawable);
         }
-
+        if (tvRemain != null) {
+            tvRemain.setText(String.format("%d km", distance/1000));
+        }
         if (!bottomSheetDialog.isShowing() && feature == null) {
             bottomSheetDialog.show();
         }

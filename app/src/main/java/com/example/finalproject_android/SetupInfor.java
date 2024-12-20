@@ -177,7 +177,6 @@ public class SetupInfor extends AppCompatActivity {
                 return;
             }
         }
-
         apiService.updateUser(imagePart, namePart, addressPart, sexPart, bioPart, birthdayPart, phonePart,sincePart, email).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
