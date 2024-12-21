@@ -1,6 +1,7 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.HistoryItem;
 import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserLoginRequest;
@@ -20,6 +21,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -55,5 +57,8 @@ public interface ApiService {
 
     @GET("/api/navigation")
     Call<Places> route(@Query("start") String start, @Query("destination") String destination);
+
+    @GET("api/history/history")
+    Call<List<HistoryItem>> history(@Header("Authorization") String token);
 }
 
