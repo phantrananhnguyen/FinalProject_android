@@ -30,6 +30,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".afterlogin.EditProfile"
+            android:exported="false"/>
+        <activity
             android:name=".afterlogin.Setting"
             android:exported="false" />
         <activity

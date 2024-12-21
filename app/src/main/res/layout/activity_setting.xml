@@ -8,7 +8,6 @@
     android:background="@color/light_blue"
     tools:context=".afterlogin.Setting">
         <androidx.cardview.widget.CardView
-            android:id="@+id/setting_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -17,6 +16,7 @@
             android:layout_marginTop="70dp"
             android:backgroundTint="@color/dark_blue">
             <ImageButton
+                android:id="@+id/setting_back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/back"

@@ -129,7 +129,7 @@ public class SetupInfor extends AppCompatActivity {
         String address = addressInput.getText().toString().trim();
         String phoneNumber = phoneNumberInput.getText().toString().trim();
         int day = dateOfBirthPicker.getDayOfMonth();
-        int month = dateOfBirthPicker.getMonth(); // Lưu ý: tháng bắt đầu từ 0
+        int month = dateOfBirthPicker.getMonth();
         int year = dateOfBirthPicker.getYear();
 
         Calendar calendar = Calendar.getInstance();

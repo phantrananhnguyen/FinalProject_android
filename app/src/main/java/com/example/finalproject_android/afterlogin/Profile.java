@@ -3,6 +3,8 @@ package com.example.finalproject_android.afterlogin;
 import android.content.Intent;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
+
+import androidx.activity.EdgeToEdge;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -36,14 +38,13 @@ public class Profile extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(getActivity());
         super.onCreate(savedInstanceState);
-        Log.e("profile","created");
         apiService = ApiClient.getClient(getContext()).create(ApiService.class);
         userSession = new UserSession(getContext());
         if (userSession != null) {
             userEmail = userSession.getUserEmail();
         }
-        Log.e("profile",userEmail);
     }
 
     @Override
@@ -102,7 +103,6 @@ public class Profile extends Fragment {
         address.setText(user.getAddress());
         email.setText(userEmail); // Use the session email
         since.setText(user.getSince());
-        Log.e("profile",user.getSince());
         bio.setText(user.getBio());
 
         // Load avatar using Glide
