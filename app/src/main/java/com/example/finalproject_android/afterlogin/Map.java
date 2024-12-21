@@ -251,7 +251,6 @@ public class Map extends Fragment {
             if (currentRoutePolyline != null) {
                 currentRoutePolyline.clear();
             }
-
             newbottomSheetDialog.dismiss();        });
         startNavigation.setOnClickListener(view -> {
             if (currentLatLng != null && destinationLatLng != null) {
@@ -483,15 +482,15 @@ public class Map extends Fragment {
             for (Potholemodel pothole : potholesOnRoute) {
                 LatLong potholeLocation = new LatLong(pothole.getLatitude(), pothole.getLongitude());
                 double distance = calculateDistance(currentLocation, potholeLocation);
-
                 if (distance <= 50) {
+                    Log.e("navigation", "abc");
                     if (lastPotholeLocation == null ||
                             lastPotholeLocation.getLatitude() != pothole.getLatitude() ||
                             lastPotholeLocation.getLongitude() != pothole.getLongitude()) {
 
                         int distanceInt = (int) Math.round(distance);
                         showProximityNotification(pothole, distanceInt);
-                        lastPotholeLocation = potholeLocation;  // Update the last shown location
+                        lastPotholeLocation = potholeLocation;
                     }
                     break;
                 }
