@@ -1,6 +1,7 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.HistoryItem;
 import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserInfo;
@@ -65,6 +66,8 @@ public interface ApiService {
     @GET("/api/navigation")
     Call<Places> route(@Query("start") String start, @Query("destination") String destination);
 
+    @GET("api/history/history")
+    Call<List<HistoryItem>> history(@Header("Authorization") String token);
 
     @GET("/api/download-map")
     Call<ResponseBody> downloadMap(@Body String email);
