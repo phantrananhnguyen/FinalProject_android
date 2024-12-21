@@ -1,5 +1,6 @@
 package com.example.finalproject_android.afterlogin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class Profile extends Fragment {
     private String userEmail;
     private ApiService apiService;
     private UserSession userSession;
+    LinearLayout setting;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,11 @@ public class Profile extends Fragment {
         avatar = view.findViewById(R.id.avatar);
         gender = view.findViewById(R.id.gender);
         member = view.findViewById(R.id.member);
+        setting = view.findViewById(R.id.setting);
+        setting.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), Setting.class);
+            startActivity(intent);
+        });
         getUserProfile();
         return view;
     }

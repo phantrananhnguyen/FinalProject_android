@@ -144,6 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
+                    android:textAlignment="viewEnd"
                     android:textAppearance="@style/regu_text"
                     android:layout_gravity="end"/>
             </LinearLayout>
@@ -164,6 +165,7 @@
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
                         android:textAppearance="@style/regu_text"
                         android:layout_weight="4"/>
                 </LinearLayout>
@@ -182,6 +184,7 @@
                         android:id="@+id/profile_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
                         android:textAppearance="@style/regu_text"
                         android:layout_weight="4"/>
                 </LinearLayout>
@@ -206,6 +209,7 @@
                     android:textAppearance="@style/regu_text"
                     android:layout_marginStart="20dp"/>
                 <LinearLayout
+                    android:id="@+id/setting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -217,6 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_weight="1"
+                        android:layout_margin="10dp"
                         android:src="@drawable/settings_pf"
                         android:layout_gravity="center_vertical"/>
                     <TextView
@@ -224,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:text="Settings"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="3"
+                        android:layout_weight="8"
                         android:layout_margin="10dp"
                         android:textAppearance="@style/regu_text"
                         android:textSize="20sp" />
@@ -250,13 +255,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_weight="1"
+                        android:layout_margin="10dp"
                         android:src="@drawable/logout"
                         android:layout_gravity="center_vertical"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Log out"
-                        android:layout_weight="4"
+                        android:layout_weight="8"
                         android:layout_margin="10dp"
                         android:layout_gravity="center_vertical"
                         android:textAppearance="@style/regu_text"

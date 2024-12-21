@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -127,10 +129,15 @@ public class SetupInfor extends AppCompatActivity {
         String address = addressInput.getText().toString().trim();
         String phoneNumber = phoneNumberInput.getText().toString().trim();
         int day = dateOfBirthPicker.getDayOfMonth();
-        int month = dateOfBirthPicker.getMonth();
+        int month = dateOfBirthPicker.getMonth(); // Lưu ý: tháng bắt đầu từ 0
         int year = dateOfBirthPicker.getYear();
-        String birthday = String.format("%d-%02d-%02d", day, month + 1, year);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String birthday = sdf.format(calendar.getTime());
+
         String currentDate = sdf.format(new Date());
         String sex = sexSpinner.getSelectedItem().toString();
         if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty()) {

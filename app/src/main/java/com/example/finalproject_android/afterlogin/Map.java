@@ -115,7 +115,8 @@ public class Map extends Fragment {
     private BottomSheetDialog bottomSheetDialog;
     private LatLong lastPotholeLocation = null;
     private List<Potholemodel> potholesOnRoute = new ArrayList<>();
-
+    private List<LatLong> traveledPoints = new ArrayList<>();
+    private double totalDistance = 0.0;
     UserSession userSession;
 
     @Override
