@@ -237,15 +237,16 @@ public class Map extends Fragment {
         int cau = 0, warn = 0, dan = 0;
         if (potholesOnRoute != null) {
             for (Potholemodel pothole : potholesOnRoute) {
-                if (pothole.getType().equals("caution")) cau++;
-                else if (pothole.getType().equals("warning")) warn++;
-                else if (pothole.getType().equals("danger")) dan++;
+                if (pothole.getType().equals("Caution")) cau++;
+                else if (pothole.getType().equals("Warning")) warn++;
+                else if (pothole.getType().equals("Danger")) dan++;
             }
         }
         remain = distance;
         tvCau_num.setText(String.valueOf(cau));
         tvWarn_num.setText(String.valueOf(warn));
         tvDan_num.setText(String.valueOf(dan));
+        Log.e("navigation", "" + warn);
         close.setOnClickListener(view -> {
             fusedLocationClient.removeLocationUpdates(locationCallback);  // Dừng nhận cập nhật vị trí
             if (currentRoutePolyline != null) {
@@ -255,7 +256,6 @@ public class Map extends Fragment {
         startNavigation.setOnClickListener(view -> {
             if (currentLatLng != null && destinationLatLng != null) {
                 updateRoute(destinationLatLng);
-                showProximityNotification(null,0);// Gọi API để cập nhật tuyến đường mới
             }
             newbottomSheetDialog.dismiss(); // Đóng bảng thông báo
         });
@@ -322,6 +322,7 @@ public class Map extends Fragment {
     }
 
     private Polyline currentRoutePolyline;
+    private Marker destinationMarker;
     private void drawRouteOnMap(List<LatLong> latLongList) {
         if (mapView == null) return;
         if (currentRoutePolyline != null) {
@@ -335,7 +336,19 @@ public class Map extends Fragment {
         currentRoutePolyline.getLatLongs().addAll(latLongList);
         mapView.getLayerManager().getLayers().add(currentRoutePolyline);
     }
-
+    private void stopNavigationAndClear() {
+        if (currentRoutePolyline != null) {
+            mapView.getLayerManager().getLayers().remove(currentRoutePolyline);
+            currentRoutePolyline = null; // Đảm bảo đối tượng được xóa
+        }
+        feature = null;
+        destinationLatLng = null;
+        // Xóa marker điểm đến
+        if (destinationMarker != null) {
+            mapView.getLayerManager().getLayers().remove(destinationMarker);
+            destinationMarker = null; // Đảm bảo đối tượng được xóa
+        }
+    }
     private void startNavigation(List<LatLong> routePoints) {
         filterPotholesOnRoute(routePoints);
         startLocationUpdates();
@@ -478,12 +491,14 @@ public class Map extends Fragment {
         }
     };
     private void checkProximityToPotholes(LatLong currentLocation) {
+        if(destinationLatLng != null){
+            updateRoute(destinationLatLng);
+        }
         if (potholesOnRoute != null && !potholesOnRoute.isEmpty()) {
             for (Potholemodel pothole : potholesOnRoute) {
                 LatLong potholeLocation = new LatLong(pothole.getLatitude(), pothole.getLongitude());
                 double distance = calculateDistance(currentLocation, potholeLocation);
                 if (distance <= 50) {
-                    Log.e("navigation", "abc");
                     if (lastPotholeLocation == null ||
                             lastPotholeLocation.getLatitude() != pothole.getLatitude() ||
                             lastPotholeLocation.getLongitude() != pothole.getLongitude()) {
@@ -513,7 +528,11 @@ public class Map extends Fragment {
             bottomSheetDialog = new BottomSheetDialog(requireContext());
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            btnClose.setOnClickListener(view -> bottomSheetDialog.dismiss());
+            btnClose.setOnClickListener(view ->{
+                stopNavigationAndClear();
+                bottomSheetDialog.dismiss();
+            });
+
         }
 
 
@@ -528,8 +547,10 @@ public class Map extends Fragment {
             Drawable resizedMarkerDrawable = getResizedDrawable(getImagefromType(pothole.getType()), 30, 30);
             imageView.setImageDrawable(resizedMarkerDrawable);
         }
+        String distanceString = String.format("%.2f km", remain / 1000);
+
         if (tvRemain != null) {
-            tvRemain.setText(String.format("%d km", distance/1000));
+            tvRemain.setText(distanceString);
         }
         if (!bottomSheetDialog.isShowing() && feature == null) {
             bottomSheetDialog.show();
@@ -594,7 +615,7 @@ public class Map extends Fragment {
         Bitmap markerBitmap = AndroidGraphicFactory.convertToBitmap(resizedMarkerDrawable);
 
         Marker marker = new Marker(location, markerBitmap, 0, -markerBitmap.getHeight() / 2);
-
+        if (potholemodel.getType() =="search") destinationMarker = marker;
         if (!isMarkerExist(marker)) {
             mapView.getLayerManager().getLayers().add(marker);
         }
