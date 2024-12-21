@@ -12,5 +12,11 @@
             <item>Other</item>
         </string-array>
 
+    <string-array name="type_options">
+        <item>Caution</item>
+        <item>Warning</item>
+        <item>Danger</item>
+    </string-array>
+
 
 </resources>

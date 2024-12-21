@@ -35,7 +35,7 @@ public class GetStartedActivity extends AppCompatActivity {
             if (isFirstLogin) {
                 intent = new Intent(GetStartedActivity.this, SetupInformationActivity.class);
             } else {
-                intent = new Intent(GetStartedActivity.this, MainActivity.class);
+                intent = new Intent(GetStartedActivity.this, BottomNavigation.class);
             }
 
             startActivity(intent);

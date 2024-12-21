@@ -1,9 +1,12 @@
 package com.example.finalproject_android.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private String id;               // ID người dùng
     private String message;          // Thông điệp phản hồi
-    private String email;            // Email người dùng
+    private String email;
+    @SerializedName("username")// Email người dùng
     private String name;             // Tên người dùng
     private String profilePicture;   // URL ảnh đại diện (nếu có)
     private String token;            // Token xác thực

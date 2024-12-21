@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,20 +93,43 @@ public class SignIn extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     UserLoginResponse userLoginResponse = response.body();
 
+                    Log.d("SignInActivity", "userId: " + userLoginResponse.getUserId());
+
                     // Lưu token JWT vào SharedPreferences
-                    String token = userLoginResponse.getToken();  // Giả sử response trả về token
+                    String token = userLoginResponse.getToken();
                     saveTokenToPreferences(token);
 
-                    // Chuyển đến màn hình GetStart
+                    // Lưu isFirstLogin vào SharedPreferences
+                    boolean isFirstLogin = userLoginResponse.getIsFirstLogin();
+                    saveIsFirstLoginToPreferences(isFirstLogin);
+
+                    String userId = userLoginResponse.getUserId();
+                    saveUserIdtoPreferences(userId);
+
+                    // Chuyển đến màn hình GetStartedActivity
                     Intent intent = new Intent(SignIn.this, GetStartedActivity.class);
                     Toast.makeText(SignIn.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
                     startActivity(intent);
-                    finish(); // Đóng màn hình đăng nhập
-
+                    finish();
                 } else {
                     Toast.makeText(SignIn.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
                 }
             }
+
+            private void saveIsFirstLoginToPreferences(boolean isFirstLogin) {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isFirstLogin", isFirstLogin);
+                editor.apply();
+            }
+
+            private void saveUserIdtoPreferences(String userId) {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("USER_ID", userId);
+                editor.apply();
+            }
+
 
             @Override
             public void onFailure(Call<UserLoginResponse> call, Throwable t) {

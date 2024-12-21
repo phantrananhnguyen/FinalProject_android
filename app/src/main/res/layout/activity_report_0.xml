@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Tiêu đề chính -->
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Pothole Reports"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/mont_semibold" />
+
+    <ScrollView
+        android:id="@+id/potholeContainerScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_text"
+        android:padding="16dp"
+        android:layout_marginTop="25dp">
+
+    <!-- Container chính -->
+    <LinearLayout
+        android:id="@+id/potholeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_text"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_top_frame"
+        android:padding="16dp"
+        android:layout_marginTop="25dp">
+
+        <!-- Pending Section -->
+        <LinearLayout
+            android:id="@+id/pending_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <!-- Title Pending -->
+            <TextView
+                android:id="@+id/pending_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@color/warning_orange"
+                android:text="Pending"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/mont_semibold"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- RecyclerView Pending -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_pending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingVertical="8dp"
+                android:clipToPadding="false" />
+        </LinearLayout>
+
+        <!-- Rejected Section -->
+        <LinearLayout
+            android:id="@+id/rejected_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <!-- Title Rejected -->
+            <TextView
+                android:id="@+id/rejected_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@color/dangerous_red"
+                android:text="Rejected"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/mont_semibold"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- RecyclerView Rejected -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_rejected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingVertical="8dp"
+                android:clipToPadding="false" />
+        </LinearLayout>
+
+        <!-- Accepted Section -->
+        <LinearLayout
+            android:id="@+id/accepted_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <!-- Title Accepted -->
+            <TextView
+                android:id="@+id/accepted_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@color/safe_green"
+                android:text="Accepted"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/mont_semibold"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- RecyclerView Accepted -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_accepted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingVertical="8dp"
+                android:clipToPadding="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView >
+
+    </RelativeLayout>

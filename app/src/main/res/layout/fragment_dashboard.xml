@@ -27,14 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Profile image in top-left corner -->
-
-        <!-- Name and points -->
-
-        <!-- Metrics layout with rounded corners -->
-
-        <!-- Container for metrics and charts with rounded corners -->
-
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="48dp"
@@ -99,6 +91,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/kilometres_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="180"
@@ -123,6 +116,7 @@
 
 
                 <TextView
+                    android:id="@+id/potholes_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="86"
@@ -145,6 +139,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hours_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="48"
@@ -154,7 +149,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Days"
+                    android:text="Hours"
                     android:fontFamily="@font/mont_semibold"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -208,7 +203,7 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/potholesChart"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_margin="8dp"
             android:layout_marginTop="44dp"
             android:background="@drawable/rounded_background"
@@ -226,7 +221,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/potholeStateChart"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_margin="8dp"
             android:layout_marginTop="264dp"
             android:background="@drawable/rounded_background"
@@ -242,7 +237,7 @@
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_margin="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/rounded_background"
             android:elevation="4dp"
             android:padding="8dp"
@@ -272,6 +267,7 @@
                 android:contentDescription="@string/previous_button_description" />
 
             <TextView
+                android:id="@+id/week_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

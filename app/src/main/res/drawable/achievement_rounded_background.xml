@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Màu nền của background -->
-    <solid android:color="@color/secondary" /> <!-- Thay đổi màu theo ý muốn -->
+    <solid android:color="#FFD700" /> <!-- Thay đổi màu theo ý muốn -->
 
     <!-- Độ bo tròn của các góc -->
     <corners android:radius="20dp" /> <!-- Điều chỉnh độ bo tròn ở đây -->

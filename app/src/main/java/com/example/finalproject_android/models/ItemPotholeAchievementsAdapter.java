@@ -1,5 +1,6 @@
 package com.example.finalproject_android.models;
 
+import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,11 +25,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ItemPotholeAchievementsAdapter extends RecyclerView.Adapter<ItemPotholeAchievementsAdapter.AchievementViewHolder> {
+    private AchievementViewHolder.OnAchievementClickListener clickListener;
+    private Context context;
 
     private List<Achievement> achievements;
 
-    public ItemPotholeAchievementsAdapter(List<Achievement> achievements) {
+    public ItemPotholeAchievementsAdapter(Context context, List<Achievement> achievements) {
         this.achievements = achievements;
+        this.context = context;
+    }
+
+    // Setter for click listener
+    public void setOnAchievementClickListener(AchievementViewHolder.OnAchievementClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -51,19 +60,29 @@ public class ItemPotholeAchievementsAdapter extends RecyclerView.Adapter<ItemPot
         background.setColor(achievement.getBackgroundColor()); // Set the color from the achievement
 
         // Set icon (image resource)
-        holder.achievementsImage.setImageResource(R.drawable.road_warrior); // Example icon, update as necessary
+        holder.achievementsImage.setImageResource(
+                context.getResources().getIdentifier(achievement.getIcon(), "drawable", context.getPackageName())
+        );
+
 
         // Set the title text
         holder.titleText.setText(achievement.getName());  // Assuming the name is the title
         holder.titleText.setTextColor(achievement.getTitleTextColor());
 
         // Set the subtitle text (You may want to use another getter for subtitle text)
-        holder.subtitleText.setText("Upload 5 creatively angled photos of potholes.");  // Example subtitle, update as needed
+        holder.subtitleText.setText(achievement.getSubtitleText());  // Example subtitle, update as needed
         holder.subtitleText.setTextColor(achievement.getSubtitleTextColor());
 
         // Set the quote text (You may want to use another getter for quote text)
-        holder.quoteText.setText("You don’t just see potholes, you see art in them.");  // Example quote, update as needed
+        holder.quoteText.setText(achievement.getQuoteText());  // Example quote, update as needed
         holder.quoteText.setTextColor(achievement.getQuoteTextColor());
+
+        // Add click listener
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onAchievementClick(achievement);
+            }
+        });
     }
 
     @Override
@@ -84,6 +103,11 @@ public class ItemPotholeAchievementsAdapter extends RecyclerView.Adapter<ItemPot
             titleText = itemView.findViewById(R.id.titleText);
             subtitleText = itemView.findViewById(R.id.subtitleText);
             quoteText = itemView.findViewById(R.id.quoteText);
+        }
+
+        // Interface for click listener
+        public interface OnAchievementClickListener {
+            void onAchievementClick(Achievement achievement);
         }
     }
 }

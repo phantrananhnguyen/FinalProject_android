@@ -1,10 +1,18 @@
 package com.example.finalproject_android;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.core.content.ContextCompat;
+
+import com.example.finalproject_android.games.GameMillionaireActivity;
+import com.example.finalproject_android.games.GameRepairMainActivity;
+import com.example.finalproject_android.games.GameRunnerActivity;
 import com.example.finalproject_android.models.ItemPotholeAchievementsAdapter;
 import com.example.finalproject_android.models.Achievement;
 import java.util.ArrayList;
@@ -25,88 +33,66 @@ public class AchievementsActivity extends AppCompatActivity {
 
         // Create list of sample achievements
         achievements = new ArrayList<>();
-
         achievements.add(new Achievement(
-                "Pothole Picasso",
+                "Road Runner: Pothole Escape",
                 5,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.light_blue),
-                ContextCompat.getColor(this, R.color.dark_blue),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.gray),
-                "Pothole Picasso",
-                "Upload 5 creatively angled photos of potholes.",
-                "You don’t just see potholes, you see art in them."
+                "runner_icon",
+                Color.parseColor("#FFF9E6"),
+                Color.parseColor("#002D62"),
+                Color.parseColor("#6E6E6E"),
+                Color.parseColor("#6E6E6E"),
+                "Road Runner: Pothole Escape",
+                "Take control off a tiny car racing on a challenging road filled with potholes!",
+                "Jump to avoid obstacles, test your reflexes, and see how far you can go. Simple to play, hard to master - Can you conquer the road?"
         ));
-
         achievements.add(new Achievement(
-                "Speed Demon",
+                "Pothole Repair Hero",
                 10,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.safe_green),
+                "hero_icon",
+                Color.parseColor("#88C999"),
                 ContextCompat.getColor(this, R.color.white),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.light_gray),
-                "Speed Demon",
-                "Complete 10 pothole detection runs under 30 minutes.",
-                "Speed is nothing without control."
+                Color.parseColor("#212121"),
+                Color.parseColor("#212121"),
+                "Pothole Repair Hero",
+                "Become a Pothole Repair Hero! Fix roads, earn rewards, and keep the city moving in this fast-paced repair game.",
+                "The city needs you! Step into the role of a Pothole Repair Hero and save the streets from damage."
         ));
-
         achievements.add(new Achievement(
-                "Explorer",
+                "Who Wants to Be a Millionaire:\nPothole Edition",
                 20,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.bar_end_color),
-                ContextCompat.getColor(this, R.color.white),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.dark_gray),
-                "Explorer",
-                "Discover 20 unique potholes across different locations.",
-                "Every journey has its challenges."
-        ));
-
-        achievements.add(new Achievement(
-                "The Perfectionist",
-                30,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.secondary),
-                ContextCompat.getColor(this, R.color.white),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.primary),
-                "The Perfectionist",
-                "Upload 30 high-quality photos of potholes with perfect angles.",
-                "There is no substitute for perfection."
-        ));
-
-        achievements.add(new Achievement(
-                "Pothole Hunter",
-                50,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.dangerous_red),
-                ContextCompat.getColor(this, R.color.white),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.accent),
-                "Pothole Hunter",
-                "Detect 50 potholes in total.",
-                "A hunter never stops until the job is done."
-        ));
-
-        achievements.add(new Achievement(
-                "Master Mapper",
-                100,
-                "road_warrior",
-                ContextCompat.getColor(this, R.color.light_gray),
-                ContextCompat.getColor(this, R.color.white),
-                ContextCompat.getColor(this, R.color.black),
-                ContextCompat.getColor(this, R.color.light_blue),
-                "Master Mapper",
-                "Map 100 potholes in various regions.",
-                "Mapping is the key to progress."
+                "millionaire_icon",
+                Color.parseColor("#1A237E"),  // Nền: xanh tím đậm (giống màu logo của Millionaire)
+                Color.parseColor("#FFD700"), // Tiêu đề: vàng óng ánh
+                Color.parseColor("#FFFFFF"), // Phụ đề: trắng
+                Color.parseColor("#FFFFF8"),
+                "Who Wants to Be a Millionaire:\nPothole Edition",
+                "How far can your knowledge take you? Puts your trivia skills to the test. Answer correctly to win big!",
+                "Test your knowledge and climb the money ladder in Who Wants to Be a Millionaire? Answer increasingly difficult questions to win the top prize!"
         ));
 
         // Set the adapter
-        adapter = new ItemPotholeAchievementsAdapter(achievements);
+        adapter = new ItemPotholeAchievementsAdapter(this, achievements);
         achievementsRecyclerView.setAdapter(adapter);
         achievementsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Handle item click
+        adapter.setOnAchievementClickListener(achievement -> {
+            Intent intent;
+            switch (achievement.getTitleText()) {
+                case "Road Runner: Pothole Escape":
+                    intent = new Intent(AchievementsActivity.this, GameRunnerActivity.class);
+                    break;
+                case "Pothole Repair Hero":
+                    intent = new Intent(AchievementsActivity.this, GameRepairMainActivity.class);
+                    break;
+                case "Who Wants to Be a Millionaire:\nPothole Edition":
+                    intent = new Intent(AchievementsActivity.this, GameMillionaireActivity.class);
+                    break;
+                default:
+                    Toast.makeText(AchievementsActivity.this, "Game not available", Toast.LENGTH_SHORT).show();
+                    return;
+            }
+            startActivity(intent);
+        });
     }
 }

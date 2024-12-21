@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_game_layout">
+
+    <!-- Header: Người chơi và câu hỏi số -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="@color/black">
+
+        <TextView
+            android:id="@+id/tvPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Người chơi: Player 1"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnFiftyFifty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50/50" />
+
+        <Button
+            android:id="@+id/btnCallFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gọi điện thoại" />
+
+        <TextView
+            android:id="@+id/tvQuestionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Câu 1"
+            android:textSize="18sp"
+            android:textColor="#FFD700" />
+    </LinearLayout>
+
+    <!-- Hiển thị câu hỏi -->
+    <TextView
+        android:id="@+id/tvQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerLayout"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:background="@drawable/bg_question_box"
+        android:text="Câu hỏi sẽ hiển thị ở đây"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center" />
+
+    <!-- Thanh tiến trình (giả lập thời gian) -->
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/progressBarTime"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/tvQuestion"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:progressDrawable="@drawable/bg_progress_bar"
+        android:progress="100" />
+
+    <!-- Layout chứa các đáp án -->
+    <LinearLayout
+        android:id="@+id/answersLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBarTime"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <!-- Button A -->
+        <Button
+            android:id="@+id/btnOptionA"
+            style="@style/AnswerButton"
+            android:text="A. Đáp án A" />
+
+        <!-- Button B -->
+        <Button
+            android:id="@+id/btnOptionB"
+            style="@style/AnswerButton"
+            android:text="B. Đáp án B" />
+
+        <!-- Button C -->
+        <Button
+            android:id="@+id/btnOptionC"
+            style="@style/AnswerButton"
+            android:text="C. Đáp án C" />
+
+        <!-- Button D -->
+        <Button
+            android:id="@+id/btnOptionD"
+            style="@style/AnswerButton"
+            android:text="D. Đáp án D" />
+    </LinearLayout>
+
+    <!-- Hiển thị điểm số -->
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="Điểm: 0"
+        android:textSize="20sp"
+        android:textColor="#FFD700"
+        android:gravity="center" />
+
+
+
+
+</RelativeLayout>

@@ -31,11 +31,13 @@ public class PotholeAdapter extends RecyclerView.Adapter<PotholeAdapter.PotholeV
     @Override
     public void onBindViewHolder(@NonNull PotholeViewHolder holder, int position) {
         Pothole pothole = potholeList.get(position);
-        holder.potholeLocation.setText(pothole.getLocation());
-        holder.potholeCoordinates.setText("Coordinates: " + pothole.getCoordinates());
-        holder.potholeId.setText("ID: " + pothole.getPotholeId());
-        holder.potholeDate.setText(pothole.getDate());
-        //holder.potholeType.setText(pothole.getType());
+
+        // Bind data from pothole to the ViewHolder
+        holder.potholeLocation.setText(pothole.getLat() + ", " + pothole.getLon()); // Display Latitude and Longitude
+        holder.potholeCoordinates.setText("Coordinates: " + pothole.getLat() + ", " + pothole.getLon());
+        holder.potholeId.setText("ID: " + pothole.getId());
+        holder.potholeDate.setText(pothole.getCreatedAt().toString()); // Assuming it's a Date object
+        holder.potholeType.setText(pothole.getType());
         holder.stateValue.setText(pothole.getState());
 
         switch(pothole.getType()) {
@@ -44,7 +46,7 @@ public class PotholeAdapter extends RecyclerView.Adapter<PotholeAdapter.PotholeV
                 holder.warningCircle.setVisibility(View.GONE);
                 holder.dangerCircle.setVisibility(View.GONE);
                 break;
-case "Warning":
+            case "Warning":
                 holder.cautionCircle.setVisibility(View.GONE);
                 holder.warningCircle.setVisibility(View.VISIBLE);
                 holder.dangerCircle.setVisibility(View.GONE);

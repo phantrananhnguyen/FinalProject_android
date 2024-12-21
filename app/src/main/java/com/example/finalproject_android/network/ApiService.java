@@ -3,7 +3,12 @@ package com.example.finalproject_android.network;
 import com.example.finalproject_android.models.EmailResponse;
 import com.example.finalproject_android.models.GoogleLoginRequest;
 import com.example.finalproject_android.models.GoogleLoginResponse;
+import com.example.finalproject_android.models.Journey;
+import com.example.finalproject_android.models.ListJourneyResponse;
+import com.example.finalproject_android.models.ListPotholeResponse;
+import com.example.finalproject_android.models.Pothole;
 import com.example.finalproject_android.models.Potholemodel;
+import com.example.finalproject_android.models.User;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
 import com.example.finalproject_android.models.UserRequest;
@@ -19,9 +24,11 @@ import com.example.finalproject_android.models.ResetRequest;
 import com.example.finalproject_android.models.ResetResponse;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -31,6 +38,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -76,6 +84,53 @@ public interface ApiService {
             @Part("sex") RequestBody sex,
             @Part MultipartBody.Part profilePicture
     );
+
+
+    // Lấy ảnh hồ sơ người dùng dựa trên userId
+    @GET("/api/user/profile-picture/{userId}")
+    Call<ResponseBody> getProfilePicture(@Path("userId") String userId);
+
+    @GET("/api/img/uploads/{imgName}")
+    Call<ResponseBody> getPotholePicture(@Path("imgName") String imgName);
+
+    @POST("/api/report/delete-request")
+    @Headers("Content-Type: application/json")
+    Call<ResponseBody> deleteRequest(@Body Map<String, String> requestData);
+
+
+    @Multipart
+    @PUT("/api/hole/update-img/{potholeId}")
+    Call<ResponseBody> updatePotholeImage(
+            @Path("potholeId") String potholeId,
+            @Part MultipartBody.Part img,
+            @Part("type") RequestBody type
+    );
+
+    @POST("/api/user/update-score")
+    Call<ResponseBody> updateScore(@Body int score);
+
+    @GET("/api/user/top-scores")
+    Call<List<User>> getTopScores();
+
+
+
+
+
+
+    @POST("/api/journey/add")
+    Call<Void> addJourney(@Body Journey journey);
+
+
+    // Hàm GET để lấy danh sách ổ gà
+    @GET("/api/hole/current_user")
+    Call<ListPotholeResponse> getPotholes();
+
+    // Hàm GET để lấy danh sách hành trình
+    @GET("/api/journey/current_user")
+    Call<ListJourneyResponse> getJourneys();
+
+    @POST("/api/journey/add")
+    Call<Void> sendJourney(@Body Journey journey);
 
 
 

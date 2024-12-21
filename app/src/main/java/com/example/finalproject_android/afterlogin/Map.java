@@ -6,6 +6,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -40,6 +42,7 @@ import com.example.finalproject_android.R;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
+import com.example.finalproject_android.services.JourneyService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -479,14 +482,41 @@ public class Map extends Fragment implements GoogleMap.OnMapClickListener, OnMap
     @Override
     public void onResume() {
         super.onResume();
+        startJourneyService(); //Quyen
         // Register the sensor listener
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void startJourneyService() {//Quyen
+        Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(requireContext(), serviceIntent);
+        } else {
+            requireContext().startService(serviceIntent);
+        }
+
+
+
+            Log.d("MapFragment", "JourneyService started");
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         // Unregister the sensor listener
+        stopJourneyService(); //Quyen
         sensorManager.unregisterListener(this);
     }
+
+    private void stopJourneyService() {
+        Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
+
+        // Đảm bảo rằng bạn đang dừng service, không phải bắt đầu lại
+        requireContext().stopService(serviceIntent);
+        Log.d("MapFragment", "JourneyService đang bị dừng nha");
+    }
+
+
 }

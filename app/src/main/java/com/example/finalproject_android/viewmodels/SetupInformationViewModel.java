@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -66,7 +67,7 @@ public class SetupInformationViewModel extends AndroidViewModel {
         return updateSuccess;
     }
 
-    public void updateUserInfo(UserUpdateRequest request, Uri profilePictureUri) {
+    public void updateUserInfo(Context context, UserUpdateRequest request, Uri profilePictureUri) {
         if (!isNetworkAvailable()) {
             toastMessage.setValue("No internet connection. Please check your network settings.");
             return;
@@ -107,6 +108,21 @@ public class SetupInformationViewModel extends AndroidViewModel {
                     updateSuccess.setValue(true);
                     toastMessage.setValue("User updated successfully");
                     Log.d("UpdateUser", "Response Body: " + response.body());
+
+                    // Trích xuất URL ảnh đại diện
+                    String profilePictureUrl = response.body().getProfilePicture();
+                    Log.d("UpdateUser", "Profile Picture URL: " + profilePictureUrl);
+
+                    if (profilePictureUrl != null) {
+                        // Lưu URL vào SharedPreferences
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("PROFILE_PICTURE_URL", profilePictureUrl);
+                        editor.apply();
+                    }
+
+                    Log.e("UpdateUser", "profpleimage: " + profilePictureUrl);
+
                 } else {
                     toastMessage.setValue("Failed to update user");
                     Log.e("UpdateUser", "Error: " + response.code() + " - " + response.message());

@@ -1,5 +1,6 @@
 package com.example.finalproject_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import com.example.finalproject_android.afterlogin.HistoryFragment;
 import com.example.finalproject_android.afterlogin.Map;
 import com.example.finalproject_android.afterlogin.HistoryPotholesFragment; // Để sử dụng Fragment HistoryPotholes
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BottomNavigation extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -17,12 +19,15 @@ public class BottomNavigation extends AppCompatActivity {
     private Fragment mapFragment;
     private Fragment historyFragment;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        fab = findViewById(R.id.fab);
 
         dashboardFragment = new Dashboard();
         mapFragment = new Map();
@@ -32,6 +37,13 @@ public class BottomNavigation extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, dashboardFragment, "DASHBOARD")
                 .commit();
+
+        // Xử lý sự kiện nhấn vào FloatingActionButton
+        fab.setOnClickListener(v -> {
+            // Mở ReportActivity khi nhấn vào fab
+            Intent intent = new Intent(BottomNavigation.this, ReportActivity.class);
+            startActivity(intent);
+        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             // Handle item clicks

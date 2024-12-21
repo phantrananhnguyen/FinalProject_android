@@ -7,12 +7,12 @@
     android:background="@drawable/rounded_corners_background">
 
     <TextView
-        android:id="@+id/report_text"
+        android:id="@+id/pothole_information_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
-        android:text="Report"
+        android:text="Pothole Information"
         android:textColor="@color/white"
         android:fontFamily="@font/mont_semibold"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -48,61 +48,38 @@
         android:textSize="18sp"
         android:fontFamily="@font/mont_regu" />
 
-    <TextView
-        android:id="@+id/type_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="211dp"
-        android:layout_marginTop="137dp"
-        android:text="Type"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="@font/mont_regu" />
 
-    <Spinner
-        android:id="@+id/type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/type_text"
-        android:layout_marginStart="211dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/rounded_edit_text"
-        android:padding="12dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/mont_regu"
-        android:textSize="18sp" />
 
 
     <TextView
-        android:id="@+id/address_text"
+        android:id="@+id/name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="32dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="332dp"
-        android:text="Address"
+        android:layout_marginTop="500dp"
+        android:text="Name"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:fontFamily="@font/mont_regu" />
     <EditText
-        android:id="@+id/pothole_address"
+        android:id="@+id/id_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/address_text"
+        android:layout_below="@id/name_text"
         android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/mont_regu"
-        android:hint="ĐỊA CHỈ Mapping với Coordinate"
+        android:hint="Id của pothole"
         android:background="@drawable/rounded_edit_text"
         android:padding="12dp"
         android:textColor="@color/black"
         android:textSize="18sp" />
+
+
 
     <TextView
         android:id="@+id/coordinates_text"
@@ -111,7 +88,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="32dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="425dp"
+        android:layout_marginTop="600dp"
         android:text="Coordinates"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -135,34 +112,84 @@
         android:drawablePadding="8dp"
         />
 
-    <FrameLayout
-        android:id="@+id/location_on_map_container"
+    <LinearLayout
+        android:id="@+id/dob_sex_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="495dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/coordinates_text_input"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp">
 
-        <!-- SupportMapFragment của Google Maps để hiển thị bản đồ -->
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="335dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="62dp"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-            android:tag="map" />
-
-        <TextView
-            android:id="@+id/location_on_map_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="22dp"
-            android:text="Location on Map"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:fontFamily="@font/mont_regu" />
-    </FrameLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mont_regu"
+                android:text="Modified Day"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                 />
+
+            <TextView
+                android:id="@+id/type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:fontFamily="@font/mont_regu"
+                android:text="Type"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                 />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/date_input"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/date_text"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/mont_regu"
+                android:hint="Date"
+                android:background="@drawable/rounded_edit_text"
+                android:padding="12dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                />
+
+
+            <Spinner
+                android:id="@+id/type_spinner"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:entries="@array/type_options"
+                android:fontFamily="@font/mont_regu"
+                android:background="@drawable/spinner_background"
+                android:spinnerMode="dropdown"
+                android:textColor="@color/black"
+                android:padding="10dp"
+                android:layout_marginStart="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
 
 
 
@@ -171,22 +198,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="166dp">
+        android:layout_marginTop="180dp">
 
         <View
             android:id="@+id/rectangle_2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
             android:background="@drawable/rounded_gray_square" />
 
         <FrameLayout
-            android:layout_width="150dp"
-            android:layout_height="150dp">
+            android:layout_width="350dp"
+            android:layout_height="300dp">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image_view"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="350dp"
+                android:layout_height="300dp"
                 android:src="@drawable/add_pothole_image"
                 android:layout_gravity="center" />
 
@@ -194,11 +222,11 @@
                 android:id="@+id/add_image_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="108dp"
+                android:layout_marginTop="260dp"
             android:text="Add Image"
-                android:fontFamily="@font/mont_regu"
+                android:fontFamily="@font/mont_semibold"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:padding="10dp"
                 android:background="@drawable/rounded_textview_background"
 
@@ -210,34 +238,7 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/modified_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/type_text"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="211dp"
-        android:layout_marginTop="70dp"
-        android:text="Modified Date"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="@font/mont_regu" />
 
-    <EditText
-        android:id="@+id/modified_date_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/modified_date_text"
-        android:layout_marginStart="211dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/mont_regu"
-        android:hint="Ngày sửa đổi"
-        android:background="@drawable/rounded_edit_text"
-        android:padding="12dp"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
 
 
     <ImageButton

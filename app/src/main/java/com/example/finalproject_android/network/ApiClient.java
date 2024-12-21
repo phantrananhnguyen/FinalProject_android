@@ -11,7 +11,7 @@ public class ApiClient {
     private static Retrofit retrofitWithToken;
 
     // Base URL cho API (Cập nhật theo địa chỉ server của bạn)
-    private static final String BASE_URL = "http://10.0.157.120:3000";
+    private static final String BASE_URL = "http://192.168.1.44:3000";
 
     // Client không cần token
     public static Retrofit getClient() {

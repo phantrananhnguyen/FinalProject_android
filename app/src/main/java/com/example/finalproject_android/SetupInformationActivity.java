@@ -81,9 +81,17 @@ public class SetupInformationActivity extends AppCompatActivity {
 
             String birthday = year + "-" + (month + 1) + "-" + day;
             UserUpdateRequest request = new UserUpdateRequest(name, address, profilePictureUri, sex, bio, birthday, phoneNumber);
-            viewModel.updateUserInfo(request, profilePictureUri);
+            viewModel.updateUserInfo(getApplicationContext(), request, profilePictureUri);
         });
     }
+
+    private void shareImage(String imageUrl) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out my profile picture: " + imageUrl);
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
 
     private void observeLiveData() {
         // Quan sát trạng thái tải

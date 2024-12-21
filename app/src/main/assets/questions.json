@@ -1,0 +1,182 @@
+[
+  {
+    "questionNumber": 1,
+    "question": "Ổ gà là gì?",
+    "optionA": "Là một lỗ sâu trong mặt đường gây nguy hiểm cho phương tiện giao thông.",
+    "optionB": "Là dấu hiệu của sự hư hỏng do vật liệu xây dựng kém.",
+    "optionC": "Là một loại hố tự nhiên hình thành do nước mưa.",
+    "optionD": "Là một phần của thiết kế đường cao tốc.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 2,
+    "question": "Ở Việt Nam, ổ gà thường xuất hiện nhiều ở đâu?",
+    "optionA": "Các tuyến đường nông thôn và ngoại ô.",
+    "optionB": "Các khu phố trung tâm thành phố.",
+    "optionC": "Các đường cao tốc hiện đại.",
+    "optionD": "Cả A và B.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 3,
+    "question": "Lý do chính gây ra sự hình thành ổ gà là gì?",
+    "optionA": "Mưa lớn làm mất đi lớp bê tông.",
+    "optionB": "Sử dụng xe cộ quá tải gây hư hỏng mặt đường.",
+    "optionC": "Sử dụng vật liệu kém chất lượng trong xây dựng.",
+    "optionD": "Cả B và C.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 4,
+    "question": "Ổ gà có thể gây ra những hậu quả gì?",
+    "optionA": "Làm hư hỏng xe cộ.",
+    "optionB": "Tăng khả năng tai nạn giao thông.",
+    "optionC": "Gây khó khăn trong việc di chuyển.",
+    "optionD": "Tất cả các câu trên.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 5,
+    "question": "Để giảm thiểu các ổ gà, biện pháp nào là hiệu quả nhất?",
+    "optionA": "Cải thiện hệ thống thoát nước để tránh ngập úng.",
+    "optionB": "Sử dụng xe máy thay vì ô tô.",
+    "optionC": "Kiểm tra và bảo trì đường thường xuyên.",
+    "optionD": "Cấm các phương tiện nặng di chuyển trên đường.",
+    "correctAnswer": "C"
+  },
+  {
+    "questionNumber": 6,
+    "question": "Các ổ gà ở Việt Nam thường được sửa chữa bằng phương pháp nào?",
+    "optionA": "Lấp lại bằng đá hoặc bêtông.",
+    "optionB": "Dán keo lên mặt đường.",
+    "optionC": "Chỉ đánh dấu và cảnh báo cho lái xe.",
+    "optionD": "Không cần sửa chữa vì đã tự lành.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 7,
+    "question": "Một trong những tác hại của ổ gà đối với người lái xe là gì?",
+    "optionA": "Giảm khả năng điều khiển xe.",
+    "optionB": "Tăng độ ồn khi di chuyển.",
+    "optionC": "Làm mất phương hướng.",
+    "optionD": "Không ảnh hưởng gì đến lái xe.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 8,
+    "question": "Những phương tiện nào dễ bị ảnh hưởng bởi ổ gà nhất?",
+    "optionA": "Xe tải nặng.",
+    "optionB": "Xe máy và ô tô con.",
+    "optionC": "Xe buýt.",
+    "optionD": "Cả B và C.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 9,
+    "question": "Khi gặp ổ gà trên đường, người lái xe nên làm gì?",
+    "optionA": "Giảm tốc độ và tránh né.",
+    "optionB": "Tăng tốc để vượt qua nhanh.",
+    "optionC": "Dừng lại ngay lập tức.",
+    "optionD": "Bấm còi để cảnh báo.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 10,
+    "question": "Ổ gà có thể gây thiệt hại lớn nhất cho loại xe nào?",
+    "optionA": "Xe thể thao.",
+    "optionB": "Xe tải chở hàng nặng.",
+    "optionC": "Xe máy.",
+    "optionD": "Xe con cỡ nhỏ.",
+    "correctAnswer": "B"
+  },
+  {
+    "questionNumber": 11,
+    "question": "Tại sao các khu vực đô thị lớn lại thường xuyên gặp phải vấn đề về ổ gà?",
+    "optionA": "Vì lưu lượng giao thông lớn, gây mài mòn đường.",
+    "optionB": "Do thời tiết nóng ẩm làm mặt đường nhanh hư hỏng.",
+    "optionC": "Vì thiếu ngân sách bảo trì đường bộ.",
+    "optionD": "Cả A và C.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 12,
+    "question": "Đâu là một trong những cách nhận diện ổ gà dễ dàng khi lái xe?",
+    "optionA": "Mặt đường không bằng phẳng và có vết nứt.",
+    "optionB": "Có nước chảy trên đường.",
+    "optionC": "Có mùi hôi từ mặt đường.",
+    "optionD": "Có đèn cảnh báo gần đó.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 13,
+    "question": "Tình trạng ổ gà kéo dài có thể ảnh hưởng đến điều gì?",
+    "optionA": "An toàn giao thông.",
+    "optionB": "Hệ thống giao thông công cộng.",
+    "optionC": "Cảnh quan đô thị.",
+    "optionD": "Tất cả các câu trên.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 14,
+    "question": "Chính phủ Việt Nam có kế hoạch nào để khắc phục tình trạng ổ gà?",
+    "optionA": "Tăng cường đầu tư vào bảo trì đường bộ.",
+    "optionB": "Khuyến khích sử dụng xe điện.",
+    "optionC": "Giới hạn tải trọng của các phương tiện.",
+    "optionD": "Không có kế hoạch cụ thể.",
+    "correctAnswer": "A"
+  },
+  {
+    "questionNumber": 15,
+    "question": "Để giảm thiểu sự hình thành ổ gà, việc gì là quan trọng nhất?",
+    "optionA": "Kiểm soát chất lượng vật liệu xây dựng đường.",
+    "optionB": "Giảm tải trọng xe cộ.",
+    "optionC": "Tăng cường đào tạo lái xe an toàn.",
+    "optionD": "Cả A và B.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 16,
+    "question": "Những loại xe nào cần đặc biệt lưu ý khi di chuyển trên đường có ổ gà?",
+    "optionA": "Xe ô tô con và xe tải nhỏ.",
+    "optionB": "Xe máy và xe đạp.",
+    "optionC": "Xe buýt và xe khách.",
+    "optionD": "Xe tải lớn và xe container.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 17,
+    "question": "Ổ gà có thể gây ra tình trạng nào cho các phương tiện giao thông?",
+    "optionA": "Làm giảm tuổi thọ xe.",
+    "optionB": "Tăng mức độ ô nhiễm môi trường.",
+    "optionC": "Làm tắc nghẽn giao thông.",
+    "optionD": "Tất cả các câu trên.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 18,
+    "question": "Khi tham gia giao thông, người lái xe nên làm gì để phòng tránh ổ gà?",
+    "optionA": "Tăng tốc khi thấy ổ gà.",
+    "optionB": "Giảm tốc độ và chú ý quan sát mặt đường.",
+    "optionC": "Cố gắng vượt qua ổ gà nhanh nhất có thể.",
+    "optionD": "Dừng lại và đợi đường sửa chữa.",
+    "correctAnswer": "B"
+  },
+  {
+    "questionNumber": 19,
+    "question": "Việc lắp đặt camera giám sát giao thông có thể giúp ích gì trong việc phòng tránh ổ gà?",
+    "optionA": "Ghi lại các vi phạm giao thông liên quan đến ổ gà.",
+    "optionB": "Phát hiện các đoạn đường có ổ gà để sửa chữa kịp thời.",
+    "optionC": "Đảm bảo các phương tiện không bị hư hỏng.",
+    "optionD": "Cả A và B.",
+    "correctAnswer": "D"
+  },
+  {
+    "questionNumber": 20,
+    "question": "Công tác bảo trì đường bộ tại Việt Nam gặp phải vấn đề nào lớn nhất?",
+    "optionA": "Thiếu nguồn lực tài chính.",
+    "optionB": "Thiếu nhân lực chuyên môn.",
+    "optionC": "Thiếu sự phối hợp giữa các cơ quan.",
+    "optionD": "Cả A và C.",
+    "correctAnswer": "D"
+  }
+]
