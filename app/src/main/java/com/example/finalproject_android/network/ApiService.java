@@ -67,7 +67,7 @@ public interface ApiService {
     Call<Places> route(@Query("start") String start, @Query("destination") String destination);
 
     @GET("api/history/history")
-    Call<List<HistoryItem>> history(@Header("Authorization") String token);
+    Call<List<HistoryItem>> history(@Query("username") String username);
 
     @GET("/api/download-map")
     Call<ResponseBody> downloadMap(@Body String email);

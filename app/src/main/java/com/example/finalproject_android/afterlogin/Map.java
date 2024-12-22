@@ -148,6 +148,7 @@ public class Map extends Fragment {
         userSession = new UserSession(getContext());
         if (userSession != null) {
             NAME = userSession.getUsername();
+            Log.d("abc", NAME);
         } else {
             Log.e("MapFragment", "UserSession is null");
         }
@@ -246,7 +247,6 @@ public class Map extends Fragment {
         tvCau_num.setText(String.valueOf(cau));
         tvWarn_num.setText(String.valueOf(warn));
         tvDan_num.setText(String.valueOf(dan));
-        Log.e("navigation", "" + warn);
         close.setOnClickListener(view -> {
             fusedLocationClient.removeLocationUpdates(locationCallback);  // Dừng nhận cập nhật vị trí
             if (currentRoutePolyline != null) {

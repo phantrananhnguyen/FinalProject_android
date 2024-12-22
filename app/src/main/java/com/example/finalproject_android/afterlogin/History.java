@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject_android.R;
 import com.example.finalproject_android.models.HistoryItem;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
@@ -36,7 +37,8 @@ public class History extends Fragment {
     private HistoryAdapter adapter;
     private List<HistoryItem> historyList = new ArrayList<>();
     private ApiService apiService;
-
+    String username;
+    UserSession userSession;
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -47,7 +49,11 @@ public class History extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewHistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+        userSession = new UserSession(getContext());
+        if (userSession != null) {username = userSession.getUsername();
+        } else {
+            Log.e("MapFragment", "UserSession is null");
+        }
         filterSpinner = view.findViewById(R.id.filter);
 
 
@@ -65,14 +71,11 @@ public class History extends Fragment {
     }
 
     private void fetchHistoryData() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
-        if (token.isEmpty()) {
+        if (username.isEmpty()) {
             return;
         }
-
         // Gọi API với token
-        apiService.history("Bearer " + token).enqueue(new Callback<List<HistoryItem>>() {
+        apiService.history(username).enqueue(new Callback<List<HistoryItem>>() {
             @Override
             public void onResponse(Call<List<HistoryItem>> call, Response<List<HistoryItem>> response) {
                 if (response.isSuccessful() && response.body() != null) {
