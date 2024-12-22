@@ -15,6 +15,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -39,6 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -49,6 +51,7 @@ import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
+import com.example.finalproject_android.services.JourneyService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -494,6 +497,10 @@ public class Map extends Fragment {
         if(destinationLatLng != null){
             updateRoute(destinationLatLng);
         }
+        double distancetoDes = calculateDistance(currentLatLng, destinationLatLng);
+        if(distancetoDes <= 50){
+            stopNavigationAndClear();
+        }
         if (potholesOnRoute != null && !potholesOnRoute.isEmpty()) {
             for (Potholemodel pothole : potholesOnRoute) {
                 LatLong potholeLocation = new LatLong(pothole.getLatitude(), pothole.getLongitude());
@@ -651,7 +658,6 @@ public class Map extends Fragment {
         return false;
     }
 
-
     private void showInfoPopup(Potholemodel pothole) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.pothole_infor, null);
@@ -676,19 +682,36 @@ public class Map extends Fragment {
         dialog.show();
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
+        startJourneyService();
         if (sensorManager != null) {
             sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     }
+    private void startJourneyService() {//Quyen
+        Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ContextCompat.startForegroundService(requireContext(), serviceIntent);
+        } else {
+            requireContext().startService(serviceIntent);
+        }
+        Log.d("MapFragment", "JourneyService started");
+    }
+
+    private void stopJourneyService() {
+        Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
+
+        // Đảm bảo rằng bạn đang dừng service, không phải bắt đầu lại
+        requireContext().stopService(serviceIntent);
+        Log.d("MapFragment", "JourneyService đang bị dừng nha");
+    }
     @Override
     public void onPause() {
         super.onPause();
+        stopJourneyService();
         if (sensorManager != null) {
             sensorManager.unregisterListener(accelerometerListener);
         }
@@ -748,7 +771,7 @@ public class Map extends Fragment {
         ImageView imageView = dialogView.findViewById(R.id.image_confirm_type);
         Button btnConfirm_no = dialogView.findViewById(R.id.confirm_no);
         Button btnConfirm_yes = dialogView.findViewById(R.id.confirm_yes);
-        String[] potholeTypes = getResources().getStringArray(R.array.pothole_types);
+        String[] potholeTypes = getResources().getStringArray(R.array.pothole_confirm);
         int defaultPosition = java.util.Arrays.asList(potholeTypes).indexOf(type);
         if (defaultPosition != -1) {
             spinner.setSelection(defaultPosition);

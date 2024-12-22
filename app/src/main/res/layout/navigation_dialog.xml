@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:text="Driving"
+            android:text="@string/driving"
             android:textAppearance="@style/normal_word"
             android:layout_margin="15dp"
             android:textSize="20sp"/>
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Distance"
+            android:text="@string/distance"
             android:textAppearance="@style/normal_word"
             android:textSize="18sp"/>
         <TextView
@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Duration"
+            android:text="@string/duration"
             android:textAppearance="@style/normal_word"
             android:textSize="18sp"/>
         <TextView
@@ -81,7 +81,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Potholes"
+        android:text="@string/potholes_2"
         android:textSize="18sp"
         android:layout_marginTop="10dp"
         android:textAppearance="@style/normal_word"
@@ -174,7 +174,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Start"
+                android:text="@string/start"
                 android:textAlignment="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"

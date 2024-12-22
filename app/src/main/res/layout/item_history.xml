@@ -41,8 +41,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Coordinates: "
-                    android:textSize="15dp"
+                    android:text="@string/coordinates"
+                    android:textSize="15sp"
                     android:textAppearance="@style/normal_word"/>
                 <TextView
                     android:id="@+id/coor"
@@ -59,8 +59,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Type: "
-                    android:textSize="15dp"
+                    android:text="@string/type"
+                    android:textSize="15sp"
                     android:textAppearance="@style/normal_word"/>
                 <TextView
                     android:id="@+id/h_type"
@@ -75,8 +75,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Uploaded: "
-                    android:textSize="15dp"
+                    android:text="@string/uploaded"
+                    android:textSize="15sp"
                     android:textAppearance="@style/normal_word"/>
                 <TextView
                     android:id="@+id/h_date"

@@ -4,20 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".afterlogin.Dashboard">
+    tools:context=".afterlogin.Dashboard"
+    android:background="@color/white">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/light_blue"
+        android:layout_marginBottom="120dp"
         >
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Home"
+            android:layout_marginTop="60dp"
+            android:text="@string/home_1"
             android:fontFamily="@font/mont_semibold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
@@ -27,19 +30,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Profile image in top-left corner -->
-
-        <!-- Name and points -->
-
-        <!-- Metrics layout with rounded corners -->
-
-        <!-- Container for metrics and charts with rounded corners -->
-
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/circular_image"
             android:scaleType="fitCenter"
@@ -47,26 +42,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toTopOf="@+id/profileImage"/>
-
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_background"
-            android:padding="8dp"
-            android:elevation="4dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/profileImage"/>
-
+            android:layout_marginTop="100dp">
         <View
             android:id="@+id/whiteFrame"
             android:layout_width="0dp"
@@ -89,7 +72,7 @@
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileImage">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -99,6 +82,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/kilometres_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="180"
@@ -108,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kilometres"
+                    android:text="@string/kilometres"
                     android:fontFamily="@font/mont_semibold"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -123,6 +107,7 @@
 
 
                 <TextView
+                    android:id="@+id/potholes_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="86"
@@ -132,7 +117,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Potholes"
+                    android:text="@string/potholes_1"
                     android:fontFamily="@font/mont_semibold"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -145,6 +130,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/hours_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="48"
@@ -154,7 +140,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Days"
+                    android:text="@string/hours"
                     android:fontFamily="@font/mont_semibold"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -179,7 +165,7 @@
             android:layout_width="132dp"
             android:layout_height="28dp"
             android:textColor="@color/gray"
-            android:text="Pothole Types"
+            android:text="@string/pothole_types"
             android:fontFamily="@font/mont_semibold"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -194,7 +180,7 @@
             android:id="@+id/potholeStateText"
             android:layout_width="145dp"
             android:layout_height="28dp"
-            android:text="Pothole State this month"
+            android:text="@string/pothole_state_this_month"
             android:fontFamily="@font/mont_semibold"
             android:textSize="11sp"
             android:textStyle="bold"
@@ -208,7 +194,7 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/potholesChart"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_margin="8dp"
             android:layout_marginTop="44dp"
             android:background="@drawable/rounded_background"
@@ -226,7 +212,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/potholeStateChart"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:layout_margin="8dp"
             android:layout_marginTop="264dp"
             android:background="@drawable/rounded_background"
@@ -242,7 +228,7 @@
             android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_margin="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/rounded_background"
             android:elevation="4dp"
             android:padding="8dp"
@@ -250,7 +236,6 @@
             app:layout_constraintHorizontal_bias="0.562"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/potholesChart" />
-
 
         <LinearLayout
             android:layout_width="180dp"
@@ -273,12 +258,13 @@
                 android:contentDescription="@string/previous_button_description" />
 
             <TextView
+                android:id="@+id/week_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/mont_semibold"
-                android:text="This Week"
+                android:text="@string/this_week"
                 android:textSize="11sp" />
 
             <ImageButton
@@ -289,7 +275,8 @@
                 android:contentDescription="@string/next_button_description" />
 
         </LinearLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

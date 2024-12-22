@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@id/cardview"
         android:layout_marginBottom="70dp"
-        android:text="SIGN UP"
+        android:text="@string/sign_up_1"
         android:textColor="@color/white"
         android:textAppearance="@style/title"/>
     <RelativeLayout
@@ -91,7 +91,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="8"
-                        android:hint="Username"
+                        android:hint="@string/username_1"
                         android:textColor="#001645"
                         android:textColorHint="#80001645"
                         android:layout_gravity="center_vertical"
@@ -129,7 +129,7 @@
                         android:inputType="textPassword"
                         android:layout_weight="6"
                         android:background="@android:color/transparent"
-                        android:hint="Password"
+                        android:hint="@string/password_1"
                         android:textColor="#001645"
                         android:textColorHint="#80001645" />
 
@@ -170,7 +170,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="6"
                         android:inputType="textPassword"
-                        android:hint="Confirm Password"
+                        android:hint="@string/confirm_password_1"
                         android:textColor="#001645"
                         android:textColorHint="#80001645"
                         android:layout_gravity="center_vertical"
@@ -213,7 +213,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="6"
                         android:inputType="textEmailAddress"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:textColor="#001645"
                         android:textColorHint="#80001645"
                         android:layout_gravity="center_vertical"
@@ -234,7 +234,7 @@
                     android:id="@+id/signUpButton1"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up_2"
                     android:textColor="@color/white"
                     android:textAppearance="@style/action_word"
                     android:background="@drawable/custom_btn"

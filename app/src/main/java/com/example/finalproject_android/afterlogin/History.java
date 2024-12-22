@@ -74,7 +74,6 @@ public class History extends Fragment {
         if (username.isEmpty()) {
             return;
         }
-        // Gọi API với token
         apiService.history(username).enqueue(new Callback<List<HistoryItem>>() {
             @Override
             public void onResponse(Call<List<HistoryItem>> call, Response<List<HistoryItem>> response) {

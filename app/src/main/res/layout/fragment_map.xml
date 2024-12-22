@@ -27,7 +27,7 @@
                 android:id="@+id/autocomplete_query"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="Search for a place"
+                android:hint="@string/search_for_a_place"
                 android:textColorHint="#767676"
                 android:padding="10dp"
                 android:background="@drawable/cardview_new" />

@@ -78,13 +78,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@drawable/cardview_new">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:text="Bronze member"
                             android:layout_marginTop="5dp"
-                            android:textAppearance="@style/underline"/>
+                            android:text="@string/bronze_member"
+                            android:textAlignment="center"
+                            android:textAppearance="@style/underline" />
+
                         <ImageView
                             android:id="@+id/member"
                             android:layout_width="50dp"
@@ -112,7 +114,7 @@
                             android:textAlignment="center"
                             android:textAppearance="@style/underline"
                             android:layout_marginTop="5dp"
-                            android:text="Member since"/>
+                            android:text="@string/member_since"/>
                         <TextView
                             android:id="@+id/since"
                             android:layout_width="match_parent"
@@ -136,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Birthday"
+                    android:text="@string/birthday_1"
                     android:textAppearance="@style/underline"
                     />
                 <TextView
@@ -158,7 +160,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Address"
+                        android:text="@string/address_1"
                         android:textAppearance="@style/underline"
                         android:layout_weight="1"/>
                     <TextView
@@ -177,7 +179,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"
+                        android:text="@string/email_1"
                         android:textAppearance="@style/underline"
                         android:layout_weight="1"/>
                     <TextView
@@ -204,7 +206,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="More Actions"
+                    android:text="@string/more_actions"
                     android:textSize="20sp"
                     android:textAppearance="@style/regu_text"
                     android:layout_marginStart="20dp"/>
@@ -227,7 +229,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Settings"
+                        android:text="@string/settings_1"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="8"
                         android:layout_margin="10dp"
@@ -261,7 +263,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Log out"
+                        android:text="@string/log_out"
                         android:layout_weight="8"
                         android:layout_margin="10dp"
                         android:layout_gravity="center_vertical"

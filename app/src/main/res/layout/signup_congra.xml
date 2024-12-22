@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONGRATULATION!"
+            android:text="@string/congratulation"
             android:textColor="@color/light_blue"
             android:textSize="20sp"
             android:textAlignment="center"
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You have completed your registration!"
+            android:text="@string/you_have_completed_your_registration"
             android:textColor="@color/text_primary"
             android:textSize="15sp"
             android:textAppearance="@style/title"
@@ -39,7 +39,7 @@
             android:id="@+id/si_congra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in now"
+            android:text="@string/sign_in_now"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"

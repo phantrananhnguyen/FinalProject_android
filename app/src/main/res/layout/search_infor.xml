@@ -54,7 +54,7 @@
                             android:id="@+id/amenity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="District, Province"
+                            android:text="@string/district_province"
                             android:textColor="#757575" />
 
                         <ImageView
@@ -68,7 +68,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="coordinates"
+                            android:text="@string/coordinates_1"
                             android:textColor="#1B7DCA"
                             android:textSize="15sp" />
                     </LinearLayout>

@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trips Without Troubles"
+            android:text="@string/trips_without_troubles"
             android:textSize="30sp"
             android:textColor="#FFFFFF"
             android:layout_centerHorizontal="true"
@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Here"
+            android:text="@string/here"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="20dp"
@@ -42,7 +42,7 @@
     </RelativeLayout>
     <ImageView
         android:id="@+id/busGif"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/bus_gif"
         android:layout_centerInParent="true"

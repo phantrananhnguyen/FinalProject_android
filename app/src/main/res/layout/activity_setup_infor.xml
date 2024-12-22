@@ -16,7 +16,7 @@
             android:layout_marginTop="46dp"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/mont_regu"
-            android:text="Setup Information"
+            android:text="@string/setup_information"
             android:textColor="@color/text_primary"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -37,7 +37,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/mont_regu"
-            android:text="Nickname"
+            android:text="@string/nickname"
             android:textColor="@color/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -50,7 +50,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:fontFamily="@font/mont_regu"
-            android:hint="Enter your nickname"
+            android:hint="@string/enter_your_nickname"
             android:background="@drawable/custom_edittext"
             android:padding="16dp"
             android:textColor="@color/text_primary"
@@ -63,7 +63,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/mont_regu"
-            android:text="Address"
+            android:text="@string/address_infor"
             android:textColor="@color/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -76,7 +76,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:fontFamily="@font/mont_regu"
-            android:hint="Enter your address"
+            android:hint="@string/enter_your_address_1"
             android:textColor="@color/text_primary"
             android:background="@drawable/custom_edittext"
             android:padding="16dp"
@@ -89,7 +89,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/mont_regu"
-            android:text="Phone Number"
+            android:text="@string/phone_number"
             android:textColor="@color/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -102,7 +102,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
             android:fontFamily="@font/mont_regu"
-            android:hint="Enter your phone number"
+            android:hint="@string/enter_your_phone_number"
             android:background="@drawable/custom_edittext"
             android:padding="16dp"
             android:textColor="@color/text_primary"
@@ -126,7 +126,7 @@
                     android:layout_weight="2"
                     android:layout_marginStart="40dp"
                     android:fontFamily="@font/mont_regu"
-                    android:text="Date of birth"
+                    android:text="@string/date_of_birth"
                     android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/mont_regu"
-                    android:text="Sex"
+                    android:text="@string/sex"
                     android:textColor="@color/text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -185,7 +185,7 @@
             android:fontFamily="@font/mont_regu"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:text="Submit"
+            android:text="@string/submit_2"
             android:layout_marginBottom="20dp"
             android:textStyle="bold" />
 

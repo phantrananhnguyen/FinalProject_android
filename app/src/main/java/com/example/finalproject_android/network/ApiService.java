@@ -2,6 +2,9 @@ package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
 import com.example.finalproject_android.models.HistoryItem;
+import com.example.finalproject_android.models.Journey;
+import com.example.finalproject_android.models.ListJourneyResponse;
+import com.example.finalproject_android.models.ListPotholeResponse;
 import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.UserInfo;
@@ -31,6 +34,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -86,5 +90,13 @@ public interface ApiService {
             @Part("since") RequestBody since,
             @Query("email") String email
             );
+    @GET("/api/user/profile-picture/{username}")
+    Call<ResponseBody> getProfilePicture(@Path("username") String username);
+    @GET("/api/hole/person")
+    Call<List<Potholemodel>> getPotholes(@Query("username") String username);
+    @GET("/api/journey/current_user")
+    Call<ListJourneyResponse> getJourneys(@Query("username") String username);
+    @POST("/api/journey/add")
+    Call<Void> sendJourney(@Body Journey journey);
 }
 
