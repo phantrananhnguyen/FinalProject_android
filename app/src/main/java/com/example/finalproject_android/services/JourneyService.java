@@ -18,6 +18,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import android.location.Location;
+
 
 import com.example.finalproject_android.R;
 import com.example.finalproject_android.models.Journey;

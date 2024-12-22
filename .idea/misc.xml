@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
+=======
+>>>>>>> 7b33d18e78e48de2e2f77c632f681c5fea7d0c42
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
@@ -10,7 +13,11 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
+<<<<<<< HEAD
         <option name="scale" value="0.2" />
+=======
+        <option name="scale" value="0.67" />
+>>>>>>> 7b33d18e78e48de2e2f77c632f681c5fea7d0c42
       </ProjectState>
     </option>
   </component>

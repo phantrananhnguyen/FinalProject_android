@@ -3,6 +3,7 @@ package com.example.finalproject_android;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class AchievementsActivity extends AppCompatActivity {
     private RecyclerView achievementsRecyclerView;
     private ItemPotholeAchievementsAdapter adapter;
     private List<Achievement> achievements;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,11 @@ public class AchievementsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_achievements);
 
         achievementsRecyclerView = findViewById(R.id.achievementsRecyclerView);
+        backButton = findViewById(R.id.report_back_btn);
+
+        backButton.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
         // Create list of sample achievements
         achievements = new ArrayList<>();

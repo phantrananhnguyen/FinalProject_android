@@ -42,6 +42,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/top_btn"
             android:src="@drawable/back"/>
+        <ImageButton
+            android:id="@+id/home_si"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_btn"
+            android:src="@drawable/home"
+            android:layout_alignParentRight="true"/>
+
+
     </RelativeLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
@@ -141,8 +150,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_below="@id/cardview2"
-                android:layout_marginTop="8dp"
-                >
+                android:layout_marginTop="8dp">
 
                 <CheckBox
                     android:layout_width="wrap_content"
@@ -152,9 +160,8 @@
                     android:background="@android:color/transparent" />
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Remember Me"
-                    android:textSize="14sp"
                     android:textAppearance="@style/normal_word"
                     android:layout_marginStart="5dp"/>
             </LinearLayout>

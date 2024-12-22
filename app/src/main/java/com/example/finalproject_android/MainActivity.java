@@ -11,27 +11,15 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import com.example.finalproject_android.models.GoogleLoginRequest;
-import com.example.finalproject_android.models.GoogleLoginResponse;
 import com.example.finalproject_android.network.ApiClient;
-import com.example.finalproject_android.network.ApiService;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     Button signin, signup;
-    ImageButton google;
-    ApiService apiService;
-    private static final int RC_SIGN_IN = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
         signin = findViewById(R.id.signInButton);
         signup = findViewById(R.id.signUpButton);
-        google = findViewById(R.id.gglog);
-
-        apiService = ApiClient.getClient().create(ApiService.class);
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SignIn.class));
+                Intent intent = new Intent(MainActivity.this, SignIn.class);
+                startActivity(intent);
             }
         });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, SignUp.class));
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
             }
         });
     }
-
-
-    }
+}

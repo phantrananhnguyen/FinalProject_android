@@ -11,6 +11,8 @@ import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.models.UserUpdateRequest;
 import com.example.finalproject_android.models.UserUpdateResponse;
 import com.example.finalproject_android.network.ApiClient;
@@ -24,13 +26,18 @@ import java.io.OutputStream;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public class SetupInformationViewModel extends AndroidViewModel {
 
     private final ApiService apiService;
+    private String email;
+    private UserSession userSession;
 
     // LiveData để theo dõi trạng thái
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
@@ -40,15 +47,12 @@ public class SetupInformationViewModel extends AndroidViewModel {
     public SetupInformationViewModel(Application application) {
         super(application);
 
-        // Lấy token từ SharedPreferences
-        String token = getToken(application);
-        if (token == null) {
-            // Xử lý khi không có token: hiển thị lỗi và dừng xử lý
-            Log.e("SetupViewModel", "Token không tồn tại, người dùng cần đăng nhập lại.");
-            toastMessage.setValue("Token không hợp lệ, vui lòng đăng nhập lại.");
-            apiService = null; // Đặt apiService thành null để tránh lỗi null pointer
-            return;
+        userSession = new UserSession(application);
+        if (userSession != null) {
+            email = userSession.getUserEmail();
         }
+
+
 
         // Khởi tạo ApiService với token
         apiService = ApiClient.getApiServiceWithToken(application);
@@ -89,39 +93,36 @@ public class SetupInformationViewModel extends AndroidViewModel {
         Log.d("UpdateUser", "Birthday: " + request.getBirthday());
         Log.d("UpdateUser", "Sex: " + request.getSex());
 
+        UserSession userSession = new UserSession(context);
 
-        Call<UserUpdateResponse> call = apiService.updateUser(
+
+        Call<ResponseBody> call = apiService.updateUser(
+                profilePicturePart,
                 RequestBody.create(MediaType.parse("text/plain"), request.getName()),
-                RequestBody.create(MediaType.parse("text/plain"), request.getBio()),
                 RequestBody.create(MediaType.parse("text/plain"), request.getAddress()),
-                RequestBody.create(MediaType.parse("text/plain"), request.getPhoneNumber()),
-                RequestBody.create(MediaType.parse("text/plain"), request.getBirthday()),
                 RequestBody.create(MediaType.parse("text/plain"), request.getSex()),
-                profilePicturePart
+                RequestBody.create(MediaType.parse("text/plain"), request.getBio()),
+                RequestBody.create(MediaType.parse("text/plain"), request.getBirthday()),
+                RequestBody.create(MediaType.parse("text/plain"), request.getPhoneNumber()),
+                null,
+                this.email
+
+
         );
 
-        call.enqueue(new Callback<UserUpdateResponse>() {
+
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<UserUpdateResponse> call, Response<UserUpdateResponse> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful()) {
                     updateSuccess.setValue(true);
                     toastMessage.setValue("User updated successfully");
                     Log.d("UpdateUser", "Response Body: " + response.body());
 
-                    // Trích xuất URL ảnh đại diện
-                    String profilePictureUrl = response.body().getProfilePicture();
-                    Log.d("UpdateUser", "Profile Picture URL: " + profilePictureUrl);
 
-                    if (profilePictureUrl != null) {
-                        // Lưu URL vào SharedPreferences
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("PROFILE_PICTURE_URL", profilePictureUrl);
-                        editor.apply();
-                    }
 
-                    Log.e("UpdateUser", "profpleimage: " + profilePictureUrl);
+
 
                 } else {
                     toastMessage.setValue("Failed to update user");
@@ -138,7 +139,7 @@ public class SetupInformationViewModel extends AndroidViewModel {
 
 
             @Override
-            public void onFailure(Call<UserUpdateResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 isLoading.setValue(false);
                 toastMessage.setValue("Network error: " + t.getMessage());
             }

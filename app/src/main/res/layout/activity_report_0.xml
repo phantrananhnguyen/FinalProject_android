@@ -12,10 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Pothole Reports"
+        android:text="Pothole Status Reports"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/mont_semibold" />
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/report_back_btn"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/report_back_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ScrollView
         android:id="@+id/potholeContainerScrollView"

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
@@ -76,29 +77,33 @@ public class PotholeDetailActivity extends AppCompatActivity {
         idInput = findViewById(R.id.id_input);
         backButton = findViewById(R.id.report_back_btn);
 
-
+        backButton.setOnClickListener(v -> {
+            finish();
+        });
 
 
 
         // Nhận thông tin ổ gà từ Activity trước
         Intent intent = getIntent();
-        potholeId = intent.getStringExtra("pothole_id");
+        potholeId = intent.getStringExtra("potholeId");
         String state = intent.getStringExtra("state");
-        long dateMillis = intent.getLongExtra("date", -1);
+        String dateMillis = intent.getStringExtra("date");
         String type = intent.getStringExtra("type");
-        String lat = intent.getStringExtra("lat");
-        String lon = intent.getStringExtra("lon");
+        Double latitude = intent.getDoubleExtra("latitude", 0.0);
+        Double longitude = intent.getDoubleExtra("longitude", 0.0);
+
+
+
         img = intent.getStringExtra("img");
         author = intent.getStringExtra("author");
 
         Log.d("PotholeDetailActivity", "Day la link img: " + img);
 
-        // Chuyển đổi long dateMillis thành định dạng ngày tháng
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(new Date(dateMillis));
 
-        coordinatesInput.setText(lat + ", " + lon);
-        dateInput.setText(formattedDate);  // Dùng chuỗi ngày tháng định dạng
+
+
+        coordinatesInput.setText("Vĩ độ: " + latitude + "\nKinh độ: " + longitude);
+        dateInput.setText(dateMillis);  // Dùng chuỗi ngày tháng định dạng
         idInput.setText(potholeId);
 
         // Thiết lập spinner cho loại cảnh báo
@@ -313,7 +318,7 @@ public class PotholeDetailActivity extends AppCompatActivity {
     private void sendDeleteRequest(String reason) {
         // Chuẩn bị dữ liệu cho request
         Map<String, String> requestData = new HashMap<>();
-        requestData.put("userId", author);      // Thay userId bằng giá trị thực tế
+        requestData.put("author", author);
         requestData.put("potholeId", potholeId); // Thay potholeId bằng giá trị thực tế
         requestData.put("reason", reason);
 

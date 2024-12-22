@@ -8,8 +8,29 @@ public class UserLoginResponse {
     private String email;
     private String profilePicture;
 
+    // Constructor từ nhánh AnhNguyen
+    public UserLoginResponse(String token, String message, String email) {
+        this.message = message;
+        this.token = token;
+        this.email = email;
+    }
+
+    // Constructor không tham số (từ nhánh HEAD)
+    public UserLoginResponse() {
+        // Giữ lại nếu cần khởi tạo đối tượng trống
+    }
+
+    // Các getter
     public String getMessage() {
         return message;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Boolean getIsFirstLogin() {
+        return isFirstLogin;
     }
 
     public boolean isFirstLogin() {
@@ -20,15 +41,10 @@ public class UserLoginResponse {
         return token;
     }
 
-    public Boolean getIsFirstLogin() {
-        return isFirstLogin;
-    }
-    public String getUserId() {
-        return userId;
-    }
     public String getEmail() {
         return email;
     }
+
     public String getProfilePicture() {
         return profilePicture;
     }

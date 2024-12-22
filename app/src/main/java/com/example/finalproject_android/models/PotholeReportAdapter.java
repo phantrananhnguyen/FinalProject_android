@@ -16,14 +16,14 @@ import java.util.List;
 
 public class PotholeReportAdapter extends RecyclerView.Adapter<PotholeReportAdapter.PotholeViewHolder> {
 
-    private final List<Pothole> potholeList;
+    private final List<Potholemodel> potholeList;
     private final OnPotholeClickListener listener;
 
     public interface OnPotholeClickListener {
-        void onPotholeClick(Pothole pothole);
+        void onPotholeClick(Potholemodel pothole);
     }
 
-    public PotholeReportAdapter(List<Pothole> potholeList, OnPotholeClickListener listener) {
+    public PotholeReportAdapter(List<Potholemodel> potholeList, OnPotholeClickListener listener) {
         this.potholeList = potholeList;
         this.listener = listener;
     }
@@ -37,9 +37,9 @@ public class PotholeReportAdapter extends RecyclerView.Adapter<PotholeReportAdap
 
     @Override
     public void onBindViewHolder(@NonNull PotholeViewHolder holder, int position) {
-        Pothole pothole = potholeList.get(position);
-        holder.potholeId.setText(pothole.getId());
-        holder.date.setText("" + pothole.getCreatedAt());
+        Potholemodel pothole = potholeList.get(position);
+        holder.author.setText(pothole.getAuthor());
+        holder.date.setText("" + pothole.getDate());
         holder.type.setText("" + pothole.getType());
         holder.state.setText("" + pothole.getState());
 
@@ -52,11 +52,11 @@ public class PotholeReportAdapter extends RecyclerView.Adapter<PotholeReportAdap
     }
 
     public static class PotholeViewHolder extends RecyclerView.ViewHolder {
-        TextView potholeId, date, type, state;
+        TextView author, date, type, state;
 
         public PotholeViewHolder(@NonNull View itemView) {
             super(itemView);
-            potholeId = itemView.findViewById(R.id.pothole_id);
+            author = itemView.findViewById(R.id.author);
             date = itemView.findViewById(R.id.date);
             type = itemView.findViewById(R.id.type);
             state = itemView.findViewById(R.id.state);

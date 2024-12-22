@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.iml
 .idea/
 .idea/caches/
@@ -20,3 +21,6 @@ captures/
 
 *.swp
 *.tmp
+=======
+/build
+>>>>>>> 7b33d18e78e48de2e2f77c632f681c5fea7d0c42

@@ -26,6 +26,8 @@ import com.example.finalproject_android.models.Journey;
 import com.example.finalproject_android.models.ListJourneyResponse;
 import com.example.finalproject_android.models.ListPotholeResponse;
 import com.example.finalproject_android.models.Pothole;
+import com.example.finalproject_android.models.Potholemodel;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 import com.github.mikephil.charting.animation.Easing;
@@ -55,6 +57,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,9 +90,11 @@ public class Dashboard extends Fragment {
     private TextView potholeNumberTextView;
     private TextView hoursTextView;
     private ImageView profileImage;
+    private UserSession userSession;
 
 
-    private List<Pothole> potholes = new ArrayList<>();
+
+    private List<Potholemodel> potholes = new ArrayList<>();
     private List<Journey> journeys = new ArrayList<>();
 
     private ApiService apiService;
@@ -181,7 +186,7 @@ public class Dashboard extends Fragment {
 
 
 
-        loadProfilePicture(userId);
+        loadProfilePicture();
 
 
         return view;
@@ -189,11 +194,12 @@ public class Dashboard extends Fragment {
 
 
 
-    private void loadProfilePicture(String userId) {
+    private void loadProfilePicture() {
         ApiService apiService = ApiClient.getApiService();
-        Call<ResponseBody> call = apiService.getProfilePicture(userId);
+         userSession = new UserSession(getContext());
 
-        Log.d("Dashboard", "Loading profile picture for user: " + userId);
+        Call<ResponseBody> call = apiService.getProfilePicture(userSession.getUsername());
+
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -238,7 +244,8 @@ public class Dashboard extends Fragment {
 
 
     private void fetchPotholesData() {
-        apiService.getPotholes().enqueue(new Callback<ListPotholeResponse>() {
+        userSession = new UserSession(getContext());
+        apiService.getPotholes(userSession.getUsername()).enqueue(new Callback<ListPotholeResponse>() {
             @Override
             public void onResponse(Call<ListPotholeResponse> call, Response<ListPotholeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -295,7 +302,7 @@ public class Dashboard extends Fragment {
         for (Journey journey : journeys) {
             totalDistance += journey.getDistance();
         }
-        kilometresTextView.setText(String.format("%.2f", totalDistance));
+        kilometresTextView.setText(String.format("%.2f", totalDistance/1000));
 
         // Đếm số lượng ổ gà
         int potholeCount = potholes.size();
@@ -336,7 +343,7 @@ public class Dashboard extends Fragment {
         int cautionCount = 0, warningCount = 0, dangerCount = 0;
 
         // Đếm số lượng pothole theo loại
-        for (Pothole pothole : potholes) {
+        for (Potholemodel pothole : potholes) {
             switch (pothole.getType()) {
                 case "Caution":
                     cautionCount++;
@@ -401,24 +408,40 @@ public class Dashboard extends Fragment {
         LinkedHashMap<String, Float> warningScores = new LinkedHashMap<>();
         LinkedHashMap<String, Float> dangerScores = new LinkedHashMap<>();
 
-        // Định dạng ngày (yyyy-MM-dd)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+
+
 
         // Nhóm pothole theo ngày và loại
-        for (Pothole pothole : potholes) {
-            String date = dateFormat.format(pothole.getCreatedAt()); // Lấy ngày
-            switch (pothole.getType()) {
-                case "Caution":
-                    cautionScores.put(date, cautionScores.getOrDefault(date, 0f) + 1f);
-                    break;
-                case "Warning":
-                    warningScores.put(date, warningScores.getOrDefault(date, 0f) + 2f);
-                    break;
-                case "Danger":
-                    dangerScores.put(date, dangerScores.getOrDefault(date, 0f) + 3f);
-                    break;
+        for (Potholemodel pothole : potholes) {
+            String dateString = pothole.getDate(); // Get the date string, e.g., "13/12/2024"
+
+            try {
+                // Convert the date string to a Date object
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = dateFormat.parse(dateString); // Parse the date string into a Date object
+
+                // Format the date back to the desired string format
+                String formattedDate = dateFormat.format(date);
+
+                // Classify pothole types and update scores
+                switch (pothole.getType()) {
+                    case "Caution":
+                        cautionScores.put(formattedDate, cautionScores.getOrDefault(formattedDate, 0f) + 1f);
+                        break;
+                    case "Warning":
+                        warningScores.put(formattedDate, warningScores.getOrDefault(formattedDate, 0f) + 2f);
+                        break;
+                    case "Danger":
+                        dangerScores.put(formattedDate, dangerScores.getOrDefault(formattedDate, 0f) + 3f);
+                        break;
+                }
+            } catch (ParseException e) {
+                // Handle the exception gracefully, log the error
+                Log.e("LineChart", "Error parsing date: " + dateString, e);
             }
         }
+
 
         // Chuyển dữ liệu từng loại thành Entry
         ArrayList<Entry> cautionEntries = mapToEntries(cautionScores);
@@ -478,7 +501,7 @@ public class Dashboard extends Fragment {
     }
 
 
-    private void updateBarChart(List<Pothole> potholes, int week, int year, String weekLabel) {
+    private void updateBarChart(List<Potholemodel> potholes, int week, int year, String weekLabel) {
         // Mảng lưu trữ số lượng pothole của từng ngày trong tuần (từ thứ 2 đến chủ nhật)
         int[] dailyPotholes = new int[7]; // 0: Monday, 1: Tuesday, ..., 6: Sunday
         int[] cautionCount = new int[7];
@@ -486,27 +509,46 @@ public class Dashboard extends Fragment {
         int[] dangerCount = new int[7];
 
         // Phân loại potholes theo ngày và loại
-        for (Pothole pothole : potholes) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(pothole.getCreatedAt());  // Giả sử Pothole có một thuộc tính `getDate()` trả về ngày xảy ra
-            int potholeWeek = calendar.get(Calendar.WEEK_OF_YEAR);
-            int potholeYear = calendar.get(Calendar.YEAR);
+        for (Potholemodel pothole : potholes) {
+            try {
+                // Chuyển đổi chuỗi ngày thủ công
+                String dateString = pothole.getDate(); // Giả sử `getDate()` trả về chuỗi định dạng "dd/MM/yyyy"
+                String[] parts = dateString.split("/");
+                int day = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]) - 1; // Tháng bắt đầu từ 0 trong Calendar
+                int yearFromDate = Integer.parseInt(parts[2]);
 
-            if (potholeYear == year && potholeWeek == week) {
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;  // Calendar.DAY_OF_WEEK trả về từ 1 (Sunday) tới 7 (Saturday), ta cần trừ đi 1 để vào đúng chỉ số của mảng
+                // Sử dụng Calendar để xử lý ngày
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.YEAR, yearFromDate);
 
-                // Phân loại pothole theo trạng thái
-                switch (pothole.getType()) {
-                    case "Caution":
-                        cautionCount[dayOfWeek]++;
-                        break;
-                    case "Warning":
-                        warningCount[dayOfWeek]++;
-                        break;
-                    case "Danger":
-                        dangerCount[dayOfWeek]++;
-                        break;
+                int potholeWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                int potholeYear = calendar.get(Calendar.YEAR);
+
+                // So sánh năm và tuần
+                if (potholeYear == year && potholeWeek == week) {
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2; // Trừ 2 để bắt đầu từ 0 cho Monday
+                    if (dayOfWeek < 0) dayOfWeek = 6; // Nếu là Sunday (-1), đặt thành 6
+
+                    // Phân loại pothole theo trạng thái
+                    switch (pothole.getType()) {
+                        case "Caution":
+                            cautionCount[dayOfWeek]++;
+                            break;
+                        case "Warning":
+                            warningCount[dayOfWeek]++;
+                            break;
+                        case "Danger":
+                            dangerCount[dayOfWeek]++;
+                            break;
+                    }
                 }
+            } catch (Exception e) {
+                // Xử lý ngoại lệ nếu chuỗi ngày không đúng định dạng
+                System.err.println("Định dạng ngày không hợp lệ: " + pothole.getDate());
+                e.printStackTrace();
             }
         }
 
@@ -545,30 +587,41 @@ public class Dashboard extends Fragment {
         weeklyChart.invalidate(); // Làm mới biểu đồ
     }
 
-    private int getPotholesByWeek(List<Pothole> potholes, int week, int year) {
+
+    private int getPotholesByWeek(List<Potholemodel> potholes, int week, int year) {
         int count = 0;
 
         try {
             // Kiểm tra số lượng potholes
             Log.e("Potholes", "Number of potholes: " + potholes.size());
 
-
-
-
-            for (Pothole pothole : potholes) {
-                Date potholeDate = pothole.getCreatedAt();
-                Log.e("Pothole", "CreatedAt: " + pothole.getCreatedAt());
+            for (Potholemodel pothole : potholes) {
+                String potholeDate = pothole.getDate();
 
                 if (potholeDate != null) {
-                    Calendar potholeCalendar = Calendar.getInstance();
-                    potholeCalendar.setTime(potholeDate);
+                    try {
+                        // Tách chuỗi ngày "dd/MM/yyyy" thành ngày, tháng, năm
+                        String[] parts = potholeDate.split("/"); // Ví dụ: "13/12/2024" -> ["13", "12", "2024"]
+                        int day = Integer.parseInt(parts[0]);
+                        int month = Integer.parseInt(parts[1]) - 1; // Tháng bắt đầu từ 0 trong Calendar
+                        int yearFromDate = Integer.parseInt(parts[2]);
 
-                    int potholeWeek = potholeCalendar.get(Calendar.WEEK_OF_YEAR);
-                    int potholeYear = potholeCalendar.get(Calendar.YEAR);
+                        // Tạo Calendar từ giá trị đã tách
+                        Calendar potholeCalendar = Calendar.getInstance();
+                        potholeCalendar.set(Calendar.DAY_OF_MONTH, day);
+                        potholeCalendar.set(Calendar.MONTH, month);
+                        potholeCalendar.set(Calendar.YEAR, yearFromDate);
 
-                    // Kiểm tra nếu tuần và năm của pothole là tuần và năm trước
-                    if (potholeWeek == week && potholeYear == year) {
-                        count++;
+                        // Lấy tuần và năm từ Calendar
+                        int potholeWeek = potholeCalendar.get(Calendar.WEEK_OF_YEAR);
+                        int potholeYear = potholeCalendar.get(Calendar.YEAR);
+
+                        // Kiểm tra nếu tuần và năm của pothole trùng với tuần và năm cần kiểm tra
+                        if (potholeWeek == week && potholeYear == year) {
+                            count++;
+                        }
+                    } catch (Exception ex) {
+                        Log.e("PotholeDateError", "Invalid date format for pothole: " + potholeDate, ex);
                     }
                 }
             }
@@ -579,4 +632,5 @@ public class Dashboard extends Fragment {
         }
         return count;
     }
+
 }

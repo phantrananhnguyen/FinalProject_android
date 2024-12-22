@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,7 +24,6 @@ public class ForgotPassword extends AppCompatActivity {
     EditText email;
     ApiService apiService;
     Button button;
-    ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +31,7 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
         email = findViewById(R.id.email_forgot);
         button = findViewById(R.id.forgotButton);
-        back = findViewById(R.id.back_fp);
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(ForgotPassword.this).create(ApiService.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,20 +44,11 @@ public class ForgotPassword extends AppCompatActivity {
 
             }
         });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
     }
     private void performForgotPass() {
         String mail = email.getText().toString().trim();
-
-
         ForgotPassRequest forgotPassRequest = new ForgotPassRequest(mail);
-
         Call<ForgotPassResponse> call = apiService.forgot(forgotPassRequest);
         call.enqueue(new Callback<ForgotPassResponse>() {
             @Override
@@ -70,7 +58,6 @@ public class ForgotPassword extends AppCompatActivity {
                     Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ForgotPassResponse> call, Throwable t) {
                 Toast.makeText(ForgotPassword.this, "Lỗi kết nối, vui lòng thử lại", Toast.LENGTH_SHORT).show();

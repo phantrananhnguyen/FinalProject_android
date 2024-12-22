@@ -20,15 +20,23 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignIn extends AppCompatActivity {
-    ImageButton back,home, showpass;
+    ImageButton back, showpass;
     EditText username, password;
     Button signin;
     ApiService apiService;
@@ -46,7 +54,7 @@ public class SignIn extends AppCompatActivity {
         signin = findViewById(R.id.signInButton);
         forgot = findViewById(R.id.forgot_txt);
 
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(SignIn.this).create(ApiService.class);
 
         forgot.setOnClickListener(view -> {
             Intent intent = new Intent(SignIn.this, ForgotPassword.class);
@@ -91,58 +99,28 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    UserLoginResponse userLoginResponse = response.body();
+                    String token = response.body().getToken();
+                    String email = response.body().getEmail();
+                    Boolean isFirstLogin = response.body().getIsFirstLogin();
+                    Log.e("profile",email);
 
-                    Log.d("SignInActivity", "userId: " + userLoginResponse.getUserId());
 
-                    // Lưu token JWT vào SharedPreferences
-                    String token = userLoginResponse.getToken();
-                    saveTokenToPreferences(token);
 
-                    // Lưu isFirstLogin vào SharedPreferences
-                    boolean isFirstLogin = userLoginResponse.getIsFirstLogin();
-                    saveIsFirstLoginToPreferences(isFirstLogin);
+                    UserSession userSession = new UserSession(SignIn.this);
+                    userSession.createUserSession(email, token, user);
 
-                    String userId = userLoginResponse.getUserId();
-                    saveUserIdtoPreferences(userId);
 
-                    // Chuyển đến màn hình GetStartedActivity
-                    Intent intent = new Intent(SignIn.this, GetStartedActivity.class);
+                    Intent intent = new Intent(SignIn.this, BottomNavigation.class);
                     Toast.makeText(SignIn.this, "Đăng nhập thành công", Toast.LENGTH_LONG).show();
                     startActivity(intent);
-                    finish();
                 } else {
                     Toast.makeText(SignIn.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
                 }
             }
-
-            private void saveIsFirstLoginToPreferences(boolean isFirstLogin) {
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isFirstLogin", isFirstLogin);
-                editor.apply();
-            }
-
-            private void saveUserIdtoPreferences(String userId) {
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("USER_ID", userId);
-                editor.apply();
-            }
-
-
             @Override
             public void onFailure(Call<UserLoginResponse> call, Throwable t) {
                 Toast.makeText(SignIn.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
-    private void saveTokenToPreferences(String token) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("JWT_TOKEN", token);  // Lưu token vào SharedPreferences
-        editor.apply();
-    }
-
 }

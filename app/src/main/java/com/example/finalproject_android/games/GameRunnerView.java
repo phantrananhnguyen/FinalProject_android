@@ -85,7 +85,28 @@ public class GameRunnerView extends SurfaceView implements Runnable {
         motorcycleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cycle); // Xe máy
         motorcycleBitmap = Bitmap.createScaledBitmap(motorcycleBitmap, motorcycleBitmap.getWidth(), motorcycleBitmap.getHeight(), true);
 
-        potholeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.barrier);
+        // Tạo đối tượng BitmapFactory.Options
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+// Chỉ decode kích thước (không load bitmap thật) để lấy thông tin chiều rộng và chiều cao
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.pothole_art, options);
+
+// Tính toán tỉ lệ giảm kích thước (sample size)
+        int desiredWidth = 100;  // Chiều rộng mong muốn (pixel)
+        int desiredHeight = 100; // Chiều cao mong muốn (pixel)
+        int sampleSize = 1;
+
+        while (options.outWidth / sampleSize > desiredWidth || options.outHeight / sampleSize > desiredHeight) {
+            sampleSize *= 4; // Giảm kích thước theo bội số của 2
+        }
+
+// Đặt sample size và decode bitmap thật
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = sampleSize;
+        potholeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pothole_art, options);
+
+
         // Điều chỉnh kích thước background
         backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.background);
 
@@ -165,7 +186,7 @@ public class GameRunnerView extends SurfaceView implements Runnable {
                 }
             }
             if (isGameOver) {
-                gameOver();
+               // gameOver();
                 return;  // Không cập nhật thêm khi game đã kết thúc
             }
 

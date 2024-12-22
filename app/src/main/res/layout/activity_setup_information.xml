@@ -24,7 +24,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/new_user_profile_image" />
+        android:src="@drawable/new_user_profile_image"
+        android:background="@drawable/circular_image"
+        android:clipToOutline="true"
+
+        />
 
     <TextView
         android:id="@+id/nickname_text"

@@ -30,7 +30,29 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textAppearance="@style/title"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
+        <ImageButton
+            android:id="@+id/back_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_btn"
+            android:src="@drawable/back"/>
+        <ImageButton
+            android:id="@+id/home_veryfi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_btn"
+            android:src="@drawable/home"
+            android:layout_alignParentRight="true"/>
 
+
+    </RelativeLayout>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="312dp"

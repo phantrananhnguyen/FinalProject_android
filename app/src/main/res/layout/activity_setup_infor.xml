@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/setup_information_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/mont_regu"
+            android:text="Setup Information"
+            android:textColor="@color/text_primary"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="118dp"
+            android:layout_height="118dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/new_user_profile_image" />
+
+        <TextView
+            android:id="@+id/nickname_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:text="Nickname"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nickname_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:hint="Enter your nickname"
+            android:background="@drawable/custom_edittext"
+            android:padding="16dp"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:text="Address"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/address_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:hint="Enter your address"
+            android:textColor="@color/text_primary"
+            android:background="@drawable/custom_edittext"
+            android:padding="16dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/phone_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:text="Phone Number"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/phone_number_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/mont_regu"
+            android:hint="Enter your phone number"
+            android:background="@drawable/custom_edittext"
+            android:padding="16dp"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/dob_sex_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/date_of_birth_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginStart="40dp"
+                    android:fontFamily="@font/mont_regu"
+                    android:text="Date of birth"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sex_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/mont_regu"
+                    android:text="Sex"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <DatePicker
+                    android:id="@+id/date_of_birth_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:layout_weight="2"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:fontFamily="@font/mont_regu"
+                    android:scaleX="0.9"
+                    />
+
+                <Spinner
+                    android:id="@+id/sex_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:entries="@array/sex_options"
+                    android:fontFamily="@font/mont_regu"
+                    android:background="@drawable/spinner_background"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/text_primary"
+                    android:padding="10dp"
+                    android:layout_margin="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="280dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/custom_btn"
+            android:fontFamily="@font/mont_regu"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="Submit"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+    </LinearLayout>
+</ScrollView>

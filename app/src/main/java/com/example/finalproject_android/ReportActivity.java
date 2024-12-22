@@ -28,6 +28,8 @@ import com.example.finalproject_android.models.ListPotholeResponse;
 import com.example.finalproject_android.models.Pothole;
 
 import com.example.finalproject_android.models.PotholeReportAdapter;
+import com.example.finalproject_android.models.Potholemodel;
+import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.network.ApiClient;
 import com.example.finalproject_android.network.ApiService;
 
@@ -56,7 +58,9 @@ public class ReportActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewAccepted, recyclerViewRejected, recyclerViewPending;
     private PotholeReportAdapter potholeAdapterAccepted, potholeAdapterRejected, potholeAdapterPending;
-    private List<Pothole> potholeAcceptedList, potholeRejectedList, potholePendingList;
+    private List<Potholemodel> potholeAcceptedList, potholeRejectedList, potholePendingList;
+    private UserSession userSession;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,8 @@ public class ReportActivity extends AppCompatActivity {
         recyclerViewAccepted.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRejected.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewPending.setLayoutManager(new LinearLayoutManager(this));
+
+         userSession = new UserSession(this);
 
 
 
@@ -121,6 +127,11 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
 
+        back = findViewById(R.id.report_back_btn);
+        back.setOnClickListener(v -> {
+            finish();
+        });
+
 
 
     }
@@ -128,16 +139,16 @@ public class ReportActivity extends AppCompatActivity {
     // Hàm lấy dữ liệu từ API
     private void getPotholesFromApi() {
         ApiService apiService = ApiClient.getApiServiceWithToken(ReportActivity.this);
-        Call<ListPotholeResponse> call = apiService.getPotholes();
+        Call<ListPotholeResponse> call = apiService.getPotholes(userSession.getUsername());
 
         call.enqueue(new Callback<ListPotholeResponse>() {
             @Override
             public void onResponse(Call<ListPotholeResponse> call, Response<ListPotholeResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Pothole> potholeList = response.body().getPotholes();
+                    List<Potholemodel> potholeList = response.body().getPotholes();
 
                     // Phân loại pothole theo trạng thái
-                    for (Pothole pothole : potholeList) {
+                    for (Potholemodel pothole : potholeList) {
                         switch (pothole.getState()) {
                             case "accepted":
                                 potholeAcceptedList.add(pothole);
@@ -161,13 +172,6 @@ public class ReportActivity extends AppCompatActivity {
                     recyclerViewRejected.setAdapter(potholeAdapterRejected);
                     recyclerViewPending.setAdapter(potholeAdapterPending);
 
-
-
-
-
-
-
-
                     // Cập nhật Adapter
                     potholeAdapterAccepted.notifyDataSetChanged();
                     potholeAdapterRejected.notifyDataSetChanged();
@@ -185,25 +189,21 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     // Xử lý sự kiện click vào một pothole
-    private void onPotholeClick(Pothole pothole) {
+    private void onPotholeClick(Potholemodel pothole) {
         Intent intent = new Intent(ReportActivity.this, PotholeDetailActivity.class);
-        intent.putExtra("pothole_id", pothole.getId());
-        intent.putExtra("date", pothole.getCreatedAt());
+        intent.putExtra("potholeId", pothole.getId());
+        intent.putExtra("author", pothole.getAuthor());
+        intent.putExtra("date", pothole.getDate());
         intent.putExtra("type", pothole.getType());
         intent.putExtra("state", pothole.getState());
-        intent.putExtra("lat", pothole.getLat());
-        intent.putExtra("lon", pothole.getLon());
+        intent.putExtra("latitude", pothole.getLatitude());
+        intent.putExtra("longitude", pothole.getLongitude());
         intent.putExtra("img", pothole.getImg());
-        intent.putExtra("author", pothole.getAuthor());
+
+        Log.d("PotholeDetailActivity", "Day la lat và lon: " + pothole.getLatitude() + ", " + pothole.getLongitude());
+
         startActivity(intent);
     }
 
-    // Hàm tạo ngày (Date)
-    private Date createDate(int year, int month, int day) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1); // Tháng bắt đầu từ 0
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        return calendar.getTime();
-    }
+
     }

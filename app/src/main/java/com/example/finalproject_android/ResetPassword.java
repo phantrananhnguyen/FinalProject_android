@@ -47,7 +47,7 @@ public class ResetPassword extends AppCompatActivity {
         showpass = findViewById(R.id.show_newpass);
         showconfirm = findViewById(R.id.show_confirm_new);
         buttonreset = findViewById(R.id.submitButton);
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(ResetPassword.this).create(ApiService.class);
 
         email = getIntent().getStringExtra("email_key");
 
@@ -79,9 +79,7 @@ public class ResetPassword extends AppCompatActivity {
             Toast.makeText(this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
             return;
         }
-
         ResetRequest resetRequest = new ResetRequest(pass, mail);
-
         Call<ResetResponse> call = apiService.reset(resetRequest);
         call.enqueue(new Callback<ResetResponse>() {
             @Override
@@ -92,7 +90,6 @@ public class ResetPassword extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-
             @Override
             public void onFailure(Call<ResetResponse> call, Throwable t) {
                 Toast.makeText(ResetPassword.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();

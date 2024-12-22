@@ -8,5 +8,5 @@
                 android:color="@android:color/white"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/profile_image" />
+
 </layer-list>

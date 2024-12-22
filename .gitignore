@@ -1,4 +1,5 @@
 *.iml
+<<<<<<< HEAD
 .idea/
 .idea/caches/
 .idea/libraries/
@@ -20,3 +21,19 @@ captures/
 
 *.swp
 *.tmp
+=======
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+>>>>>>> 7b33d18e78e48de2e2f77c632f681c5fea7d0c42

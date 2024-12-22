@@ -36,9 +36,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:labelVisibilityMode="labeled"
+                    android:elevation="10dp"
                     app:itemIconSize="25dp"
-                    app:itemTextAppearanceActive="@color/dark_blue"
-                    app:menu="@menu/bottom_navigation_menu"
+                    app:itemTextAppearanceActive="@color/blackblue"
+                    app:menu="@menu/menu"
                     app:itemRippleColor="#D9D9D9"
                     android:background="@android:color/transparent"/>
             </com.google.android.material.bottomappbar.BottomAppBar>

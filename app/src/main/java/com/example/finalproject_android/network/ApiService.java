@@ -1,6 +1,7 @@
 package com.example.finalproject_android.network;
 
 import com.example.finalproject_android.models.EmailResponse;
+import com.example.finalproject_android.models.Places;
 import com.example.finalproject_android.models.GoogleLoginRequest;
 import com.example.finalproject_android.models.GoogleLoginResponse;
 import com.example.finalproject_android.models.Journey;
@@ -9,6 +10,7 @@ import com.example.finalproject_android.models.ListPotholeResponse;
 import com.example.finalproject_android.models.Pothole;
 import com.example.finalproject_android.models.Potholemodel;
 import com.example.finalproject_android.models.User;
+import com.example.finalproject_android.models.UserInfo;
 import com.example.finalproject_android.models.UserLoginRequest;
 import com.example.finalproject_android.models.UserLoginResponse;
 import com.example.finalproject_android.models.UserRequest;
@@ -62,33 +64,49 @@ public interface ApiService {
 
     @POST("/api/hole/add")
     Call<Void> sendBumpData(@Body Potholemodel potholemodel);
+
     @GET("/api/hole/add")
     Call<List<Potholemodel>> getPotholeData();
     @GET("/api/auth/check-verification-status")
-    Call<VerificationStatusResponse> checkVerificationStatus(@Query("email")String email);
+    Call<VerificationStatusResponse> checkVerificationStatus(@Query("email") String email);
 
-    @POST("/api/auth/google-login")
-    Call<GoogleLoginResponse> logingg(@Body GoogleLoginRequest googleLoginRequest);
+    @GET("/api/search/")
+    Call<Places> searchPlaces(@Query("keyword") String query);
+
+    @GET("/api/navigation")
+    Call<Places> route(@Query("start") String start, @Query("destination") String destination);
+
+
+    @POST("/api/download-map")
+    Call<ResponseBody> downloadMap(@Body Map<String, String> requestBody);
+
+
+
+
+    @GET("/api/user/get")
+    Call<UserInfo> getUser(@Query("email") String email);
+    @Multipart
+    @PUT("/api/user/update")
+    Call<ResponseBody> updateUser(
+            @Part MultipartBody.Part image,
+            @Part("name") RequestBody name,
+            @Part("address") RequestBody address,
+            @Part("sex") RequestBody sex,
+            @Part("bio") RequestBody bio,
+            @Part("birthday") RequestBody birthday,
+            @Part("phone") RequestBody phone,
+            @Part("since") RequestBody since,
+            @Query("email") String email
+            );
+
+
 
     @GET("/api/user/profile")
     Call<UserResponse> getUserData(@Header("Authorization") String token);
 
-    @Multipart
-    @POST("/api/user/new_user/update")
-    Call<UserUpdateResponse> updateUser(
-            @Part("nickname") RequestBody nickname,
-            @Part("bio") RequestBody bio,
-            @Part("address") RequestBody address,
-            @Part("phoneNumber") RequestBody phoneNumber,
-            @Part("birthday") RequestBody birthday,
-            @Part("sex") RequestBody sex,
-            @Part MultipartBody.Part profilePicture
-    );
-
-
-    // Lấy ảnh hồ sơ người dùng dựa trên userId
-    @GET("/api/user/profile-picture/{userId}")
-    Call<ResponseBody> getProfilePicture(@Path("userId") String userId);
+    // Lấy ảnh hồ sơ người dùng dựa trên username
+    @GET("/api/user/profile-picture/{username}")
+    Call<ResponseBody> getProfilePicture(@Path("username") String username);
 
     @GET("/api/img/uploads/{imgName}")
     Call<ResponseBody> getPotholePicture(@Path("imgName") String imgName);
@@ -112,18 +130,13 @@ public interface ApiService {
     @GET("/api/user/top-scores")
     Call<List<User>> getTopScores();
 
-
-
-
-
-
     @POST("/api/journey/add")
     Call<Void> addJourney(@Body Journey journey);
 
 
     // Hàm GET để lấy danh sách ổ gà
-    @GET("/api/hole/current_user")
-    Call<ListPotholeResponse> getPotholes();
+    @GET("/api/hole/{username}")
+    Call<ListPotholeResponse> getPotholes(@Path("username") String username);
 
     // Hàm GET để lấy danh sách hành trình
     @GET("/api/journey/current_user")
@@ -131,8 +144,6 @@ public interface ApiService {
 
     @POST("/api/journey/add")
     Call<Void> sendJourney(@Body Journey journey);
-
-
 
 }
 

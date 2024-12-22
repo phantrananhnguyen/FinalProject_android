@@ -751,8 +751,8 @@ public class GameRepairView extends SurfaceView implements Runnable {
 
         public Car(int lane, int type, int screenWidth) {
             this.lane = lane;
-            this.type = type;  // Thêm tham số này
-            this.speed = 5;  // Có thể điều chỉnh giá trị speed theo ý muốn
+            this.type = type;
+            this.speed = 3;
             this.x = screenWidth;
         }
 
@@ -763,9 +763,9 @@ public class GameRepairView extends SurfaceView implements Runnable {
         public boolean hasCollided(Pothole pothole) {
             // Xác định kích thước của xe
             float carLeft = this.x;
-            float carRight = this.x + 100;  // Chiều rộng của xe (có thể thay đổi)
-            float carTop = this.lane - 20;  // Vị trí Y của xe
-            float carBottom = this.lane + 20;  // Vị trí dưới của xe (có thể thay đổi tùy thuộc vào chiều cao xe)
+            float carRight = this.x + 100;
+            float carTop = this.lane - 20;
+            float carBottom = this.lane + 20;
 
             // Xác định kích thước của ổ gà
             float potholeLeft = pothole.x - pothole.size / 2;

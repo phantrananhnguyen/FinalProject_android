@@ -2,84 +2,107 @@ package com.example.finalproject_android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.example.finalproject_android.afterlogin.Dashboard;
-import com.example.finalproject_android.afterlogin.HistoryFragment;
 import com.example.finalproject_android.afterlogin.Map;
-import com.example.finalproject_android.afterlogin.HistoryPotholesFragment; // Để sử dụng Fragment HistoryPotholes
+import com.example.finalproject_android.afterlogin.Profile;
+import com.example.finalproject_android.models.Feature;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BottomNavigation extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
+
+    private BottomNavigationView bottomNavigationView;
+    private FloatingActionButton fab;
 
     private Fragment dashboardFragment;
     private Fragment mapFragment;
-    private Fragment historyFragment;
-
-    private FloatingActionButton fab;
+    private Fragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_navigation);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         fab = findViewById(R.id.fab);
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
+        // Remove background for BottomNavigationView
+        bottomNavigationView.setBackground(null);
+
+        // Initialize fragments
         dashboardFragment = new Dashboard();
         mapFragment = new Map();
-        historyFragment = new HistoryFragment();  // Sử dụng fragment HistoryPotholes
+        profileFragment = new Profile();
+        // Set the default fragment to Dashboard
+        setFragment(dashboardFragment);
 
-        // Hiển thị fragment Dashboard mặc định
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, dashboardFragment, "DASHBOARD")
-                .commit();
+        // Handle bottom navigation item selection
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.dashboard) {
+                setFragment(dashboardFragment);
+                return true;
+            } else if (item.getItemId() == R.id.map) {
+                setFragment(mapFragment);
+                return true;
+            } else if (item.getItemId() == R.id.profile) {
+                setFragment(profileFragment);
+                return true;
+            }
 
-        // Xử lý sự kiện nhấn vào FloatingActionButton
+            return false;
+        });
+
         fab.setOnClickListener(v -> {
-            // Mở ReportActivity khi nhấn vào fab
             Intent intent = new Intent(BottomNavigation.this, ReportActivity.class);
             startActivity(intent);
         });
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            // Handle item clicks
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        handleIntent(getIntent());
+    }
 
-            // Ẩn tất cả các fragment trước khi hiển thị fragment đã chọn
-            if (dashboardFragment.isAdded()) fragmentTransaction.hide(dashboardFragment);
-            if (mapFragment.isAdded()) fragmentTransaction.hide(mapFragment);
-            if (historyFragment.isAdded()) fragmentTransaction.hide(historyFragment);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent); // Handle any new intent received
+    }
 
-            // Kiểm tra xem mục nào đã được chọn
-            if (item.getItemId() == R.id.history) {
-                // Hiển thị fragment HistoryPotholes
-                if (!historyFragment.isAdded()) {
-                    fragmentTransaction.add(R.id.fragment_container, historyFragment, "HISTORY");
-                } else {
-                    fragmentTransaction.show(historyFragment);
-                }
-            } else if (item.getItemId() == R.id.dashboard) {
-                // Hiển thị fragment dashboard
-                if (dashboardFragment.isAdded()) {
-                    fragmentTransaction.show(dashboardFragment);
-                } else {
-                    fragmentTransaction.add(R.id.fragment_container, dashboardFragment, "DASHBOARD");
-                }
-            } else if (item.getItemId() == R.id.map) {
-                // Hiển thị fragment map
-                if (mapFragment.isAdded()) {
-                    fragmentTransaction.show(mapFragment);
-                } else {
-                    fragmentTransaction.add(R.id.fragment_container, mapFragment, "MAP");
-                }
+    private void handleIntent(Intent intent) {
+        Feature feature = (Feature) intent.getSerializableExtra("feature");
+
+        if (feature != null) {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (currentFragment instanceof Map) {
+                ((Map) currentFragment).updateFeature(feature); // Implement an updateFeature method in Map to handle feature update.
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("feature", feature);
+                mapFragment.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, mapFragment)
+                        .addToBackStack(null)
+                        .commit();
+                bottomNavigationView.setSelectedItemId(R.id.map);
             }
+        } else {
+            setFragment(dashboardFragment);
+        }
+    }
 
-            fragmentTransaction.commit();
-            return true;
-        });
+    private void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 }

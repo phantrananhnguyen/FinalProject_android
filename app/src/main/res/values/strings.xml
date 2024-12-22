@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">FinalProject_android</string>
-    <string name="underlined_text"><u>The code will invalid after:</u></string>
-    <string name="next_button_description">Next</string>
-    <string name="previous_button_description">Previous</string>
+
+
+
     <string name="default_web_client_id">937379411352-sdtofr8dh0hbmnred801kfmi57q6bklr.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
         <string-array name="sex_options">
             <item>Male</item>
             <item>Female</item>
@@ -13,6 +13,19 @@
         </string-array>
 
     <string-array name="type_options">
+    <item>Caution</item>
+    <item>Warning</item>
+    <item>Danger</item>
+    </string-array>
+
+
+
+
+    <string name="underlined_text"><u>Resend in:</u></string>
+    <string name="next_button_description">Next</string>
+    <string name="previous_button_description">Previous</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="pothole_types">
         <item>Caution</item>
         <item>Warning</item>
         <item>Danger</item>

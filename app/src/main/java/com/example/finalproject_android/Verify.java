@@ -45,7 +45,7 @@ public class Verify extends AppCompatActivity {
         verifyBox4 = findViewById(R.id.verify_box4);
         setupEditTextListeners();
         button = findViewById(R.id.verifyButton);
-        apiService = ApiClient.getClient().create(ApiService.class);
+        apiService = ApiClient.getClient(Verify.this).create(ApiService.class);
         Countdown = findViewById(R.id.countdown);
         email = getIntent().getStringExtra("data_key");
         startCountdown(60);
@@ -69,23 +69,21 @@ public class Verify extends AppCompatActivity {
                 verifyBox3.getText().toString() +
                 verifyBox4.getText().toString();
     }
-
     private void startCountdown(int seconds) {
         button.setVisibility(View.VISIBLE); // Hiển thị nút Verify
         button.setEnabled(true); // Kích hoạt nút Verify
         findViewById(R.id.resendButton).setVisibility(View.GONE); // Ẩn nút Resend khi bắt đầu đếm ngược
-
         new CountDownTimer(seconds * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 int secondsLeft = (int) (millisUntilFinished / 1000);
                 Countdown.setText(String.valueOf(secondsLeft)); // Cập nhật TextView
             }
-
             @Override
             public void onFinish() {
-                Countdown.setText("Expired");
-                button.setEnabled(false); // Vô hiệu nút xác nhận
+                Countdown.setText("Mã đã hết hạn");
+                Toast.makeText(Verify.this, "Mã xác nhận đã hết hạn, vui lòng nhấn Resend để lấy mã mới", Toast.LENGTH_LONG).show();
+                button.setEnabled(false);
                 button.setVisibility(View.GONE); // Ẩn nút Verify
                 findViewById(R.id.resendButton).setVisibility(View.VISIBLE); // Hiển thị nút Resend
                 findViewById(R.id.resendButton).setEnabled(true); // Kích hoạt nút Resend
@@ -116,7 +114,6 @@ public class Verify extends AppCompatActivity {
             }
         });
     }
-
     private void performVerify() {
         String verificationCode = getVerificationCode();
         String mail = email.trim();
@@ -124,25 +121,22 @@ public class Verify extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng nhập mã xác minh", Toast.LENGTH_SHORT).show();
             return;
         }
-
         VerifyRequest verifyRequest = new VerifyRequest(verificationCode, mail);
         Call<VerifyResponse> call = apiService.verify(verifyRequest);
         call.enqueue(new Callback<VerifyResponse>() {
             @Override
             public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Chuyển hướng sang ResetPassword khi xác minh thành công
                     Intent intent = new Intent(Verify.this, ResetPassword.class);
                     intent.putExtra("email_key", mail);
                     startActivity(intent);
-                    finish(); // Đóng Verify để không quay lại
+                    finish();
                 } else if (response.code() == 400) {
                     Toast.makeText(Verify.this, "Mã xác nhận không hợp lệ", Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 404) {
                     Toast.makeText(Verify.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<VerifyResponse> call, Throwable t) {
                 Toast.makeText(Verify.this, "Lỗi kết nối, vui lòng thử lại", Toast.LENGTH_SHORT).show();
@@ -150,7 +144,6 @@ public class Verify extends AppCompatActivity {
         });
     }
     private void setupEditTextListeners() {
-        // Tự động chuyển từ ô này sang ô tiếp theo khi nhập xong
         verifyBox1.addTextChangedListener(new MoveToNextTextWatcher(verifyBox1, verifyBox2));
         verifyBox2.addTextChangedListener(new MoveToNextTextWatcher(verifyBox2, verifyBox3));
         verifyBox3.addTextChangedListener(new MoveToNextTextWatcher(verifyBox3, verifyBox4));
