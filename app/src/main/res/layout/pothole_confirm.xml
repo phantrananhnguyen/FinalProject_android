@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Have you just found a pothole in your area ?"
+                android:text="Have you just found a pothole ?"
                 android:textAlignment="center"
                 android:layout_margin="5dp"
                 android:textAppearance="@style/normal_word"/>
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
-                    android:entries="@array/pothole_types"/>
+                    android:entries="@array/pothole_confirm"/>
             </LinearLayout>
 
             <LinearLayout
