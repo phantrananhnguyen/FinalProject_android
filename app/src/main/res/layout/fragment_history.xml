@@ -25,6 +25,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white" />
 
+        <!-- Filter icon -->
         <Spinner
             android:id="@+id/filter"
             android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
             android:padding="8dp" />
     </RelativeLayout>
 
+    <!-- Danh sách lịch sử -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"

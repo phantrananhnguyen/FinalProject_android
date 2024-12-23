@@ -1,6 +1,8 @@
 package com.example.finalproject_android.models;
 
-public class Potholemodel {
+import java.io.Serializable;
+
+public class Potholemodel implements Serializable {
     private double latitude;
     private double longitude;
     private String type;

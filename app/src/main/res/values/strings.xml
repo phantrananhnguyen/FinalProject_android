@@ -120,8 +120,4 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
-    <string-array name="language_options">
-        <item>English</item>
-        <item>Korean</item>
-    </string-array>
 </resources>

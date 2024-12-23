@@ -80,7 +80,7 @@ public interface ApiService {
     @Multipart
     @PUT("/api/profile/update")
     Call<ResponseBody> updateUser(
-            @Part MultipartBody.Part image,
+            @Part("membertype") RequestBody membertype,
             @Part("name") RequestBody name,
             @Part("address") RequestBody address,
             @Part("sex") RequestBody sex,

@@ -54,6 +54,8 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface {
         adapter = new SearchAdapter(this, features, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        back = findViewById(R.id.out_find);
+        back.setOnClickListener(view -> finish());
         search_input.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
             private final long DELAY = 300;

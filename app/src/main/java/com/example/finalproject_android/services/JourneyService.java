@@ -1,6 +1,7 @@
 package com.example.finalproject_android.services;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,7 +42,7 @@ public class JourneyService extends Service {
     private final IBinder binder = new LocalBinder();
     private LocationManager locationManager;
     private LocationListener locationListener;
-
+    ApiService apiService;
 
     private double totalDistance = 0.0; // Tổng khoảng cách
     private Location lastLocation; // Vị trí cuối cùng
@@ -60,7 +61,6 @@ public class JourneyService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        // Tạo kênh thông báo (chỉ tạo một lần khi ứng dụng chạy)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Journey Service Channel";
             String description = "Channel for journey service notifications";
@@ -68,10 +68,10 @@ public class JourneyService extends Service {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
-            // Đăng ký kênh thông báo
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
         }
+        apiService = ApiClient.getClient(this).create(ApiService.class);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Log.d("JourneyService", "Service Created");
@@ -114,6 +114,7 @@ public class JourneyService extends Service {
         return binder;
     }
 
+    @SuppressLint("ForegroundServiceType")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("JourneyService", "Service Started");
@@ -271,8 +272,6 @@ public class JourneyService extends Service {
         Log.d("JourneyService", "Khoảng cách: " + totalDistance + " mét");
 
 
-        // Gửi journey qua Retrofit
-        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
         Call<Void> call = apiService.sendJourney(journey);
         call.enqueue(new Callback<Void>() {
             @Override

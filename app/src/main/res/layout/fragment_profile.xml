@@ -9,15 +9,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="80dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:elevation="4dp"
-            android:src="@drawable/defaultusr"
-            android:background="@drawable/round_image"/>
+            android:elevation="4dp">
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/circular_image"
+                android:background="@drawable/round_image"/>
+        </androidx.cardview.widget.CardView>
         <ImageView
             android:id="@+id/gender"
             android:layout_width="30dp"
@@ -78,7 +85,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@drawable/cardview_new">
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -62,10 +62,12 @@
                     app:cardCornerRadius="15dp"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical">
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:scaleType="fitXY"/>
+                        android:src="@drawable/circular_image"
+                        android:scaleType="fitXY" />
                 </androidx.cardview.widget.CardView>
                 <TextView
                     android:id="@+id/name"

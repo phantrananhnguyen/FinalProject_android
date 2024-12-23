@@ -18,12 +18,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/light_blue">
-        <ImageButton
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/back"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@android:color/transparent"/>
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/dark_blue">
+            <ImageButton
+                android:id="@+id/out_find"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/back"
+                android:backgroundTint="@android:color/transparent"/>
+        </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,10 +42,10 @@
             <EditText
                 android:id="@+id/search_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/type_a_keyword"
+                android:layout_height="45dp"
+                android:hint="Type a keyword"
                 android:textColorHint="#727274"
-                android:padding="15dp"
+                android:paddingStart="15dp"
                 android:background="@drawable/cardview_new"/>
         </androidx.cardview.widget.CardView>
 
