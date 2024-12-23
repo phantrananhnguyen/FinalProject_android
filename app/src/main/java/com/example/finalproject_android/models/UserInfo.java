@@ -14,7 +14,7 @@ public class UserInfo {
     private String birthday;
     private String address;
     private String bio;
-    private String profilePicture;
+    private String membertype;
     private String since;
     private String email;
     private String sex;
@@ -25,12 +25,12 @@ public class UserInfo {
     }
 
     // Constructor with all fields
-    public UserInfo(String name, String birthday,String phone, String address, String bio, String profilePicture, String since, String email, String sex) {
+    public UserInfo(String name, String birthday,String phone, String address, String bio, String membertype, String since, String email, String sex) {
         this.name = name;
         this.birthday = birthday;
         this.address = address;
         this.bio = bio;
-        this.profilePicture = profilePicture;
+        this.membertype = membertype;
         this.since = since;
         this.email = email;
         this.sex = sex;
@@ -38,12 +38,12 @@ public class UserInfo {
     }
 
 
-    public void updateUserInfo(String name, String birthday, String address, String bio, String profilePicture,String phone, String since, String sex) {
+    public void updateUserInfo(String name, String birthday, String address, String bio, String membertype,String phone, String since, String sex) {
         this.name = name != null ? name : this.name;
         this.birthday = birthday != null ? birthday : this.birthday;
         this.address = address != null ? address : this.address;
         this.bio = bio != null ? bio : this.bio;
-        this.profilePicture = profilePicture != null ? profilePicture : this.profilePicture;
+        this.membertype = membertype != null ? membertype : this.membertype;
         this.phone = phone != null ? phone : this.phone;
         this.since = since != null ? since : this.since;
         this.sex = sex != null ? sex : this.sex;
@@ -82,11 +82,11 @@ public class UserInfo {
     }
 
     public String getProfilePicture() {
-        return profilePicture;
+        return membertype;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setProfilePicture(String membertype) {
+        this.membertype = membertype;
     }
 
     public String getSince() {

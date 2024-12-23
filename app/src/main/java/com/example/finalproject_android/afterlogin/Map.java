@@ -2,6 +2,7 @@ package com.example.finalproject_android.afterlogin;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -39,6 +41,7 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -110,18 +113,17 @@ public class Map extends Fragment {
     private Sensor accelerometer;
     private LatLong currentLatLng;
     private ApiService apiService;
-    private ImageButton current_back, alert, route;
+    private ImageButton current_back, alert, route, offnavi, btnClose;
     private List<Potholemodel> potholesList = new ArrayList<>();
     private Marker currentLocationMarker;
     private Feature feature;
     private EditText search_input;
-    private BottomSheetDialog bottomSheetDialog;
     private LatLong lastPotholeLocation = null;
     private List<Potholemodel> potholesOnRoute = new ArrayList<>();
-    private List<LatLong> traveledPoints = new ArrayList<>();
-    private double totalDistance = 0.0;
     UserSession userSession;
-
+    CoordinatorLayout alert_pot;
+    TextView tvDistance, tvType, tvRemain;
+    ImageView imageView;
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -155,6 +157,7 @@ public class Map extends Fragment {
         } else {
             Log.e("MapFragment", "UserSession is null");
         }
+
     }
 
     @Nullable
@@ -167,13 +170,21 @@ public class Map extends Fragment {
         alert = view.findViewById(R.id.alert);
         search_input = view.findViewById(R.id.autocomplete_query);
         route = view.findViewById(R.id.routeMap);
+        offnavi = view.findViewById(R.id.navi_off);
+        offnavi.setVisibility(View.INVISIBLE);
+        offnavi.setOnClickListener(view1 -> stopNavigationAndClear());
         search_input.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Search.class)));
-
+        alert_pot = view.findViewById(R.id.alert_pot);
+        tvDistance = view.findViewById(R.id.alert_distance);
+        tvType = view.findViewById(R.id.alert_type);
+        tvRemain = view.findViewById(R.id.remain);
+        imageView = view.findViewById(R.id.image_type);
+        btnClose = view.findViewById(R.id.alert_close);
+        btnClose.setOnClickListener(view1 -> alert_pot.setVisibility(View.GONE));
+        alert_pot.setVisibility(View.GONE);
         alert.setImageDrawable(getResizedDrawable(R.drawable.bell, 50, 50));
-
         return view;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -220,8 +231,13 @@ public class Map extends Fragment {
             }
         }
     }
-    private double remain = 0;
+    private boolean isDialogShown = true;
+     double remain = 0;
+
     public void showSearchDestination(double distance, double duration) {
+        if (!isDialogShown) {
+            return;
+        }
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.navigation_dialog, null);
         ImageButton close = dialogView.findViewById(R.id.navigation_close);
@@ -251,13 +267,13 @@ public class Map extends Fragment {
         tvWarn_num.setText(String.valueOf(warn));
         tvDan_num.setText(String.valueOf(dan));
         close.setOnClickListener(view -> {
-            fusedLocationClient.removeLocationUpdates(locationCallback);  // Dừng nhận cập nhật vị trí
-            if (currentRoutePolyline != null) {
-                currentRoutePolyline.clear();
-            }
+            stopNavigationAndClear();
             newbottomSheetDialog.dismiss();        });
         startNavigation.setOnClickListener(view -> {
             if (currentLatLng != null && destinationLatLng != null) {
+                offnavi.setVisibility(View.VISIBLE);
+                isDriving = true;
+                isDialogShown = false;
                 updateRoute(destinationLatLng);
             }
             newbottomSheetDialog.dismiss(); // Đóng bảng thông báo
@@ -298,7 +314,6 @@ public class Map extends Fragment {
     private void updateRoute(LatLong destinationLatLong) {
         String start = currentLatLng.longitude + "," + currentLatLng.latitude;
         String end = destinationLatLong.longitude + "," + destinationLatLong.latitude;
-
         apiService.route(start, end).enqueue(new Callback<Places>() {
             @Override
             public void onResponse(Call<Places> call, Response<Places> response) {
@@ -316,7 +331,6 @@ public class Map extends Fragment {
                     startNavigation(routePoints);
                 }
             }
-
             @Override
             public void onFailure(Call<Places> call, Throwable t) {
                 Log.e("map", "Failed to update route");
@@ -340,13 +354,15 @@ public class Map extends Fragment {
         mapView.getLayerManager().getLayers().add(currentRoutePolyline);
     }
     private void stopNavigationAndClear() {
+        feature = null;
+        offnavi.setVisibility(View.INVISIBLE);
+        destinationLatLng = null;
+        isDriving = false;
+        alert_pot.setVisibility(View.GONE);
         if (currentRoutePolyline != null) {
             mapView.getLayerManager().getLayers().remove(currentRoutePolyline);
             currentRoutePolyline = null; // Đảm bảo đối tượng được xóa
         }
-        feature = null;
-        destinationLatLng = null;
-        // Xóa marker điểm đến
         if (destinationMarker != null) {
             mapView.getLayerManager().getLayers().remove(destinationMarker);
             destinationMarker = null; // Đảm bảo đối tượng được xóa
@@ -413,7 +429,6 @@ public class Map extends Fragment {
             }
         });
     }
-
     private boolean saveMapFile(ResponseBody responseBody) {
         try (InputStream inputStream = responseBody.byteStream();
              OutputStream outputStream = new FileOutputStream(new File(getContext().getFilesDir(), "langdaihoc.map"))) {
@@ -432,22 +447,12 @@ public class Map extends Fragment {
 
 
     private void toggleBottomSheetDialog() {
-        if (bottomSheetDialog == null) {
-            bottomSheetDialog = new BottomSheetDialog(getContext());
-            bottomSheetDialog.setContentView(R.layout.pothole_alert);
-            bottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-            ImageButton btnClose = bottomSheetDialog.findViewById(R.id.alert_close);
-            if (btnClose != null) {
-                btnClose.setOnClickListener(view -> bottomSheetDialog.dismiss());
-            }
-        }
-        if (bottomSheetDialog.isShowing()) {
+        if (alert_pot.getVisibility() == View.VISIBLE) {
             alert.setImageDrawable(getResizedDrawable(R.drawable.unbell, 50, 50));
-            bottomSheetDialog.dismiss();
+            alert_pot.setVisibility(View.GONE);
         } else {
             alert.setImageDrawable(getResizedDrawable(R.drawable.bell, 50, 50));
-            bottomSheetDialog.show();
+            alert_pot.setVisibility(View.VISIBLE);
         }
         alert.invalidate();
         alert.requestLayout();
@@ -481,7 +486,7 @@ public class Map extends Fragment {
         }
     }
 
-
+    private boolean isDriving = false;
     private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -494,55 +499,35 @@ public class Map extends Fragment {
         }
     };
     private void checkProximityToPotholes(LatLong currentLocation) {
-        if(destinationLatLng != null){
+        if (destinationLatLng != null) {
             updateRoute(destinationLatLng);
-        }
-        double distancetoDes = calculateDistance(currentLatLng, destinationLatLng);
-        if(distancetoDes <= 50){
-            stopNavigationAndClear();
+
+            double distancetoDes = calculateDistance(currentLocation, destinationLatLng);
+            if (distancetoDes <= 50) {
+                stopNavigationAndClear();
+            }
         }
         if (potholesOnRoute != null && !potholesOnRoute.isEmpty()) {
             for (Potholemodel pothole : potholesOnRoute) {
                 LatLong potholeLocation = new LatLong(pothole.getLatitude(), pothole.getLongitude());
                 double distance = calculateDistance(currentLocation, potholeLocation);
-                if (distance <= 50) {
+                if (distance <= 50 && isDriving) {
                     if (lastPotholeLocation == null ||
                             lastPotholeLocation.getLatitude() != pothole.getLatitude() ||
                             lastPotholeLocation.getLongitude() != pothole.getLongitude()) {
 
                         int distanceInt = (int) Math.round(distance);
-                        showProximityNotification(pothole, distanceInt);
-                        lastPotholeLocation = potholeLocation;
+                            showProximityNotification(pothole, distanceInt);
+                            lastPotholeLocation = potholeLocation;
+                        }
                     }
                     break;
                 }
             }
         }
-    }
+
     private void showProximityNotification(Potholemodel pothole, double distance) {
         if (pothole == null) return;
-         TextView tvDistance = null, tvType = null, tvRemain = null;
-         ImageView imageView = null;
-        if (bottomSheetDialog == null) {
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.pothole_alert, null);
-            tvDistance = dialogView.findViewById(R.id.alert_distance);
-            tvType = dialogView.findViewById(R.id.alert_type);
-            tvRemain = dialogView.findViewById(R.id.remain);
-            imageView = dialogView.findViewById(R.id.image_type);
-            ImageButton btnClose = dialogView.findViewById(R.id.alert_close);
-
-            bottomSheetDialog = new BottomSheetDialog(requireContext());
-            bottomSheetDialog.setContentView(dialogView);
-            bottomSheetDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            btnClose.setOnClickListener(view ->{
-                stopNavigationAndClear();
-                bottomSheetDialog.dismiss();
-            });
-
-        }
-
-
         if (tvDistance != null) {
             int roundedDistance = (int) Math.round(distance);
             tvDistance.setText(String.format("%d", roundedDistance));
@@ -554,14 +539,12 @@ public class Map extends Fragment {
             Drawable resizedMarkerDrawable = getResizedDrawable(getImagefromType(pothole.getType()), 30, 30);
             imageView.setImageDrawable(resizedMarkerDrawable);
         }
-        String distanceString = String.format("%.2f km", remain / 1000);
 
+        String distanceString = String.format("%.2f km", remain / 1000);
         if (tvRemain != null) {
             tvRemain.setText(distanceString);
         }
-        if (!bottomSheetDialog.isShowing() && feature == null) {
-            bottomSheetDialog.show();
-        }
+        alert_pot.setVisibility(View.VISIBLE);
     }
 
     private double calculateDistance(LatLong point1, LatLong point2) {
@@ -685,38 +668,50 @@ public class Map extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        startJourneyService();
+        startJourneyService(); // Khởi động dịch vụ khi activity trở lại
         if (sensorManager != null) {
             sensorManager.registerListener(accelerometerListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     }
-    private void startJourneyService() {//Quyen
+
+    private void startJourneyService() {
         Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(requireContext(), serviceIntent);
-        } else {
-            requireContext().startService(serviceIntent);
+        // Kiểm tra nếu dịch vụ chưa được khởi động trước đó, tránh khởi động nhiều lần
+        if (!isJourneyServiceRunning()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ContextCompat.startForegroundService(requireContext(), serviceIntent);
+            } else {
+                requireContext().startService(serviceIntent);
+            }
         }
-        Log.d("MapFragment", "JourneyService started");
+    }
+
+    private boolean isJourneyServiceRunning() {
+        ActivityManager manager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (JourneyService.class.getName().equals(service.service.getClassName())) {
+                return true; // Dịch vụ đang chạy
+            }
+        }
+        return false; // Dịch vụ chưa chạy
     }
 
     private void stopJourneyService() {
         Intent serviceIntent = new Intent(requireContext(), JourneyService.class);
-
-        // Đảm bảo rằng bạn đang dừng service, không phải bắt đầu lại
-        requireContext().stopService(serviceIntent);
-        Log.d("MapFragment", "JourneyService đang bị dừng nha");
+        requireContext().stopService(serviceIntent); // Dừng dịch vụ khi Activity không hiển thị
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        stopJourneyService();
+        stopJourneyService(); // Dừng dịch vụ khi Activity không còn hiển thị
         if (sensorManager != null) {
-            sensorManager.unregisterListener(accelerometerListener);
+            sensorManager.unregisterListener(accelerometerListener); // Dừng nghe cảm biến
         }
-        fusedLocationClient.removeLocationUpdates(locationCallback);
+        fusedLocationClient.removeLocationUpdates(locationCallback); // Dừng cập nhật vị trí
     }
+
 
     private final SensorEventListener accelerometerListener = new SensorEventListener() {
         @Override

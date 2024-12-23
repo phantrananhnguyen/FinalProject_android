@@ -18,7 +18,7 @@ public class ApiClient {
             client = httpClientBuilder.build();
             retrofit = new Retrofit.Builder()
                     //.baseUrl("http://54.144.2.202:3000/") // Địa chỉ localhost hoặc IP của server Node.js
-                    .baseUrl("https://bb6a-171-247-164-15.ngrok-free.app")
+                    .baseUrl("https://7d1d-58-186-47-226.ngrok-free.app")
                     //.baseUrl("http://10.0.2.2:3000")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)

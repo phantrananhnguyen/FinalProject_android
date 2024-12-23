@@ -82,7 +82,6 @@ public class Profile extends Fragment {
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     UserInfo user = response.body();
-                    // Populate the profile with user data
                     setupProfile(user);
                 } else {
                     Toast.makeText(getContext(), "Failed to load user profile", Toast.LENGTH_SHORT).show();
@@ -104,20 +103,6 @@ public class Profile extends Fragment {
         email.setText(userEmail); // Use the session email
         since.setText(user.getSince());
         bio.setText(user.getBio());
-
-        // Load avatar using Glide
-        if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
-            String imageUrl = "http://10.0.2.2:3000" + user.getProfilePicture();
-            Glide.with(this)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.defaultusr) // Placeholder image
-                    .error(R.drawable.defaultusr)      // Error image
-                    .into(avatar);
-        } else {
-            avatar.setImageResource(R.drawable.defaultusr);
-        }
-
-        // Set gender icon
         if (user.getSex() != null) {
             switch (user.getSex().toLowerCase()) {
                 case "male":
@@ -131,9 +116,21 @@ public class Profile extends Fragment {
                     break;
             }
         }
-
-        // Set membership icon (optional)
-        member.setImageResource(R.drawable.bronze);
+        if (user.getProfilePicture() != null){
+            switch (user.getProfilePicture().toLowerCase()){
+                case "bronze":
+                    member.setImageResource(R.drawable.bronze);
+                    break;
+                case "silver":
+                    member.setImageResource(R.drawable.silver);
+                case "gold":
+                    member.setImageResource(R.drawable.gold);
+                    break;
+                default:
+                    member.setImageResource(R.drawable.bronze);
+                    break;
+            }
+        }
     }
 
 
