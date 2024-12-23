@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FinalProject_android</string>
+    <string name="app_name">Void Guard</string>
     <string name="underlined_text"><u>재전송까지:</u></string>
     <string name="next_button_description">다음</string>
     <string name="previous_button_description">이전</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FinalProject_android</string>
+    <string name="app_name">Void Guard</string>
     <string name="underlined_text"><u>Resend in:</u></string>
     <string name="next_button_description">Next</string>
     <string name="previous_button_description">Previous</string>

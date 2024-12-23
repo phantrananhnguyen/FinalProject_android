@@ -5,18 +5,23 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.finalproject_android.MainActivity;
 import com.example.finalproject_android.R;
+import com.example.finalproject_android.SetupInfor;
+import com.example.finalproject_android.SignIn;
 import com.example.finalproject_android.models.UserInfo;
 import com.example.finalproject_android.models.UserSession;
 import com.example.finalproject_android.models.UserUpdateResponse;
@@ -34,7 +39,7 @@ public class Profile extends Fragment {
     private String userEmail;
     private ApiService apiService;
     private UserSession userSession;
-    LinearLayout setting;
+    LinearLayout setting, logout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,12 +67,40 @@ public class Profile extends Fragment {
         gender = view.findViewById(R.id.gender);
         member = view.findViewById(R.id.member);
         setting = view.findViewById(R.id.setting);
+        logout = view.findViewById(R.id.logout);
         setting.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), Setting.class);
             startActivity(intent);
         });
+        logout.setOnClickListener(view1 -> {
+            showLogoutDialog();
+        });
         getUserProfile();
         return view;
+    }
+    private void showLogoutDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.logout, null);
+        Button cancel = dialogView.findViewById(R.id.cancel_lo);
+        Button ok = dialogView.findViewById(R.id.ok_lo);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+        dialog.setCancelable(false);
+        dialog.show();
+        ok.setOnClickListener(view -> {
+            dialog.dismiss();
+            userSession.logout();
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            startActivity(intent);
+        });
+        cancel.setOnClickListener(view -> dialog.dismiss());
     }
 
     private void getUserProfile() {

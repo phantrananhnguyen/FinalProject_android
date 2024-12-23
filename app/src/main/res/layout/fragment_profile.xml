@@ -29,7 +29,7 @@
             android:id="@+id/gender"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_toRightOf="@id/avatar"
+            android:layout_toRightOf="@id/cv1"
             android:layout_marginTop="220dp"
             android:src="@drawable/equality"
             android:elevation="4dp"
@@ -252,6 +252,7 @@
                         android:layout_marginEnd="10dp"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

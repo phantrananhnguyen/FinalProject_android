@@ -42,7 +42,7 @@
     </RelativeLayout>
     <ImageView
         android:id="@+id/busGif"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/bus_gif"
         android:layout_centerInParent="true"

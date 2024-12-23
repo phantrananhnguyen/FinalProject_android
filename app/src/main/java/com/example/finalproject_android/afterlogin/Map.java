@@ -359,13 +359,14 @@ public class Map extends Fragment {
         destinationLatLng = null;
         isDriving = false;
         alert_pot.setVisibility(View.GONE);
-        if (currentRoutePolyline != null) {
-            mapView.getLayerManager().getLayers().remove(currentRoutePolyline);
-            currentRoutePolyline = null; // Đảm bảo đối tượng được xóa
-        }
+
         if (destinationMarker != null) {
             mapView.getLayerManager().getLayers().remove(destinationMarker);
             destinationMarker = null; // Đảm bảo đối tượng được xóa
+        }
+        if (currentRoutePolyline != null) {
+            mapView.getLayerManager().getLayers().remove(currentRoutePolyline);
+            currentRoutePolyline = null;
         }
     }
     private void startNavigation(List<LatLong> routePoints) {
@@ -447,6 +448,7 @@ public class Map extends Fragment {
 
 
     private void toggleBottomSheetDialog() {
+        if (!isDriving) return;
         if (alert_pot.getVisibility() == View.VISIBLE) {
             alert.setImageDrawable(getResizedDrawable(R.drawable.unbell, 50, 50));
             alert_pot.setVisibility(View.GONE);
@@ -499,7 +501,8 @@ public class Map extends Fragment {
         }
     };
     private void checkProximityToPotholes(LatLong currentLocation) {
-        if (destinationLatLng != null) {
+        if (feature == null) stopNavigationAndClear();
+        if (destinationLatLng != null && isDriving) {
             updateRoute(destinationLatLng);
 
             double distancetoDes = calculateDistance(currentLocation, destinationLatLng);

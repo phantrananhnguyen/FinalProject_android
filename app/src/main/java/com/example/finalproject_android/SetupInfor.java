@@ -52,7 +52,6 @@ public class SetupInfor extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         apiService = ApiClient.getClient(this).create(ApiService.class);
         initUI();
-        checkPermissions();
         setupEventListeners();
 
         userInfo = new UserInfo("", "", "","", "bio", "", "", "", "");
@@ -67,36 +66,10 @@ public class SetupInfor extends AppCompatActivity {
         submitButton = findViewById(R.id.submit_button);
     }
 
-    private void checkPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_MEDIA_IMAGES}, 1);
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            }
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1 && grantResults.length > 0) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission is required to select a profile picture", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     private void setupEventListeners() {
-        profileImage.setOnClickListener(v -> openImagePicker());
         submitButton.setOnClickListener(v -> handleSubmit());
-    }
-
-    private void openImagePicker() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 100);
     }
 
     private void handleSubmit() {
@@ -125,11 +98,9 @@ public class SetupInfor extends AppCompatActivity {
             return;
         }
 
-        // Update user information
         userInfo.updateUserInfo(name,birthday, address, "bio", "bronze",phoneNumber,currentDate, sex);
         sendUserInfoToServer();
     }
-
     private void sendUserInfoToServer() {
         RequestBody namePart = RequestBody.create(MultipartBody.FORM, userInfo.getName());
         RequestBody addressPart = RequestBody.create(MultipartBody.FORM, userInfo.getAddress());
