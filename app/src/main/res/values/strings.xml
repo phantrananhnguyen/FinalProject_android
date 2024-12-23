@@ -120,4 +120,8 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string-array name="language_options">
+        <item>Eng</item>
+        <item>Kor</item>
+    </string-array>
 </resources>
